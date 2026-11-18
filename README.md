@@ -11,7 +11,12 @@ Light and dark (black and white) themes.
 
 Front-end prototype only. There is no backend: sign-in accepts any valid email and a password of 6+ characters, nothing is stored or sent, and restaurants, numbers and reports are sample data. Helpline numbers in square brackets still need to be filled from official directories and the others verified before launch.
 
+## Live demo
+
+Published with GitHub Pages from the `docs/` folder: https://het2026.github.io/Project-Hygieo/
+
 ## Files
 
 - `project/Main.dc.html` - the whole site (single design-canvas page)
 - `project/canvas.json` - canvas index
+- `docs/index.html` and `docs/support.js` - the standalone web version (same page plus the design-component runtime)
