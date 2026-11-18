@@ -1,0 +1,1224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hygieo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+*{box-sizing:border-box}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+.ps{--bg:#F6F7F2;--card:#FFFFFF;--ink:#1B2420;--mute:#43524B;--line:#DDE3DE;--soft:#EEF2EE;--brand:#0B6E6E;--brand-ink:#FFFFFF;--okbg:#DDF1EC;--okink:#07514F;--warnbg:#FFF1CC;--warnink:#5A4300;--warnline:#C98A00;--badbg:#FFE3DD;--badink:#7A1A0A;--badline:#B3261E;--dot:#B3261E;--dot-ink:#FFFFFF;--logo-bg:#0B6E6E;--logo-ring:#FAFAF6;--logo-check:#F2B41B;--input:#8FA597}
+.ps[data-theme=dark]{--bg:#0A0A0A;--card:#141414;--ink:#F5F5F5;--mute:#A8A8A8;--line:#2C2C2C;--soft:#1D1D1D;--brand:#FFFFFF;--brand-ink:#0A0A0A;--okbg:#242424;--okink:#F0F0F0;--warnbg:#2A2A2A;--warnink:#FFFFFF;--warnline:#9A9A9A;--badbg:#FFFFFF;--badink:#0A0A0A;--badline:#FFFFFF;--dot:#FFFFFF;--dot-ink:#0A0A0A;--logo-bg:#FFFFFF;--logo-ring:#0A0A0A;--logo-check:#0A0A0A;--input:#6E6E6E}
+.ps a{color:var(--brand)}
+.ps button:focus-visible,.ps a:focus-visible,.ps input:focus-visible,.ps select:focus-visible,.ps textarea:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:24px;padding-right:24px}
+.topbar{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.logo{display:flex;align-items:center;gap:10px;background:transparent;border:0;padding:6px 0;font-weight:800;font-size:22px;color:var(--ink);letter-spacing:-0.02em;min-height:44px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;min-width:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:10px;font-weight:700;font-size:15px;border:1.5px solid transparent;text-decoration:none}
+.btn-p{background:var(--brand);color:var(--brand-ink)}
+.ps a.btn-p{color:var(--brand-ink)}
+.btn-p:hover{filter:brightness(1.08)}
+.btn-g{background:var(--card);color:var(--ink);border-color:var(--input)}
+.btn-d{background:var(--ink);color:var(--bg)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.icon-btn{width:44px;height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;position:relative;padding:0}
+.icon-btn:hover{background:var(--soft)}
+.badge-dot{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:99px;background:var(--dot);color:var(--dot-ink);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.avatar{width:40px;height:40px;border-radius:99px;background:var(--brand);color:var(--brand-ink);font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.chip{min-height:44px;padding:0 16px;border-radius:99px;border:1.5px solid var(--input);background:var(--card);color:var(--ink);font-weight:600;font-size:14px}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:5px 12px;border-radius:99px;white-space:nowrap}
+.b-ok{background:var(--okbg);color:var(--okink)}
+.b-warn{background:var(--warnbg);color:var(--warnink)}
+.b-bad{background:var(--badbg);color:var(--badink)}
+.b-mute{background:var(--soft);color:var(--mute)}
+.inp{width:100%;padding:12px 14px;border:1.5px solid var(--input);border-radius:10px;font-size:16px;min-height:48px;background:var(--card);color:var(--ink)}
+.lbl{display:block;font-weight:600;font-size:14px;margin-bottom:8px}
+.navlink{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:0 14px;border-radius:10px;border:0;background:transparent;color:var(--ink);font-weight:600;font-size:15px;text-align:left}
+.navlink:hover{background:var(--soft)}
+.navlink.on{background:var(--okbg);color:var(--okink)}
+.navlink .cnt{margin-left:auto}
+.tick{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:10px;min-height:48px;font-size:15px;border:1.5px solid var(--input);background:var(--card);color:var(--ink)}
+.tick.on{background:var(--okbg);color:var(--okink);border-color:var(--brand)}
+.tog{width:48px;height:28px;border-radius:99px;border:0;background:var(--input);position:relative;flex:none;padding:0}
+.tog::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:99px;background:#fff;transition:transform .15s}
+.tog[aria-checked=true]{background:var(--brand)}
+.tog[aria-checked=true]::after{transform:translateX(20px);background:var(--brand-ink)}
+.menu{position:absolute;right:0;top:52px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 34px rgba(0,0,0,.22);z-index:40;overflow:hidden}
+.alert-row{display:block;width:100%;text-align:left;background:transparent;border:0;border-top:1px solid var(--line);padding:12px 16px;color:var(--ink);min-height:44px}
+.alert-row:hover{background:var(--soft)}
+.step{border-radius:14px;padding:14px 16px;border:1.5px solid var(--line);background:var(--card)}
+.step.sent{background:var(--warnbg);border-color:var(--warnline);color:var(--warnink)}
+.step.bad{background:var(--badbg);border-color:var(--badline);color:var(--badink)}
+.step.clear{background:var(--soft);color:var(--mute)}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.muted{color:var(--mute)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.bar{background:var(--soft);border-radius:99px;height:10px}
+.bar>div{height:10px;border-radius:99px;background:var(--brand)}
+.h1{font-size:32px;font-weight:800;letter-spacing:-0.02em;margin:0}
+.h2{font-size:34px;font-weight:800;letter-spacing:-0.02em;margin:0 0 8px}
+.h3{font-size:20px;font-weight:800;margin:0}
+.sec{padding-top:56px}
+.divider{border-top:1px solid var(--line)}
+.kpi{font-size:34px;font-weight:800;line-height:1.1}
+.ps input[type=checkbox]{accent-color:var(--brand)}
+.mini{display:inline-block;width:46px;height:6px;border-radius:99px;background:var(--soft);overflow:hidden}
+.mini>span{display:block;height:6px;border-radius:99px;background:var(--brand)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@keyframes psScan{0%{top:6%}50%{top:90%}100%{top:6%}}
+@media (prefers-reduced-motion: reduce){.psline{animation:none!important}.tog::after{transition:none}}
+</style>
+</helmet>
+
+<div class="ps" data-theme="{{theme}}" style="min-height: 100vh; background: var(--bg); color: var(--ink)">
+
+<!-- TOP BAR -->
+<header class="topbar">
+<div class="wrap" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding-top: 10px; padding-bottom: 10px">
+<button class="logo" onClick="{{goLogo}}" aria-label="Hygieo home">
+<svg width="34" height="34" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="17" style="fill: var(--logo-bg)"/><path d="M18 6.5C18 6.5 10.5 14.6 10.5 20.2a7.5 7.5 0 0 0 15 0C25.5 14.6 18 6.5 18 6.5z" style="fill: var(--logo-ring)"/><path d="M14.4 20.6l2.6 2.6 4.8-5.2" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke: var(--logo-bg)"/></svg>
+<span>Hygieo</span>
+</button>
+<sc-if value="{{signedIn}}" hint-placeholder-val="{{false}}">
+<div style="flex: 1 1 260px; max-width: 480px; min-width: 0; position: relative; margin: 0 auto">
+<label for="gs" class="vh">Search pages and actions</label>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; left: 15px; top: 13px; color: var(--mute); pointer-events: none"><path d="M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15z"/></svg>
+<input id="gs" class="inp" style="padding-left: 44px; min-height: 44px; border-radius: 99px; background: var(--soft); border-color: transparent" placeholder="{{searchPh}}" value="{{searchQ}}" onInput="{{onSearch}}">
+<sc-if value="{{hasSearch}}" hint-placeholder-val="{{false}}">
+<div class="menu" style="left: 0; right: 0; top: 52px">
+<sc-for list="{{searchResults}}" as="r" hint-placeholder-count="3"><button class="alert-row" style="font-weight: 600; border-top: 0" onClick="{{r.go}}">{{r.label}}</button></sc-for>
+<sc-if value="{{noResults}}" hint-placeholder-val="{{false}}"><div class="muted" style="padding: 16px">No match. Try "licence", "police" or "settings".</div></sc-if>
+</div>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{showPublicNav}}" hint-placeholder-val="{{true}}">
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 2px">
+<sc-for list="{{publicLinks}}" as="l" hint-placeholder-count="6"><button class="navlink" style="width: auto" onClick="{{l.go}}">{{l.label}}</button></sc-for>
+</nav>
+</sc-if>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<sc-if value="{{dinerBar}}" hint-placeholder-val="{{false}}">
+<button class="btn btn-p" onClick="{{goDiner}}">Scan QR code</button>
+<button class="icon-btn" onClick="{{goHelpTop}}" aria-label="Helplines" title="Helplines"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></button>
+</sc-if>
+<sc-if value="{{ownerBar}}" hint-placeholder-val="{{false}}">
+<button class="btn btn-g" style="gap: 10px" onClick="{{goChecklistTop}}" aria-label="{{chkChipLabel}}"><span class="mini"><span style="{{chkBar}}"></span></span><span>{{chkPct}} today</span></button>
+<div style="position: relative">
+<button class="btn btn-p" onClick="{{toggleQuick}}" aria-expanded="{{quickOpenStr}}">+ Quick actions</button>
+<sc-if value="{{quickOpen}}" hint-placeholder-val="{{false}}">
+<div class="menu" style="width: min(260px, 90vw)"><sc-for list="{{quickMenu}}" as="i" hint-placeholder-count="5"><button class="alert-row" style="font-weight: 600; border-top: 0" onClick="{{i.go}}">{{i.label}}</button></sc-for></div>
+</sc-if>
+</div>
+<button class="icon-btn" onClick="{{goHelpTop}}" aria-label="Helplines" title="Helplines"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></button>
+</sc-if>
+<button class="icon-btn" onClick="{{toggleTheme}}" aria-label="{{themeLabel}}" title="{{themeLabel}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{themeIcon}}"/></svg></button>
+<sc-if value="{{signedOut}}" hint-placeholder-val="{{true}}">
+<button class="btn btn-g" onClick="{{goSignin}}">Sign in</button>
+<button class="btn btn-p" onClick="{{goSignup}}">Get started</button>
+</sc-if>
+<sc-if value="{{signedIn}}" hint-placeholder-val="{{false}}">
+<div style="position: relative">
+<button class="icon-btn" onClick="{{toggleAlerts}}" aria-label="{{bellLabel}}" aria-expanded="{{alertsOpenStr}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 0 0 4 0"/></svg>
+<sc-if value="{{hasUnread}}" hint-placeholder-val="{{true}}"><span class="badge-dot">{{unreadCount}}</span></sc-if></button>
+<sc-if value="{{alertsOpen}}" hint-placeholder-val="{{false}}">
+<div class="menu" style="width: min(390px, 90vw)">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; gap: 8px"><div style="font-weight: 800; font-size: 17px">Alerts</div><span class="badge b-mute">{{unreadLabel}}</span></div>
+<sc-for list="{{alertPreview}}" as="a" hint-placeholder-count="4">
+<button class="alert-row" onClick="{{a.open}}">
+<div style="display: flex; gap: 8px; align-items: center; margin-bottom: 4px"><span class="{{a.badgeCls}}">{{a.label}}</span><span class="muted" style="font-size: 12px">{{a.time}}</span><sc-if value="{{a.unread}}" hint-placeholder-val="{{false}}"><span style="width: 8px; height: 8px; border-radius: 99px; background: var(--dot); margin-left: auto" aria-label="Unread"></span></sc-if></div>
+<div style="font-size: 14px; line-height: 1.45">{{a.text}}</div>
+</button>
+</sc-for>
+<sc-if value="{{noAlerts}}" hint-placeholder-val="{{false}}"><div class="muted" style="padding: 20px 16px; border-top: 1px solid var(--line)">No alerts. You are all caught up.</div></sc-if>
+<div style="display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--line)">
+<button class="btn btn-g" style="flex: 1" onClick="{{markAllRead}}">Mark all read</button>
+<button class="btn btn-p" style="flex: 1" onClick="{{goAlerts}}">View all</button>
+</div>
+</div>
+</sc-if>
+</div>
+<div style="position: relative">
+<button class="icon-btn" style="width: auto; padding: 0 10px 0 4px; gap: 8px" onClick="{{toggleAccount}}" aria-label="Account menu" aria-expanded="{{accountOpenStr}}"><span class="avatar" style="width: 34px; height: 34px; font-size: 14px">{{initials}}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+<sc-if value="{{accountOpen}}" hint-placeholder-val="{{false}}">
+<div class="menu" style="width: min(280px, 90vw)">
+<div style="padding: 16px; display: flex; gap: 12px; align-items: center"><span class="avatar">{{initials}}</span><div style="min-width: 0"><div style="font-weight: 800">{{userName}}</div><div class="muted" style="font-size: 13px; overflow-wrap: anywhere">{{userEmail}}</div></div></div>
+<sc-for list="{{acctItems}}" as="i" hint-placeholder-count="3"><button class="alert-row" onClick="{{i.go}}" style="font-weight: 600">{{i.label}}</button></sc-for>
+<button class="alert-row" onClick="{{signOut}}" style="font-weight: 700; color: var(--badink)">Sign out</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+</div>
+</div>
+</header>
+
+<!-- HOME -->
+<sc-if value="{{isHome}}" hint-placeholder-val="{{true}}">
+<section class="wrap" style="padding-top: 56px; padding-bottom: 56px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div style="flex: 1 1 480px; min-width: 0">
+<span class="badge b-warn">For restaurants, cafes and cloud kitchens in India</span>
+<h1 style="font-size: 54px; line-height: 1.05; letter-spacing: -0.03em; margin: 20px 0 18px; font-weight: 800">Stay inspection-ready. Fix complaints before they go public.</h1>
+<p class="muted" style="font-size: 19px; line-height: 1.6; margin: 0 0 28px; max-width: 560px">A daily hygiene checklist, a private feedback line for your diners, and warnings before any licence runs out. One place for every outlet.</p>
+<div class="row" style="margin-bottom: 24px">
+<button class="btn btn-p" style="min-height: 52px; padding: 0 28px; font-size: 16px" onClick="{{goSignupOwner}}">I own a restaurant</button>
+<button class="btn btn-g" style="min-height: 52px; padding: 0 28px; font-size: 16px" onClick="{{goSignupDiner}}">I'm a diner</button>
+</div>
+<div style="display: grid; gap: 8px; font-size: 15px">
+<div>Diner feedback stays private. Nothing is posted publicly.</div>
+<div>Three warnings before the department is told.</div>
+<div>Points serious cases to the official channels.</div>
+</div>
+</div>
+<div class="card" style="flex: 1 1 400px; padding: 28px">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 8px"><div style="font-weight: 700">Today at Sample Kitchen</div><span class="badge b-ok">Sample view</span></div>
+<div class="g3" style="gap: 12px; margin-bottom: 16px">
+<div style="background: var(--soft); border-radius: 12px; padding: 14px"><div class="muted" style="font-size: 12px">Checklist</div><div style="font-size: 26px; font-weight: 800; color: var(--brand)">{{chkPct}}</div></div>
+<div style="background: var(--soft); border-radius: 12px; padding: 14px"><div class="muted" style="font-size: 12px">New feedback</div><div style="font-size: 26px; font-weight: 800">{{newFbCount}}</div></div>
+<div style="background: var(--soft); border-radius: 12px; padding: 14px"><div class="muted" style="font-size: 12px">Overdue documents</div><div style="font-size: 26px; font-weight: 800">{{overdueCount}}</div></div>
+</div>
+<div style="border: 1px solid var(--line); border-radius: 12px; padding: 14px; font-size: 14px; line-height: 1.5"><div style="font-weight: 700; margin-bottom: 4px">Table 6 · 2 stars · Private to you</div>The water jug looked unclean. <span style="color: var(--brand); font-weight: 700">Reply and resolve</span></div>
+</div>
+</section>
+
+<section id="how" class="wrap sec">
+<h2 class="h2">How it works</h2>
+<p class="muted" style="font-size: 17px; margin: 0 0 20px; max-width: 700px">Two sides use Hygieo. Pick one to see the steps.</p>
+<div class="row" style="margin-bottom: 20px"><sc-for list="{{howChips}}" as="c" hint-placeholder-count="2"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.label}}</button></sc-for></div>
+<div class="g3">
+<sc-for list="{{howSteps}}" as="h" hint-placeholder-count="3">
+<div class="card"><div style="font-size: 36px; font-weight: 800; color: var(--brand)">{{h.n}}</div><h3 class="h3" style="margin: 6px 0 8px">{{h.t}}</h3><p class="muted" style="margin: 0; line-height: 1.6">{{h.d}}</p></div>
+</sc-for>
+</div>
+</section>
+
+<section id="features" class="wrap sec">
+<h2 class="h2">Everything a kitchen needs to stay on top</h2>
+<p class="muted" style="font-size: 17px; margin: 0 0 24px; max-width: 700px">Built for busy owners and managers, and simple enough for kitchen staff to use on a phone.</p>
+<div class="g3">
+<sc-for list="{{features}}" as="f" hint-placeholder-count="6">
+<div class="card">
+<div style="width: 44px; height: 44px; border-radius: 12px; background: var(--okbg); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--okink)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{f.icon}}"/></svg></div>
+<h3 class="h3" style="margin-bottom: 8px">{{f.t}}</h3><p class="muted" style="margin: 0; line-height: 1.6; font-size: 15px">{{f.d}}</p>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="compliance" class="wrap sec">
+<div class="card" style="padding: 40px; display: flex; flex-wrap: wrap; gap: 32px">
+<div style="flex: 1 1 380px; min-width: 0">
+<h2 class="h2">Three warnings, then the department is told</h2>
+<p class="muted" style="font-size: 17px; line-height: 1.65; margin: 0 0 12px">Hygieo tracks every licence and certificate. If one lapses, the owner gets three warnings. If it is still not renewed, a factual compliance report goes to the area Food Safety Officer.</p>
+<p class="muted" style="line-height: 1.65; margin: 0">Owners agree to this when they sign up. The report holds compliance facts only and never includes diner names, phone numbers or private feedback.</p>
+</div>
+<div style="flex: 1 1 380px; min-width: 0; display: grid; gap: 10px">
+<sc-for list="{{ladder}}" as="s" hint-placeholder-count="4">
+<div class="step"><div style="display: flex; justify-content: space-between; gap: 10px"><strong>{{s.t}}</strong><span style="font-size: 13px; font-weight: 700">{{s.day}}</span></div><div style="font-size: 14px; line-height: 1.5; margin-top: 4px">{{s.d}}</div></div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section class="wrap sec">
+<h2 class="h2">Built to be fair to everyone</h2>
+<p class="muted" style="font-size: 17px; margin: 0 0 24px; max-width: 700px">Hygieo is a private service. It works alongside the official system and never replaces it.</p>
+<div class="g4">
+<sc-for list="{{promises}}" as="p" hint-placeholder-count="4"><div class="card" style="background: var(--okbg); border-color: transparent"><div style="font-weight: 800; color: var(--okink); margin-bottom: 6px">{{p.t}}</div><div style="font-size: 14px; line-height: 1.55">{{p.d}}</div></div></sc-for>
+</div>
+</section>
+
+<section id="pricing" class="wrap sec">
+<h2 class="h2">Simple plans per outlet</h2>
+<p class="muted" style="font-size: 17px; margin: 0 0 24px">Prices are placeholders to set after talking to your first restaurants.</p>
+<div class="g3">
+<sc-for list="{{plans}}" as="p" hint-placeholder-count="3">
+<div class="card" style="padding: 28px; display: flex; flex-direction: column; gap: 6px">
+<div class="muted" style="font-size: 14px">{{p.who}}</div>
+<h3 class="h3" style="font-size: 26px">{{p.n}}</h3>
+<div style="font-size: 20px; font-weight: 800; margin-bottom: 10px">{{p.price}}</div>
+<ul style="margin: 0 0 18px; padding-left: 20px; display: grid; gap: 8px; font-size: 15px; line-height: 1.5; flex: 1"><sc-for list="{{p.pts}}" as="x" hint-placeholder-count="4"><li>{{x.t}}</li></sc-for></ul>
+<button class="btn {{p.btnCls}}" onClick="{{goSignupOwner}}">Start with {{p.n}}</button>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="faq" class="wrap sec" style="max-width: 900px">
+<h2 class="h2">Questions owners ask</h2>
+<div style="display: grid; gap: 10px; margin-top: 20px">
+<sc-for list="{{faq}}" as="q" hint-placeholder-count="7">
+<div class="card" style="padding: 0">
+<button onClick="{{q.toggle}}" aria-expanded="{{q.exp}}" style="width: 100%; text-align: left; background: transparent; border: 0; padding: 18px 22px; font-size: 17px; font-weight: 700; color: var(--ink); display: flex; justify-content: space-between; gap: 12px; min-height: 56px"><span>{{q.q}}</span><span aria-hidden="true">{{q.sign}}</span></button>
+<sc-if value="{{q.open}}" hint-placeholder-val="{{false}}"><div class="muted" style="padding: 0 22px 20px; line-height: 1.65">{{q.a}}</div></sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="contact" class="wrap sec" style="padding-bottom: 64px">
+<div class="card" style="padding: 40px; display: flex; flex-wrap: wrap; gap: 40px; background: var(--brand); border-color: var(--brand); color: var(--brand-ink)">
+<div style="flex: 1 1 340px; min-width: 0"><h2 class="h2">Talk to us</h2><p style="font-size: 17px; line-height: 1.6; margin: 0">A 20-minute call. We set up one outlet for free so you can try the checklist and the diner QR code.</p></div>
+<div style="flex: 1 1 380px; min-width: 0; background: var(--card); color: var(--ink); border-radius: 16px; padding: 24px">
+<sc-if value="{{cNotSent}}" hint-placeholder-val="{{true}}">
+<div style="display: grid; gap: 14px">
+<div><label class="lbl" for="cn">Your name</label><input id="cn" class="inp" value="{{cName}}" onInput="{{onCName}}"></div>
+<div><label class="lbl" for="ce">Email</label><input id="ce" class="inp" type="email" value="{{cEmail}}" onInput="{{onCEmail}}"></div>
+<div><label class="lbl" for="cm">Tell us about your restaurant</label><textarea id="cm" class="inp" rows="3" value="{{cMsg}}" onInput="{{onCMsg}}"></textarea></div>
+<sc-if value="{{hasCErr}}" hint-placeholder-val="{{false}}"><div role="alert" class="badge b-bad" style="white-space: normal; border-radius: 10px">{{cErr}}</div></sc-if>
+<button class="btn btn-d" onClick="{{sendContact}}">Send message</button>
+</div>
+</sc-if>
+<sc-if value="{{cSent}}" hint-placeholder-val="{{false}}"><div style="background: var(--okbg); color: var(--okink); border-radius: 12px; padding: 20px"><div style="font-weight: 800; font-size: 18px">Thank you, we will be in touch.</div><div style="margin-top: 6px">We will email {{cEmail}}.</div><button class="btn btn-g" style="margin-top: 14px" onClick="{{contactAgain}}">Send another</button></div></sc-if>
+</div>
+</div>
+</section>
+</sc-if>
+
+<!-- SIGN IN -->
+<sc-if value="{{isSignin}}" hint-placeholder-val="{{false}}">
+<section class="wrap" style="max-width: 520px; padding-top: 56px; padding-bottom: 64px">
+<div class="card" style="padding: 32px">
+<h1 class="h1" style="margin-bottom: 6px">Welcome back</h1>
+<p class="muted" style="margin: 0 0 14px">{{signinSub}}</p>
+<div class="row" style="gap: 8px; margin-bottom: 18px"><sc-for list="{{roleChips}}" as="c" hint-placeholder-count="2"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.label}}</button></sc-for></div>
+<div style="display: grid; gap: 14px">
+<div><label class="lbl" for="si-e">Email</label><input id="si-e" class="inp" type="email" value="{{aEmail}}" onInput="{{onAEmail}}"></div>
+<div><label class="lbl" for="si-p">Password</label><input id="si-p" class="inp" type="password" value="{{aPass}}" onInput="{{onAPass}}"></div>
+<sc-if value="{{hasAErr}}" hint-placeholder-val="{{false}}"><div role="alert" class="badge b-bad" style="white-space: normal; border-radius: 10px">{{aErr}}</div></sc-if>
+<button class="btn btn-p" style="min-height: 50px" onClick="{{signIn}}">Sign in</button>
+<button class="btn btn-g" onClick="{{demoIn}}">{{demoLabel}}</button>
+</div>
+<p class="muted" style="font-size: 13px; line-height: 1.5; margin: 16px 0 0">Prototype: any valid email and a password of 6 or more characters will work. Nothing is saved or sent anywhere.</p>
+<div class="divider" style="margin: 20px 0 14px"></div>
+<div class="muted">New here? <button class="btn btn-g" style="min-height: 44px; margin-left: 6px" onClick="{{goSignup}}">Create an account</button></div>
+</div>
+</section>
+</sc-if>
+
+<!-- SIGN UP -->
+<sc-if value="{{isSignup}}" hint-placeholder-val="{{false}}">
+<section class="wrap" style="max-width: 560px; padding-top: 48px; padding-bottom: 64px">
+<div class="card" style="padding: 32px">
+<h1 class="h1" style="margin-bottom: 6px">Create your account</h1>
+<p class="muted" style="margin: 0 0 14px">{{signupSub}}</p>
+<div class="row" style="gap: 8px; margin-bottom: 18px"><sc-for list="{{roleChips}}" as="c" hint-placeholder-count="2"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.label}}</button></sc-for></div>
+<div style="display: grid; gap: 14px">
+<div><label class="lbl" for="su-n">Your name</label><input id="su-n" class="inp" value="{{aName}}" onInput="{{onAName}}"></div>
+<sc-if value="{{aIsOwner}}" hint-placeholder-val="{{true}}"><div><label class="lbl" for="su-r">Restaurant name</label><input id="su-r" class="inp" value="{{aRest}}" onInput="{{onARest}}"></div></sc-if>
+<div><label class="lbl" for="su-c">City</label><select id="su-c" class="inp" value="{{aCity}}" onChange="{{onACity}}"><option value="Pune">Pune</option><option value="Mumbai">Mumbai</option><option value="Delhi">Delhi</option><option value="Bengaluru">Bengaluru</option><option value="Chennai">Chennai</option><option value="Kolkata">Kolkata</option><option value="Hyderabad">Hyderabad</option><option value="Ahmedabad">Ahmedabad</option><option value="Jaipur">Jaipur</option></select></div>
+<div><label class="lbl" for="su-e">Email</label><input id="su-e" class="inp" type="email" value="{{aEmail}}" onInput="{{onAEmail}}"></div>
+<div><label class="lbl" for="su-p">Password (6 or more characters)</label><input id="su-p" class="inp" type="password" value="{{aPass}}" onInput="{{onAPass}}"></div>
+<label style="display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.5"><input type="checkbox" checked="{{aAgree}}" onChange="{{onAAgree}}" style="width: 22px; height: 22px; flex: none; margin-top: 1px"><span>{{agreeText}}</span></label>
+<sc-if value="{{hasAErr}}" hint-placeholder-val="{{false}}"><div role="alert" class="badge b-bad" style="white-space: normal; border-radius: 10px">{{aErr}}</div></sc-if>
+<button class="btn btn-p" style="min-height: 50px" onClick="{{signUp}}">Create account</button>
+</div>
+<p class="muted" style="font-size: 13px; line-height: 1.5; margin: 16px 0 0">Prototype: nothing is saved or sent anywhere.</p>
+<div class="divider" style="margin: 20px 0 14px"></div>
+<div class="muted">Already have an account? <button class="btn btn-g" style="margin-left: 6px" onClick="{{goSignin}}">Sign in</button></div>
+</div>
+</section>
+</sc-if>
+
+<!-- DINER VIEW -->
+<sc-if value="{{isDiner}}" hint-placeholder-val="{{false}}">
+<section class="wrap" style="max-width: 780px; padding-top: 40px; padding-bottom: 64px">
+<span class="badge b-warn">Diner view</span>
+<h1 class="h1" style="margin: 12px 0 6px">Share feedback about your meal</h1>
+<p class="muted" style="margin: 0 0 20px; line-height: 1.6">This is what a diner sees after scanning the QR code on the table. Feedback goes only to the restaurant. Nothing is posted publicly.</p>
+<div class="card" style="padding: 28px">
+<sc-if value="{{scanIdle}}" hint-placeholder-val="{{true}}">
+<div style="border: 2px dashed var(--input); border-radius: 16px; padding: 24px; text-align: center; background: var(--soft)">
+<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
+<div style="font-weight: 700; font-size: 17px; margin: 10px 0 4px">Scan the QR code on your table</div>
+<div class="muted" style="font-size: 14px; margin-bottom: 16px; line-height: 1.5">This confirms which restaurant you are in.</div>
+<button class="btn btn-p" onClick="{{startScan}}">Scan QR code</button>
+<div class="muted" style="font-size: 13px; margin-top: 8px">Prototype: the scan is simulated and does not use your camera.</div>
+<div class="divider" style="margin: 18px 0 14px"></div>
+<label class="lbl" for="scc">Or type the code printed under the QR (try HY-PUNE-0142)</label>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center">
+<input id="scc" class="inp" style="flex: 1 1 200px; width: auto" value="{{scanCode}}" onInput="{{onScanCode}}">
+<button class="btn btn-g" onClick="{{checkCode}}">Check code</button>
+</div>
+<sc-if value="{{scanHasErr}}" hint-placeholder-val="{{false}}"><div role="alert" class="badge b-bad" style="white-space: normal; border-radius: 10px; margin-top: 12px">{{scanErr}}</div></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{scanning}}" hint-placeholder-val="{{false}}">
+<div style="border-radius: 16px; background: #111111; padding: 28px; text-align: center; color: #fff">
+<div style="position: relative; width: 180px; height: 180px; margin: 0 auto 14px; border: 2px solid #FFFFFF; border-radius: 12px; overflow: hidden"><div class="psline" style="position: absolute; left: 0; right: 0; top: 6%; height: 3px; background: #FFFFFF; animation: psScan 1.6s linear infinite"></div></div>
+<div style="font-weight: 700">Looking for a QR code...</div>
+</div>
+</sc-if>
+<sc-if value="{{scanFound}}" hint-placeholder-val="{{false}}">
+<div style="background: var(--okbg); color: var(--okink); border-radius: 14px; padding: 16px 18px; margin-bottom: 18px">
+<div style="font-weight: 800">Scanned: {{profName}}, {{profAddr}}</div>
+<div style="font-size: 14px; margin: 4px 0 8px; line-height: 1.5">The owner's self-check today: {{chkPct}} done. Reported by the restaurant, not verified.</div>
+<div style="font-size: 14px">Urgent help: <a href="tel:112" style="font-weight: 700; display: inline-block; padding: 8px 4px; color: var(--okink)">Police 112</a> · <a href="tel:108" style="font-weight: 700; display: inline-block; padding: 8px 4px; color: var(--okink)">Ambulance 108</a> · <a href="tel:1800112100" style="font-weight: 700; display: inline-block; padding: 8px 4px; color: var(--okink)">FSSAI 1800-11-2100</a></div>
+<button class="btn btn-g" style="margin-top: 6px" onClick="{{rescan}}">Scan a different restaurant</button>
+</div>
+</sc-if>
+<sc-if value="{{showForm}}" hint-placeholder-val="{{false}}">
+<div style="font-weight: 700; margin-bottom: 8px">How was it?</div>
+<div class="row" style="gap: 6px; margin-bottom: 18px"><sc-for list="{{starBtns}}" as="s" hint-placeholder-count="5"><button class="chip {{s.cls}}" style="min-width: 48px; padding: 0" onClick="{{s.pick}}" aria-label="{{s.label}}" aria-pressed="{{s.on}}">{{s.n}}</button></sc-for></div>
+<div style="font-weight: 700; margin-bottom: 8px">What was the issue?</div>
+<div class="row" style="gap: 8px; margin-bottom: 14px"><sc-for list="{{fbIssues}}" as="i" hint-placeholder-count="5"><button class="chip {{i.cls}}" onClick="{{i.toggle}}" aria-pressed="{{i.on}}">{{i.label}}</button></sc-for></div>
+<label style="display: flex; gap: 12px; align-items: center; font-size: 15px; margin-bottom: 14px; min-height: 44px"><input type="checkbox" checked="{{fbSerious}}" onChange="{{onSerious}}" style="width: 22px; height: 22px"><span>Someone became unwell after eating here</span></label>
+<sc-if value="{{fbSerious}}" hint-placeholder-val="{{false}}"><div class="badge b-warn" style="white-space: normal; border-radius: 12px; padding: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 14px; display: block"><strong>Please also report this officially.</strong> Call the FSSAI toll-free line 1800-11-2100 or use the Food Safety Connect app. For a medical emergency call 108. If you are in danger, call the police on 112.</div></sc-if>
+<label class="lbl" for="fbt">Anything to add?</label>
+<textarea id="fbt" class="inp" rows="3" value="{{fbText}}" onInput="{{onFbText}}" style="margin-bottom: 14px"></textarea>
+<sc-if value="{{fbHasErr}}" hint-placeholder-val="{{false}}"><div role="alert" class="badge b-bad" style="white-space: normal; border-radius: 10px; margin-bottom: 12px">{{fbErr}}</div></sc-if>
+<button class="btn btn-p" style="min-height: 50px" onClick="{{fbSubmit}}">Send to the restaurant</button>
+</sc-if>
+<sc-if value="{{fbSent}}" hint-placeholder-val="{{false}}">
+<div style="background: var(--okbg); color: var(--okink); border-radius: 14px; padding: 22px"><div style="font-weight: 800; font-size: 20px">Thank you. The owner has been told.</div><div style="margin-top: 6px">You will get a message when it is resolved.</div><button class="btn btn-g" style="margin-top: 14px" onClick="{{fbAgain}}">Leave another</button></div>
+</sc-if>
+</div>
+</section>
+</sc-if>
+
+<!-- APP SHELL -->
+<sc-if value="{{inApp}}" hint-placeholder-val="{{false}}">
+<div class="wrap" style="padding-top: 24px; padding-bottom: 56px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<aside class="card" style="flex: 1 1 240px; max-width: 280px; padding: 14px; position: sticky; top: 92px" aria-label="App menu">
+<div style="padding: 8px 14px 14px"><div style="font-weight: 800">{{profName}}</div><div class="muted" style="font-size: 13px">{{profCity}} · {{planName}} plan</div></div>
+<nav style="display: grid; gap: 2px">
+<sc-for list="{{navItems}}" as="n" hint-placeholder-count="8">
+<button class="navlink {{n.cls}}" onClick="{{n.go}}" aria-current="{{n.cur}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="{{n.icon}}"/></svg><span>{{n.label}}</span><sc-if value="{{n.hasCnt}}" hint-placeholder-val="{{false}}"><span class="badge b-bad cnt">{{n.cnt}}</span></sc-if></button>
+</sc-for>
+</nav>
+<div class="divider" style="margin: 10px 0"></div>
+<nav style="display: grid; gap: 2px">
+<sc-for list="{{navItems2}}" as="n" hint-placeholder-count="3">
+<button class="navlink {{n.cls}}" onClick="{{n.go}}" aria-current="{{n.cur}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="{{n.icon}}"/></svg><span>{{n.label}}</span><sc-if value="{{n.hasCnt}}" hint-placeholder-val="{{false}}"><span class="badge b-bad cnt">{{n.cnt}}</span></sc-if></button>
+</sc-for>
+</nav>
+<div class="divider" style="margin: 10px 0"></div>
+<div style="padding: 8px 14px 4px"><div style="font-weight: 800; margin-bottom: 8px">Today's checklist</div><div class="mini" style="width: 100%; margin-bottom: 8px"><span style="{{chkBar}}"></span></div><div class="muted" style="font-size: 13px; margin-bottom: 10px">{{chkPct}} done. Keep records ready for inspection.</div><button class="btn btn-g" style="width: 100%" onClick="{{goChecklistTop}}">Open checklist</button></div>
+<div class="divider" style="margin: 10px 0"></div>
+<div style="padding: 8px 14px 6px"><div style="font-weight: 800; margin-bottom: 6px">Urgent numbers</div><div style="display: flex; justify-content: space-between; align-items: center"><span class="muted" style="font-size: 14px">Police</span><a href="tel:112" style="font-weight: 800; text-decoration: none; padding: 8px 4px">112</a></div><div style="display: flex; justify-content: space-between; align-items: center"><span class="muted" style="font-size: 14px">FSSAI</span><a href="tel:1800112100" style="font-weight: 800; text-decoration: none; padding: 8px 4px">1800-11-2100</a></div></div>
+</aside>
+
+<main style="flex: 1 1 380px; min-width: 0; display: grid; gap: 20px; align-content: start">
+<div class="badge b-warn" style="white-space: normal; border-radius: 10px; font-weight: 600">Sample data for demonstration. Nothing here is real or saved permanently.</div>
+
+<!-- DASHBOARD -->
+<sc-if value="{{pDash}}" hint-placeholder-val="{{true}}">
+<div><h1 class="h1">{{greeting}}</h1><p class="muted" style="margin: 6px 0 0">Here is how {{profName}} is doing today.</p></div>
+<div class="g4">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">{{k.l}}</div><div class="kpi" style="margin: 6px 0 2px">{{k.v}}</div><div class="muted" style="font-size: 13px; margin-bottom: 12px">{{k.s}}</div><button class="btn btn-g" onClick="{{k.go}}">{{k.btn}}</button></div>
+</sc-for>
+</div>
+<div class="g2">
+<div class="card"><h2 class="h3" style="margin-bottom: 14px">Needs your attention</h2>
+<div style="display: grid; gap: 10px"><sc-for list="{{attention}}" as="a" hint-placeholder-count="3">
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px"><div style="flex: 1 1 200px; line-height: 1.45">{{a.t}}</div><button class="btn btn-g" onClick="{{a.go}}">{{a.btn}}</button></div>
+</sc-for></div></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 4px">Checklist, last 7 days</h2><p class="muted" style="margin: 0 0 14px; font-size: 13px">Percent of points ticked. Earlier days are sample data.</p>
+<div style="display: flex; gap: 10px; align-items: flex-end; height: 170px">
+<sc-for list="{{bars}}" as="b" hint-placeholder-count="7">
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; min-width: 0"><div style="font-size: 12px; font-weight: 700">{{b.v}}</div><div style="{{b.style}}"></div><div class="muted" style="font-size: 12px">{{b.d}}</div></div>
+</sc-for></div></div>
+</div>
+<div class="g2">
+<div class="card"><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px"><h2 class="h3">Recent alerts</h2><button class="btn btn-g" onClick="{{goAlerts}}">View all</button></div>
+<div style="display: grid; gap: 10px"><sc-for list="{{recentAlerts}}" as="a" hint-placeholder-count="3">
+<button class="alert-row" style="border: 1px solid var(--line); border-radius: 12px" onClick="{{a.open}}"><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 4px"><span class="{{a.badgeCls}}">{{a.label}}</span><span class="muted" style="font-size: 12px">{{a.time}}</span></div><div style="font-size: 14px; line-height: 1.45">{{a.text}}</div></button>
+</sc-for></div>
+<sc-if value="{{noAlerts}}" hint-placeholder-val="{{false}}"><div class="muted">No alerts right now.</div></sc-if></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 14px">Quick actions</h2>
+<div class="row" style="gap: 10px"><sc-for list="{{quick}}" as="q" hint-placeholder-count="4"><button class="btn btn-g" onClick="{{q.go}}">{{q.label}}</button></sc-for></div>
+<h2 class="h3" style="margin: 22px 0 10px">Coming up</h2>
+<sc-for list="{{deadlines}}" as="d" hint-placeholder-count="3"><div style="display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line)"><span>{{d.t}}</span><span class="muted">{{d.d}}</span></div></sc-for></div>
+</div>
+</sc-if>
+
+<!-- CHECKLIST -->
+<sc-if value="{{pChecklist}}" hint-placeholder-val="{{false}}">
+<div class="row" style="justify-content: space-between"><div><h1 class="h1">Daily hygiene checklist</h1><p class="muted" style="margin: 6px 0 0">Tick each point as it is done. Every tick is saved with the time.</p></div>
+<button class="btn btn-p" onClick="{{submitRecord}}">Submit today's record</button></div>
+<div class="card"><div style="display: flex; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 10px"><div><div class="muted" style="font-size: 14px; font-weight: 600">Today's progress</div><div class="kpi">{{chkPct}}</div></div><div style="text-align: right"><div style="font-weight: 700">{{chkCount}}</div><sc-if value="{{submitted}}" hint-placeholder-val="{{false}}"><span class="badge b-ok">Record submitted</span></sc-if></div></div><div class="bar"><div style="{{chkBar}}"></div></div><div style="font-size: 14px; font-weight: 600; margin-top: 8px; color: var(--okink)">{{chkMsg}}</div></div>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="5">
+<div class="card"><div style="display: flex; justify-content: space-between; margin-bottom: 12px"><h2 class="h3">{{g.name}}</h2><span class="badge b-mute">{{g.count}}</span></div>
+<div style="display: grid; gap: 8px"><sc-for list="{{g.items}}" as="c" hint-placeholder-count="3"><button class="tick {{c.cls}}" onClick="{{c.toggle}}" aria-pressed="{{c.on}}"><span>{{c.t}}</span><span style="font-size: 12px; font-weight: 700; flex: none">{{c.state}}</span></button></sc-for></div></div>
+</sc-for>
+<p class="muted" style="font-size: 13px; margin: 0">This is your own self-check and not an official rating. Temperature limits are common guidance, so check them against FSSAI rules for your kind of business.</p>
+</sc-if>
+
+<!-- DOCUMENTS -->
+<sc-if value="{{pDocs}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Documents and warnings</h1><p class="muted" style="margin: 6px 0 0; line-height: 1.6">Keep every licence valid. If one lapses you get three warnings {{gapDays}} days apart. If it is still overdue after that, a factual report goes to the Food Safety Officer.</p></div>
+<div class="g2">
+<div class="card"><h2 class="h3" style="margin-bottom: 14px">Your documents</h2>
+<div style="display: grid; gap: 10px"><sc-for list="{{docs}}" as="d" hint-placeholder-count="6">
+<div style="border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center"><div style="flex: 1 1 200px; min-width: 0"><div style="font-weight: 700">{{d.n}}</div><div class="muted" style="font-size: 13px">Expiry {{d.exp}}</div></div>
+<div class="row" style="gap: 8px"><span class="badge {{d.badgeCls}}">{{d.status}}</span><sc-if value="{{d.canRenew}}" hint-placeholder-val="{{false}}"><button class="btn btn-p" onClick="{{d.renew}}">Renew</button></sc-if></div></div>
+</sc-for></div>
+<div class="divider" style="margin: 18px 0 14px"></div>
+<div style="font-weight: 700; line-height: 1.5; margin-bottom: 12px">{{statusLine}}</div>
+<div class="row" style="gap: 10px"><button class="btn btn-p" onClick="{{advance}}" disabled="{{advDisabled}}">Skip ahead {{gapDays}} days</button><button class="btn btn-g" onClick="{{resetDemo}}">Reset demo</button></div></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 14px">What happens when a document lapses</h2>
+<div style="display: grid; gap: 10px"><sc-for list="{{steps}}" as="s" hint-placeholder-count="4">
+<div class="step {{s.cls}}"><div style="display: flex; justify-content: space-between; gap: 10px; align-items: center"><strong>{{s.t}}</strong><span style="font-size: 12px; font-weight: 700">{{s.day}} · {{s.tag}}</span></div><div style="font-size: 14px; line-height: 1.5; margin-top: 4px">{{s.d}}</div></div>
+</sc-for></div></div>
+</div>
+<sc-if value="{{showReport}}" hint-placeholder-val="{{false}}">
+<div class="card" style="padding: 0; overflow: hidden; border: 1.5px solid var(--badline)">
+<div style="background: var(--badbg); color: var(--badink); padding: 18px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px"><div style="font-weight: 800; font-size: 19px">Compliance report sent to the Food Safety Officer, {{profCity}} circle</div><div style="font-size: 13px; font-weight: 700">Sample report · Ref PS-RPT-SAMPLE-0001</div></div>
+<div style="padding: 24px" class="g2">
+<div><div class="muted" style="font-size: 12px; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 8px">RESTAURANT</div><div style="font-weight: 700">{{profName}}</div><div class="muted" style="font-size: 14px; line-height: 1.7">{{profAddr}}<br>FSSAI licence no.: {{profFssai}}<br>Contact: {{profPhone}}<br>Outlets: 1</div></div>
+<div><div class="muted" style="font-size: 12px; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 8px">DOCUMENTS STILL OVERDUE</div><ul style="margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 14px"><sc-for list="{{repDocs}}" as="x" hint-placeholder-count="3"><li>{{x.t}}</li></sc-for></ul></div>
+<div><div class="muted" style="font-size: 12px; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 8px">WARNINGS SENT TO THE OWNER</div><div style="font-size: 14px; line-height: 1.7">Warning 1: Day 0<br>Warning 2: Day {{gapDays}}<br>Warning 3 (final): Day {{gap2}}<br>Channels: SMS, email and app<br>No renewal received by Day {{gap3}}</div></div>
+<div><div class="muted" style="font-size: 12px; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 8px">HYGIENE RECORD</div><div style="font-size: 14px; line-height: 1.7">Daily checklist today: {{chkPct}} complete<br>Diner feedback: {{repFeed}}<br>Reports of illness: {{repIllness}}</div></div>
+</div>
+<div style="background: var(--soft); padding: 14px 24px; font-size: 13px; line-height: 1.5" class="muted">Shared: compliance facts only. Not shared: diner names, phone numbers or private feedback text. The owner is told when the report is sent.</div>
+</div>
+</sc-if>
+<sc-if value="{{showCorrection}}" hint-placeholder-val="{{false}}"><div class="card" style="background: var(--okbg); color: var(--okink)"><div style="font-weight: 800; font-size: 18px">All documents renewed.</div><div style="margin-top: 4px; line-height: 1.5">A correction note goes to the Food Safety Officer so their record shows the renewal.</div></div></sc-if>
+</sc-if>
+
+<!-- FEEDBACK -->
+<sc-if value="{{pFeedback}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Diner feedback</h1><p class="muted" style="margin: 6px 0 0">Private to you. Fix the problem, reply, then mark it resolved.</p></div>
+<div class="row" style="gap: 8px"><sc-for list="{{fChips}}" as="c" hint-placeholder-count="3"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.label}}</button></sc-for></div>
+<div style="display: grid; gap: 12px"><sc-for list="{{fItems}}" as="m" hint-placeholder-count="4">
+<div class="card" style="padding: 18px 20px"><div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: flex-start">
+<div style="flex: 1 1 280px; min-width: 0"><div class="muted" style="font-size: 13px; margin-bottom: 4px">{{m.stars}} of 5 stars · {{m.tag}}</div><div style="line-height: 1.5">{{m.text}}</div></div>
+<div class="row" style="gap: 8px"><sc-if value="{{m.isNew}}" hint-placeholder-val="{{true}}"><span class="badge b-warn">New</span></sc-if><sc-if value="{{m.isDone}}" hint-placeholder-val="{{false}}"><span class="badge b-ok">Resolved</span></sc-if><sc-if value="{{m.replied}}" hint-placeholder-val="{{false}}"><span class="badge b-mute">Replied</span></sc-if></div></div>
+<div class="row" style="gap: 8px; margin-top: 12px"><sc-if value="{{m.notReplied}}" hint-placeholder-val="{{true}}"><button class="btn btn-g" onClick="{{m.reply}}">Send thank-you reply</button></sc-if><sc-if value="{{m.isNew}}" hint-placeholder-val="{{true}}"><button class="btn btn-p" onClick="{{m.resolve}}">Mark resolved</button></sc-if></div></div>
+</sc-for></div>
+<sc-if value="{{fEmpty}}" hint-placeholder-val="{{false}}"><div class="card muted">Nothing here.</div></sc-if>
+</sc-if>
+
+<!-- QR -->
+<sc-if value="{{pQr}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Table QR codes</h1><p class="muted" style="margin: 6px 0 0">Put one on every table. Diners scan it to confirm the restaurant and leave private feedback.</p></div>
+<div class="g2">
+<div class="card" style="text-align: center">
+<div style="width: 190px; height: 190px; margin: 0 auto 14px; border: 2px solid var(--ink); border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #fff"><svg width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="#1B2420" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg></div>
+<div style="font-weight: 800; font-size: 18px">{{profName}}</div>
+<div class="muted" style="margin: 4px 0 10px">Restaurant code: <strong style="color: var(--ink)">HY-PUNE-0142</strong></div>
+<p class="muted" style="font-size: 13px; margin: 0 0 14px">Sample picture only. It is not a scannable code yet.</p>
+<button class="btn btn-p" onClick="{{goDinerView}}">Open the diner view</button></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 12px">Your tables</h2><div class="row" style="gap: 8px"><sc-for list="{{tables}}" as="t" hint-placeholder-count="10"><span class="badge b-mute" style="padding: 10px 16px; font-size: 14px">{{t.t}}</span></sc-for></div>
+<h2 class="h3" style="margin: 22px 0 10px">How to set it up</h2>
+<ol style="margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.5"><li>Print the QR sheet. A live version would let you download it.</li><li>Stick one on every table and at the counter.</li><li>Check the Diner feedback page each day.</li></ol></div>
+</div>
+</sc-if>
+
+<!-- REPORTS -->
+<sc-if value="{{pReports}}" hint-placeholder-val="{{false}}">
+<div class="row" style="justify-content: space-between"><div><h1 class="h1">Inspection-ready report</h1><p class="muted" style="margin: 6px 0 0">One page you can show an inspector. Built from your records.</p></div><button class="btn btn-g" onClick="{{refreshReport}}">Refresh report</button></div>
+<div class="card" style="padding: 28px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-bottom: 18px"><div><div style="font-weight: 800; font-size: 22px">{{profName}}</div><div class="muted">{{profAddr}} · FSSAI licence no.: {{profFssai}}</div></div><div class="muted" style="font-size: 14px">Prepared {{reportDate}}</div></div>
+<div class="g3" style="margin-bottom: 20px">
+<div style="background: var(--soft); border-radius: 12px; padding: 14px"><div class="muted" style="font-size: 12px">Checklist today</div><div class="kpi" style="font-size: 28px">{{chkPct}}</div></div>
+<div style="background: var(--soft); border-radius: 12px; padding: 14px"><div class="muted" style="font-size: 12px">Documents valid</div><div class="kpi" style="font-size: 28px">{{docsValidLabel}}</div></div>
+<div style="background: var(--soft); border-radius: 12px; padding: 14px"><div class="muted" style="font-size: 12px">Feedback resolved</div><div class="kpi" style="font-size: 28px">{{repFeed}}</div></div>
+</div>
+<h2 class="h3" style="margin-bottom: 10px">Documents</h2>
+<div style="display: grid; gap: 8px; margin-bottom: 20px"><sc-for list="{{docs}}" as="d" hint-placeholder-count="6"><div style="display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line)"><span>{{d.n}} <span class="muted">(expiry {{d.exp}})</span></span><span class="badge {{d.badgeCls}}">{{d.status}}</span></div></sc-for></div>
+<h2 class="h3" style="margin-bottom: 10px">Today's checklist</h2>
+<div class="g2" style="gap: 6px 24px"><sc-for list="{{rpItems}}" as="i" hint-placeholder-count="16"><div style="display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px"><span>{{i.t}}</span><span style="font-weight: 700; flex: none">{{i.state}}</span></div></sc-for></div>
+</div>
+<p class="muted" style="font-size: 13px; margin: 0">Exporting this as a PDF needs the live version. Here you can see how it would look.</p>
+</sc-if>
+
+<!-- TRAINING -->
+<sc-if value="{{pTraining}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Staff training</h1><p class="muted" style="margin: 6px 0 0">Short lessons for your team. Mark each one when your staff have completed it.</p></div>
+<div class="card"><div style="display: flex; justify-content: space-between; margin-bottom: 10px"><div style="font-weight: 700">Training progress</div><div>{{trainCount}}</div></div><div class="bar"><div style="{{trainBar}}"></div></div></div>
+<div class="g2"><sc-for list="{{modules}}" as="m" hint-placeholder-count="6">
+<div class="card" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center"><div style="flex: 1 1 200px"><div style="font-weight: 800; margin-bottom: 4px">{{m.t}}</div><div class="muted" style="font-size: 14px">{{m.d}}</div></div><button class="btn {{m.btnCls}}" onClick="{{m.toggle}}" aria-pressed="{{m.on}}">{{m.label}}</button></div>
+</sc-for></div>
+<p class="muted" style="font-size: 13px; margin: 0">Lesson content would come from FSSAI guidance and approved trainers in the live version.</p>
+</sc-if>
+
+<!-- HELP -->
+<sc-if value="{{pHelp}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Helplines</h1><p class="muted" style="margin: 6px 0 0; line-height: 1.6">Pick a city. Numbers in square brackets still need to be filled in from the official directory. A live version would find the nearest police station from your location.</p></div>
+<div class="row" style="gap: 8px"><sc-for list="{{cityChips}}" as="c" hint-placeholder-count="9"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.name}}</button></sc-for></div>
+<div class="g3">
+<div class="card"><h2 class="h3" style="margin-bottom: 8px">Food safety (FDA)</h2><sc-for list="{{fdaRows}}" as="r" hint-placeholder-count="4"><div class="divider" style="padding: 12px 0"><div class="muted" style="font-size: 13px">{{r.who}}</div><sc-if value="{{r.hasLink}}" hint-placeholder-val="{{true}}"><a href="{{r.href}}" style="font-size: 22px; font-weight: 800; text-decoration: none; display: inline-block; padding: 4px 0">{{r.num}}</a></sc-if><sc-if value="{{r.noLink}}" hint-placeholder-val="{{false}}"><div style="font-size: 16px; font-weight: 700; color: var(--warnink); padding: 4px 0">{{r.num}}</div></sc-if><div class="muted" style="font-size: 13px; line-height: 1.5">{{r.note}}</div></div></sc-for></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 8px">Police</h2><sc-for list="{{policeRows}}" as="r" hint-placeholder-count="3"><div class="divider" style="padding: 12px 0"><div class="muted" style="font-size: 13px">{{r.who}}</div><sc-if value="{{r.hasLink}}" hint-placeholder-val="{{true}}"><a href="{{r.href}}" style="font-size: 22px; font-weight: 800; text-decoration: none; display: inline-block; padding: 4px 0">{{r.num}}</a></sc-if><sc-if value="{{r.noLink}}" hint-placeholder-val="{{false}}"><div style="font-size: 16px; font-weight: 700; color: var(--warnink); padding: 4px 0">{{r.num}}</div></sc-if><div class="muted" style="font-size: 13px; line-height: 1.5">{{r.note}}</div></div></sc-for></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 8px">Medical and consumer help</h2><sc-for list="{{otherRows}}" as="r" hint-placeholder-count="2"><div class="divider" style="padding: 12px 0"><div class="muted" style="font-size: 13px">{{r.who}}</div><a href="{{r.href}}" style="font-size: 22px; font-weight: 800; text-decoration: none; display: inline-block; padding: 4px 0">{{r.num}}</a><div class="muted" style="font-size: 13px; line-height: 1.5">{{r.note}}</div></div></sc-for></div>
+</div>
+</sc-if>
+
+<!-- ALERTS -->
+<sc-if value="{{pAlerts}}" hint-placeholder-val="{{false}}">
+<div class="row" style="justify-content: space-between"><div><h1 class="h1">Alerts</h1><p class="muted" style="margin: 6px 0 0">{{unreadLabel}}. Choose what you get in Settings.</p></div><div class="row" style="gap: 8px"><button class="btn btn-g" onClick="{{markAllRead}}">Mark all read</button><button class="btn btn-g" onClick="{{goSettingsView}}">Alert settings</button></div></div>
+<div class="row" style="gap: 8px"><sc-for list="{{aChips}}" as="c" hint-placeholder-count="6"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.label}}</button></sc-for></div>
+<div style="display: grid; gap: 10px"><sc-for list="{{aList}}" as="a" hint-placeholder-count="5">
+<button class="alert-row" style="border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 16px 18px" onClick="{{a.open}}"><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px"><span class="{{a.badgeCls}}">{{a.label}}</span><span class="muted" style="font-size: 12px">{{a.time}}</span><sc-if value="{{a.unread}}" hint-placeholder-val="{{false}}"><span class="badge b-bad" style="margin-left: auto">Unread</span></sc-if></div><div style="line-height: 1.5">{{a.text}}</div></button>
+</sc-for></div>
+<sc-if value="{{aEmpty}}" hint-placeholder-val="{{false}}"><div class="card muted">No alerts here.</div></sc-if>
+</sc-if>
+
+<!-- SETTINGS -->
+<sc-if value="{{pSettings}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Settings</h1><p class="muted" style="margin: 6px 0 0">Appearance, alerts, your restaurant and your warning rules.</p></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 4px">Appearance</h2><p class="muted" style="margin: 0 0 14px; font-size: 14px">Choose light, dark, or follow your device.</p><div class="row" style="gap: 8px"><sc-for list="{{themeChips}}" as="c" hint-placeholder-count="3"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.label}}</button></sc-for></div></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 4px">Alerts</h2><p class="muted" style="margin: 0 0 8px; font-size: 14px">Choose which alerts you want to see.</p>
+<sc-for list="{{notifRows}}" as="n" hint-placeholder-count="4"><div class="divider" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0"><div><div style="font-weight: 700">{{n.label}}</div><div class="muted" style="font-size: 13px">{{n.d}}</div></div><button class="tog" role="switch" aria-checked="{{n.on}}" aria-label="{{n.label}}" onClick="{{n.flip}}"></button></div></sc-for>
+<h3 style="font-size: 16px; font-weight: 800; margin: 18px 0 0">Send alerts by</h3>
+<sc-for list="{{chanRows}}" as="n" hint-placeholder-count="3"><div class="divider" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; margin-top: 8px"><div style="font-weight: 700">{{n.label}}</div><button class="tog" role="switch" aria-checked="{{n.on}}" aria-label="{{n.label}}" onClick="{{n.flip}}"></button></div></sc-for></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 4px">Restaurant profile</h2><p class="muted" style="margin: 0 0 14px; font-size: 14px">Changes save as you type in this demo.</p>
+<div class="g2"><div><label class="lbl" for="pf-n">Restaurant name</label><input id="pf-n" class="inp" value="{{profName}}" onInput="{{onProfName}}"></div><div><label class="lbl" for="pf-c">City</label><input id="pf-c" class="inp" value="{{profCity}}" onInput="{{onProfCity}}"></div><div><label class="lbl" for="pf-a">Address</label><input id="pf-a" class="inp" value="{{profAddr}}" onInput="{{onProfAddr}}"></div><div><label class="lbl" for="pf-f">FSSAI licence number</label><input id="pf-f" class="inp" value="{{profFssaiRaw}}" onInput="{{onProfFssai}}" placeholder="14-digit number"></div><div><label class="lbl" for="pf-p">Contact phone</label><input id="pf-p" class="inp" inputmode="tel" value="{{profPhoneRaw}}" onInput="{{onProfPhone}}" placeholder="10-digit number"></div></div></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 4px">Warning rules</h2><p class="muted" style="margin: 0 0 14px; font-size: 14px; line-height: 1.5">Days between warnings. These are examples, so agree the real timing with the department.</p><div class="row" style="gap: 8px"><sc-for list="{{gapChips}}" as="c" hint-placeholder-count="3"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.label}}</button></sc-for></div>
+<div class="divider" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; margin-top: 16px"><div><div style="font-weight: 700">Copy warnings to the outlet manager</div><div class="muted" style="font-size: 13px">Managers also get each warning.</div></div><button class="tog" role="switch" aria-checked="{{mgrOn}}" aria-label="Copy warnings to the outlet manager" onClick="{{flipMgr}}"></button></div></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 10px">Privacy and data</h2><ul style="margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.5"><li>Diner phone numbers and names are never shown to you or shared with the department.</li><li>Compliance reports to the department hold facts only.</li><li>Privacy policy and terms: to be added before launch.</li></ul></div>
+</sc-if>
+
+<!-- ACCOUNT -->
+<sc-if value="{{pAccount}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Account</h1><p class="muted" style="margin: 6px 0 0">Your profile, plan and team.</p></div>
+<div class="card" style="display: flex; flex-wrap: wrap; gap: 18px; align-items: center"><span class="avatar" style="width: 64px; height: 64px; font-size: 24px">{{initials}}</span><div style="flex: 1 1 240px"><div style="font-size: 22px; font-weight: 800">{{userName}}</div><div class="muted" style="overflow-wrap: anywhere">{{userEmail}}</div><div style="margin-top: 6px"><span class="badge b-ok">Owner</span> <span class="badge b-mute">{{profName}}</span></div></div><button class="btn btn-g" onClick="{{signOut}}">Sign out</button></div>
+<div><h2 class="h3" style="margin-bottom: 12px">Your plan</h2>
+<div class="g3"><sc-for list="{{planCards}}" as="p" hint-placeholder-count="3"><div class="card" style="{{p.style}}"><div style="display: flex; justify-content: space-between; gap: 8px"><h3 class="h3">{{p.n}}</h3><sc-if value="{{p.current}}" hint-placeholder-val="{{false}}"><span class="badge b-ok">Current</span></sc-if></div><div style="font-weight: 800; margin: 6px 0 12px">{{p.price}}</div><button class="btn {{p.btnCls}}" onClick="{{p.choose}}" disabled="{{p.current}}">{{p.btn}}</button></div></sc-for></div>
+<p class="muted" style="font-size: 13px; margin: 10px 0 0">Billing and payments need the live version, for example through a payment provider. Prices are placeholders.</p></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 12px">Team</h2>
+<sc-for list="{{team}}" as="t" hint-placeholder-count="3"><div class="divider" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 12px 0"><div style="min-width: 0"><div style="font-weight: 700; overflow-wrap: anywhere">{{t.n}}</div><div class="muted" style="font-size: 13px; overflow-wrap: anywhere">{{t.e}}</div></div><span class="badge b-mute" style="align-self: center">{{t.role}}</span></div></sc-for>
+<div class="divider" style="padding-top: 16px; margin-top: 4px"><label class="lbl" for="inv">Invite a team member by email</label><div style="display: flex; flex-wrap: wrap; gap: 8px"><input id="inv" class="inp" style="flex: 1 1 240px; width: auto" type="email" value="{{invEmail}}" onInput="{{onInvEmail}}"><button class="btn btn-p" onClick="{{invite}}">Send invite</button></div><sc-if value="{{hasInvErr}}" hint-placeholder-val="{{false}}"><div role="alert" class="badge b-bad" style="white-space: normal; border-radius: 10px; margin-top: 10px">{{invErr}}</div></sc-if></div></div>
+</sc-if>
+</main>
+</div>
+</sc-if>
+
+<!-- DINER APP SHELL -->
+<sc-if value="{{inDapp}}" hint-placeholder-val="{{false}}">
+<div class="wrap" style="padding-top: 24px; padding-bottom: 56px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<aside class="card" style="flex: 1 1 240px; max-width: 280px; padding: 14px; position: sticky; top: 92px" aria-label="Diner menu">
+<div style="padding: 8px 14px 14px"><div style="font-weight: 800">{{userName}}</div><div class="muted" style="font-size: 13px">Diner account · {{dCity}}</div></div>
+<nav style="display: grid; gap: 2px">
+<sc-for list="{{dNavItems}}" as="n" hint-placeholder-count="4">
+<button class="navlink {{n.cls}}" onClick="{{n.go}}" aria-current="{{n.cur}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="{{n.icon}}"/></svg><span>{{n.label}}</span><sc-if value="{{n.hasCnt}}" hint-placeholder-val="{{false}}"><span class="badge b-bad cnt">{{n.cnt}}</span></sc-if></button>
+</sc-for>
+</nav>
+<div class="divider" style="margin: 10px 0"></div>
+<nav style="display: grid; gap: 2px">
+<sc-for list="{{dNavItems2}}" as="n" hint-placeholder-count="3">
+<button class="navlink {{n.cls}}" onClick="{{n.go}}" aria-current="{{n.cur}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="{{n.icon}}"/></svg><span>{{n.label}}</span><sc-if value="{{n.hasCnt}}" hint-placeholder-val="{{false}}"><span class="badge b-bad cnt">{{n.cnt}}</span></sc-if></button>
+</sc-for>
+</nav>
+<div class="divider" style="margin: 10px 0"></div>
+<div style="padding: 8px 14px 4px"><div style="font-weight: 800; margin-bottom: 6px">Eating out now?</div><div class="muted" style="font-size: 13px; line-height: 1.5; margin-bottom: 10px">Scan the QR on your table to tell the owner how your meal was.</div><button class="btn btn-p" style="width: 100%" onClick="{{goDiner}}">Scan QR code</button></div>
+<div class="divider" style="margin: 10px 0"></div>
+<div style="padding: 8px 14px 6px"><div style="font-weight: 800; margin-bottom: 6px">Urgent numbers</div><div style="display: flex; justify-content: space-between; align-items: center"><span class="muted" style="font-size: 14px">Police</span><a href="tel:112" style="font-weight: 800; text-decoration: none; padding: 8px 4px">112</a></div><div style="display: flex; justify-content: space-between; align-items: center"><span class="muted" style="font-size: 14px">Ambulance</span><a href="tel:108" style="font-weight: 800; text-decoration: none; padding: 8px 4px">108</a></div></div>
+</aside>
+
+<main style="flex: 1 1 380px; min-width: 0; display: grid; gap: 20px; align-content: start">
+<div class="badge b-warn" style="white-space: normal; border-radius: 10px; font-weight: 600">Sample data for demonstration. Nothing here is real or saved permanently.</div>
+
+<!-- D HOME -->
+<sc-if value="{{pDHome}}" hint-placeholder-val="{{true}}">
+<div><h1 class="h1">Hello, {{userName}}</h1><p class="muted" style="margin: 6px 0 0; line-height: 1.6">Find restaurants near you and share private feedback with the owner.</p></div>
+<div class="g3">
+<div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">Feedback sent</div><div class="kpi" style="margin: 6px 0 2px">{{dSent}}</div><button class="btn btn-g" onClick="{{goMineView}}">View my feedback</button></div>
+<div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">Resolved by restaurants</div><div class="kpi" style="margin: 6px 0 2px">{{dResolvedCount}}</div><div class="muted" style="font-size: 13px">Updates arrive as alerts.</div></div>
+<div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">Unread alerts</div><div class="kpi" style="margin: 6px 0 2px">{{unreadCount}}</div><button class="btn btn-g" onClick="{{goAlerts}}">Open alerts</button></div>
+</div>
+<div class="g2">
+<div class="card"><h2 class="h3" style="margin-bottom: 10px">Before you eat out</h2><ul style="margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.5; font-size: 15px"><li>Look for a valid FSSAI licence displayed at the counter.</li><li>Check that the kitchen, tables and washrooms look clean.</li><li>Hot food should be served hot, cold food cold.</li><li>Be careful with food that has sat out for a long time.</li></ul></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 10px">Quick help numbers</h2><div style="display: grid; gap: 4px"><div class="divider" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0"><span>Police</span><a href="tel:112" style="font-size: 20px; font-weight: 800; text-decoration: none; padding: 6px 4px">112</a></div><div class="divider" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0"><span>Ambulance</span><a href="tel:108" style="font-size: 20px; font-weight: 800; text-decoration: none; padding: 6px 4px">108</a></div><div class="divider" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0"><span>Food safety (FSSAI)</span><a href="tel:1800112100" style="font-size: 20px; font-weight: 800; text-decoration: none; padding: 6px 4px">1800-11-2100</a></div></div><button class="btn btn-g" style="margin-top: 10px" onClick="{{goHelpTop}}">All helplines</button></div>
+</div>
+<div class="card" style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between"><div style="flex: 1 1 260px"><h2 class="h3" style="margin-bottom: 4px">At a restaurant right now?</h2><div class="muted" style="line-height: 1.5">Scan the QR code on your table to tell the owner how your meal was. It never goes public.</div></div><button class="btn btn-p" style="min-height: 50px" onClick="{{goDiner}}">Scan QR code</button></div>
+<div class="row" style="gap: 8px"><sc-for list="{{dCityChips}}" as="c" hint-placeholder-count="9"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.name}}</button></sc-for></div>
+<div><label class="lbl" for="dq">Search restaurants in {{dCity}}</label><input id="dq" class="inp" value="{{dq}}" onInput="{{onDq}}" placeholder="Name or area"></div>
+<div class="g2">
+<sc-for list="{{dRests}}" as="r" hint-placeholder-count="4">
+<div class="card" style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: flex-start"><h3 class="h3">{{r.name}}</h3><sc-if value="{{r.connected}}" hint-placeholder-val="{{true}}"><span class="badge b-ok">On Hygieo</span></sc-if></div>
+<div class="muted" style="font-size: 14px">{{r.area}}</div>
+<div style="font-size: 14px">{{r.meta}}</div>
+<div class="muted" style="font-size: 13px; line-height: 1.5; flex: 1">{{r.statusLine}}</div>
+<sc-if value="{{r.connected}}" hint-placeholder-val="{{true}}"><button class="btn btn-p" onClick="{{r.scan}}">Scan and give feedback</button></sc-if>
+<sc-if value="{{r.notConnected}}" hint-placeholder-val="{{false}}"><button class="btn btn-g" onClick="{{r.invite}}" disabled="{{r.invDisabled}}">{{r.inviteLabel}}</button></sc-if>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{dRestEmpty}}" hint-placeholder-val="{{false}}"><div class="card muted">No restaurants match your search.</div></sc-if>
+</sc-if>
+
+<!-- D SCAN -->
+<sc-if value="{{pDScan}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Scan and give feedback</h1><p class="muted" style="margin: 6px 0 0; line-height: 1.6">Feedback goes only to the restaurant. Nothing is posted publicly, and the owner never sees your name or phone number.</p></div>
+<div class="card" style="padding: 28px">
+<sc-if value="{{scanIdle}}" hint-placeholder-val="{{true}}">
+<div style="border: 2px dashed var(--input); border-radius: 16px; padding: 24px; text-align: center; background: var(--soft)">
+<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
+<div style="font-weight: 700; font-size: 17px; margin: 10px 0 4px">Scan the QR code on your table</div>
+<div class="muted" style="font-size: 14px; margin-bottom: 16px; line-height: 1.5">This confirms which restaurant you are in.</div>
+<button class="btn btn-p" onClick="{{startScan}}">Scan QR code</button>
+<div class="muted" style="font-size: 13px; margin-top: 8px">Prototype: the scan is simulated and does not use your camera.</div>
+<div class="divider" style="margin: 18px 0 14px"></div>
+<label class="lbl" for="dscc">Or type the code printed under the QR (try HY-PUNE-0142)</label>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center">
+<input id="dscc" class="inp" style="flex: 1 1 200px; width: auto" value="{{scanCode}}" onInput="{{onScanCode}}">
+<button class="btn btn-g" onClick="{{checkCode}}">Check code</button>
+</div>
+<sc-if value="{{scanHasErr}}" hint-placeholder-val="{{false}}"><div role="alert" class="badge b-bad" style="white-space: normal; border-radius: 10px; margin-top: 12px">{{scanErr}}</div></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{scanning}}" hint-placeholder-val="{{false}}">
+<div style="border-radius: 16px; background: #111111; padding: 28px; text-align: center; color: #fff">
+<div style="position: relative; width: 180px; height: 180px; margin: 0 auto 14px; border: 2px solid #FFFFFF; border-radius: 12px; overflow: hidden"><div class="psline" style="position: absolute; left: 0; right: 0; top: 6%; height: 3px; background: #FFFFFF; animation: psScan 1.6s linear infinite"></div></div>
+<div style="font-weight: 700">Looking for a QR code...</div>
+</div>
+</sc-if>
+<sc-if value="{{scanFound}}" hint-placeholder-val="{{false}}">
+<div style="background: var(--okbg); color: var(--okink); border-radius: 14px; padding: 16px 18px; margin-bottom: 18px">
+<div style="font-weight: 800">Scanned: {{profName}}, {{profAddr}}</div>
+<div style="font-size: 14px; margin: 4px 0 8px; line-height: 1.5">The owner's self-check today: {{chkPct}} done. Reported by the restaurant, not verified.</div>
+<div style="font-size: 14px">Urgent help: <a href="tel:112" style="font-weight: 700; display: inline-block; padding: 8px 4px; color: var(--okink)">Police 112</a> · <a href="tel:108" style="font-weight: 700; display: inline-block; padding: 8px 4px; color: var(--okink)">Ambulance 108</a> · <a href="tel:1800112100" style="font-weight: 700; display: inline-block; padding: 8px 4px; color: var(--okink)">FSSAI 1800-11-2100</a></div>
+<button class="btn btn-g" style="margin-top: 6px" onClick="{{rescan}}">Scan a different restaurant</button>
+</div>
+</sc-if>
+<sc-if value="{{showForm}}" hint-placeholder-val="{{false}}">
+<div style="font-weight: 700; margin-bottom: 8px">How was it?</div>
+<div class="row" style="gap: 6px; margin-bottom: 18px"><sc-for list="{{starBtns}}" as="s" hint-placeholder-count="5"><button class="chip {{s.cls}}" style="min-width: 48px; padding: 0" onClick="{{s.pick}}" aria-label="{{s.label}}" aria-pressed="{{s.on}}">{{s.n}}</button></sc-for></div>
+<div style="font-weight: 700; margin-bottom: 8px">What was the issue?</div>
+<div class="row" style="gap: 8px; margin-bottom: 14px"><sc-for list="{{fbIssues}}" as="i" hint-placeholder-count="5"><button class="chip {{i.cls}}" onClick="{{i.toggle}}" aria-pressed="{{i.on}}">{{i.label}}</button></sc-for></div>
+<label style="display: flex; gap: 12px; align-items: center; font-size: 15px; margin-bottom: 14px; min-height: 44px"><input type="checkbox" checked="{{fbSerious}}" onChange="{{onSerious}}" style="width: 22px; height: 22px"><span>Someone became unwell after eating here</span></label>
+<sc-if value="{{fbSerious}}" hint-placeholder-val="{{false}}"><div class="badge b-warn" style="white-space: normal; border-radius: 12px; padding: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 14px; display: block"><strong>Please also report this officially.</strong> Call the FSSAI toll-free line 1800-11-2100 or use the Food Safety Connect app. For a medical emergency call 108. If you are in danger, call the police on 112.</div></sc-if>
+<label class="lbl" for="dfbt">Anything to add?</label>
+<textarea id="dfbt" class="inp" rows="3" value="{{fbText}}" onInput="{{onFbText}}" style="margin-bottom: 14px"></textarea>
+<sc-if value="{{fbHasErr}}" hint-placeholder-val="{{false}}"><div role="alert" class="badge b-bad" style="white-space: normal; border-radius: 10px; margin-bottom: 12px">{{fbErr}}</div></sc-if>
+<button class="btn btn-p" style="min-height: 50px" onClick="{{fbSubmit}}">Send to the restaurant</button>
+</sc-if>
+<sc-if value="{{fbSent}}" hint-placeholder-val="{{false}}">
+<div style="background: var(--okbg); color: var(--okink); border-radius: 14px; padding: 22px"><div style="font-weight: 800; font-size: 20px">Thank you. The owner has been told.</div><div style="margin-top: 6px">You will get an alert here when they reply or resolve it.</div><button class="btn btn-g" style="margin-top: 14px" onClick="{{fbAgain}}">Leave another</button></div>
+</sc-if>
+</div>
+</sc-if>
+
+<!-- D MY FEEDBACK -->
+<sc-if value="{{pDMine}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">My feedback</h1><p class="muted" style="margin: 6px 0 0">Everything you sent, and what the restaurant did about it.</p></div>
+<div style="display: grid; gap: 12px">
+<sc-for list="{{dMine}}" as="m" hint-placeholder-count="2">
+<div class="card"><div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px"><span class="badge b-mute">{{m.stars}} star</span><span class="badge b-mute">{{m.tag}}</span><span class="badge {{m.badgeCls}}" style="margin-left: auto">{{m.statusLabel}}</span></div><div style="line-height: 1.5; margin-bottom: 12px">{{m.text}}</div><div class="row" style="gap: 8px"><span class="badge b-ok">1 Sent</span><span class="badge {{m.s2Cls}}">2 Replied</span><span class="badge {{m.s3Cls}}">3 Resolved</span></div></div>
+</sc-for>
+</div>
+<sc-if value="{{dMineEmpty}}" hint-placeholder-val="{{false}}"><div class="card muted">You have not sent any feedback yet. Scan a QR code at a restaurant to start.</div></sc-if>
+</sc-if>
+
+<!-- D HELP -->
+<sc-if value="{{pDHelp}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Helplines</h1><p class="muted" style="margin: 6px 0 0; line-height: 1.6">If something serious happened, act first.</p></div>
+<div class="card" style="background: var(--warnbg); border-color: var(--warnline)"><h2 class="h3" style="margin-bottom: 8px; color: var(--warnink)">If you or someone became seriously unwell</h2><ol style="margin: 0; padding-left: 22px; display: grid; gap: 6px; line-height: 1.5"><li>Call 108 for an ambulance if it is an emergency.</li><li>Keep any leftover food and the bill if it is safe to do so.</li><li>Report it to the food safety helpline on 1800-11-2100.</li><li>Then tell the restaurant through Hygieo if you wish.</li></ol></div>
+<div class="row" style="gap: 8px"><sc-for list="{{cityChips}}" as="c" hint-placeholder-count="9"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.name}}</button></sc-for></div>
+<div class="g3">
+<div class="card"><h2 class="h3" style="margin-bottom: 8px">Food safety (FDA)</h2><sc-for list="{{fdaRows}}" as="r" hint-placeholder-count="4"><div class="divider" style="padding: 12px 0"><div class="muted" style="font-size: 13px">{{r.who}}</div><sc-if value="{{r.hasLink}}" hint-placeholder-val="{{true}}"><a href="{{r.href}}" style="font-size: 22px; font-weight: 800; text-decoration: none; display: inline-block; padding: 4px 0">{{r.num}}</a></sc-if><sc-if value="{{r.noLink}}" hint-placeholder-val="{{false}}"><div style="font-size: 16px; font-weight: 700; color: var(--warnink); padding: 4px 0">{{r.num}}</div></sc-if><div class="muted" style="font-size: 13px; line-height: 1.5">{{r.note}}</div></div></sc-for></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 8px">Police</h2><sc-for list="{{policeRows}}" as="r" hint-placeholder-count="3"><div class="divider" style="padding: 12px 0"><div class="muted" style="font-size: 13px">{{r.who}}</div><sc-if value="{{r.hasLink}}" hint-placeholder-val="{{true}}"><a href="{{r.href}}" style="font-size: 22px; font-weight: 800; text-decoration: none; display: inline-block; padding: 4px 0">{{r.num}}</a></sc-if><sc-if value="{{r.noLink}}" hint-placeholder-val="{{false}}"><div style="font-size: 16px; font-weight: 700; color: var(--warnink); padding: 4px 0">{{r.num}}</div></sc-if><div class="muted" style="font-size: 13px; line-height: 1.5">{{r.note}}</div></div></sc-for></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 8px">Medical and consumer help</h2><sc-for list="{{otherRows}}" as="r" hint-placeholder-count="2"><div class="divider" style="padding: 12px 0"><div class="muted" style="font-size: 13px">{{r.who}}</div><a href="{{r.href}}" style="font-size: 22px; font-weight: 800; text-decoration: none; display: inline-block; padding: 4px 0">{{r.num}}</a><div class="muted" style="font-size: 13px; line-height: 1.5">{{r.note}}</div></div></sc-for></div>
+</div>
+</sc-if>
+
+<!-- D ALERTS -->
+<sc-if value="{{pDAlerts}}" hint-placeholder-val="{{false}}">
+<div class="row" style="justify-content: space-between"><div><h1 class="h1">Alerts</h1><p class="muted" style="margin: 6px 0 0">{{unreadLabel}}.</p></div><button class="btn btn-g" onClick="{{markAllRead}}">Mark all read</button></div>
+<div style="display: grid; gap: 10px"><sc-for list="{{dList}}" as="a" hint-placeholder-count="3">
+<button class="alert-row" style="border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 16px 18px" onClick="{{a.open}}"><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px"><span class="{{a.badgeCls}}">{{a.label}}</span><span class="muted" style="font-size: 12px">{{a.time}}</span><sc-if value="{{a.unread}}" hint-placeholder-val="{{false}}"><span class="badge b-bad" style="margin-left: auto">Unread</span></sc-if></div><div style="line-height: 1.5">{{a.text}}</div></button>
+</sc-for></div>
+<sc-if value="{{dEmpty}}" hint-placeholder-val="{{false}}"><div class="card muted">No alerts yet.</div></sc-if>
+</sc-if>
+
+<!-- D SETTINGS -->
+<sc-if value="{{pDSettings}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Settings</h1><p class="muted" style="margin: 6px 0 0">Appearance, alerts and your profile.</p></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 4px">Appearance</h2><p class="muted" style="margin: 0 0 14px; font-size: 14px">Choose light, dark, or follow your device.</p><div class="row" style="gap: 8px"><sc-for list="{{themeChips}}" as="c" hint-placeholder-count="3"><button class="chip {{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}">{{c.label}}</button></sc-for></div></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 4px">Alerts</h2><p class="muted" style="margin: 0 0 8px; font-size: 14px">Choose what you hear about.</p>
+<sc-for list="{{dNotifRows}}" as="n" hint-placeholder-count="3"><div class="divider" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0"><div><div style="font-weight: 700">{{n.label}}</div><div class="muted" style="font-size: 13px">{{n.d}}</div></div><button class="tog" role="switch" aria-checked="{{n.on}}" aria-label="{{n.label}}" onClick="{{n.flip}}"></button></div></sc-for>
+<h3 style="font-size: 16px; font-weight: 800; margin: 18px 0 0">Send alerts by</h3>
+<sc-for list="{{dChanRows}}" as="n" hint-placeholder-count="3"><div class="divider" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; margin-top: 8px"><div style="font-weight: 700">{{n.label}}</div><button class="tog" role="switch" aria-checked="{{n.on}}" aria-label="{{n.label}}" onClick="{{n.flip}}"></button></div></sc-for></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 4px">Your profile</h2><p class="muted" style="margin: 0 0 14px; font-size: 14px">Changes save as you type in this demo.</p>
+<div class="g2"><div><label class="lbl" for="dp-n">Name</label><input id="dp-n" class="inp" value="{{dName}}" onInput="{{onDName}}"></div><div><label class="lbl" for="dp-c">City</label><select id="dp-c" class="inp" value="{{dCity}}" onChange="{{onDCity}}"><option value="Pune">Pune</option><option value="Mumbai">Mumbai</option><option value="Delhi">Delhi</option><option value="Bengaluru">Bengaluru</option><option value="Chennai">Chennai</option><option value="Kolkata">Kolkata</option><option value="Hyderabad">Hyderabad</option><option value="Ahmedabad">Ahmedabad</option><option value="Jaipur">Jaipur</option></select></div><div><label class="lbl" for="dp-p">Phone (optional)</label><input id="dp-p" class="inp" inputmode="tel" value="{{dPhone}}" onInput="{{onDPhone}}"></div></div></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 10px">Your privacy</h2><ul style="margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.5"><li>Restaurants never see your name or phone number.</li><li>Your feedback is never posted publicly.</li><li>Privacy policy and terms: to be added before launch.</li></ul></div>
+</sc-if>
+
+<!-- D ACCOUNT -->
+<sc-if value="{{pDAccount}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Account</h1><p class="muted" style="margin: 6px 0 0">Your profile and activity.</p></div>
+<div class="card" style="display: flex; flex-wrap: wrap; gap: 18px; align-items: center"><span class="avatar" style="width: 64px; height: 64px; font-size: 24px">{{initials}}</span><div style="flex: 1 1 240px"><div style="font-size: 22px; font-weight: 800">{{userName}}</div><div class="muted" style="overflow-wrap: anywhere">{{userEmail}}</div><div style="margin-top: 6px"><span class="badge b-mute">Diner</span> <span class="badge b-mute">{{dCity}}</span></div></div><button class="btn btn-g" onClick="{{signOut}}">Sign out</button></div>
+<div class="g2"><div class="card"><div class="muted" style="font-size: 14px">Feedback sent</div><div style="font-size: 32px; font-weight: 800">{{dSent}}</div></div><div class="card"><div class="muted" style="font-size: 14px">Resolved by restaurants</div><div style="font-size: 32px; font-weight: 800">{{dResolvedCount}}</div></div></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 4px">Own a restaurant?</h2><p class="muted" style="margin: 0 0 14px; line-height: 1.5">Create a separate owner account to manage licences, checklists and diner feedback.</p><button class="btn btn-p" onClick="{{becomeOwner}}">Create an owner account</button></div>
+</sc-if>
+</main>
+</div>
+</sc-if>
+
+<!-- FOOTER (public pages) -->
+<sc-if value="{{showFooter}}" hint-placeholder-val="{{true}}">
+<footer class="divider" style="background: var(--card)">
+<div class="wrap" style="padding-top: 32px; padding-bottom: 36px; display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between">
+<div style="flex: 1 1 280px; max-width: 420px"><div style="font-weight: 800; font-size: 20px; margin-bottom: 8px">Hygieo</div><p class="muted" style="margin: 0; font-size: 14px; line-height: 1.6">Hygiene tools for restaurants. A private service, not affiliated with FSSAI or any government body.</p></div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 28px"><sc-for list="{{publicLinks}}" as="l" hint-placeholder-count="6"><button class="navlink" style="width: auto" onClick="{{l.go}}">{{l.label}}</button></sc-for></div>
+</div>
+<div class="wrap divider" style="padding-top: 16px; padding-bottom: 28px; font-size: 13px; line-height: 1.6" ><span class="muted">Hygieo is a design prototype with a placeholder name. Privacy policy, Terms and Grievance contact to be added before launch. In an emergency call 112 or 108.</span></div>
+</footer>
+</sc-if>
+
+<!-- TOAST -->
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}"><div role="status" style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 14px 22px; border-radius: 12px; font-weight: 600; z-index: 60; max-width: 90vw; box-shadow: 0 10px 30px rgba(0,0,0,.3)">{{toast}}</div></sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":5200}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+let pref = 'system';
+try { const v = localStorage.getItem('ps-theme'); if (v === 'light' || v === 'dark' || v === 'system') pref = v; } catch (e) {}
+this.state = {
+view: 'home', user: null, next: 'dash', menu: '', searchQ: '', aRole: 'owner', dCity: 'Pune', dq: '', dPhone: '', invited: {},
+dAlerts: [
+{ id: 'd1', type: 'resolved', text: 'Sample Kitchen marked your feedback about cold food at Table 2 as resolved.', time: '2 days ago', read: false, go: 'd-mine' },
+{ id: 'd2', type: 'system', text: 'Welcome to Hygieo. Scan a table QR code to give private feedback.', time: '1 week ago', read: true, go: 'diner' }
+],
+dNotif: { reply: true, resolved: true, system: true, sms: true, email: true, app: true }, themePref: pref, howTab: 'owner', faq: -1,
+aEmail: '', aPass: '', aName: '', aRest: '', aCity: 'Pune', aAgree: false, aErr: '',
+alerts: [
+{ id: 'a1', type: 'doc', text: 'FSSAI licence has expired. Warning 1 was sent to you.', time: '3 days ago', read: false, go: 'docs' },
+{ id: 'a2', type: 'feedback', text: 'New feedback at Table 6: 2 stars. The water jug looked unclean.', time: '2 hours ago', read: false, go: 'feedback' },
+{ id: 'a3', type: 'doc', text: 'Pest control certificate has expired. Renew it to avoid further warnings.', time: '7 days ago', read: false, go: 'docs' },
+{ id: 'a4', type: 'checklist', text: "Yesterday's checklist was not submitted.", time: 'Yesterday', read: true, go: 'checklist' },
+{ id: 'a5', type: 'system', text: 'Welcome to Hygieo. Complete your restaurant profile in Settings.', time: '1 week ago', read: true, go: 'settings' }
+],
+aFilter: 'All',
+notif: { doc: true, feedback: true, checklist: true, system: true, sms: true, email: true, app: true },
+chk: {}, submitted: false,
+fixed: {}, stage: 1, escalated: false, gap: 7, mgr: true,
+inbox: [
+{ id: 'f1', stars: 2, tag: 'Table 6', text: 'The water jug looked unclean.', status: 'New', replied: false },
+{ id: 'f2', stars: 3, tag: 'Table 2', text: 'Food came cold, staff apologised.', status: 'Resolved', replied: true, mine: true },
+{ id: 'f3', stars: 5, tag: 'Table 4', text: 'Lovely food and a very clean place.', status: 'New', replied: false }
+],
+fFilter: 'All',
+scan: 'idle', scanErr: '', scanCode: '', fbRating: 0, fbIssues: [], fbSerious: false, fbText: '', fbSent: false, fbErr: '',
+trained: {}, nCity: 'Pune',
+prof: { name: 'Sample Kitchen', addr: 'Koregaon Park, Pune', city: 'Pune', fssai: '', phone: '' },
+plan: 'Growth',
+team: [{ n: 'Owner (you)', e: 'owner@samplekitchen.example', role: 'Owner' }, { n: 'Outlet manager', e: 'manager@samplekitchen.example', role: 'Manager' }, { n: 'Head cook', e: 'kitchen@samplekitchen.example', role: 'Staff' }],
+invEmail: '', invErr: '',
+cName: '', cEmail: '', cMsg: '', cErr: '', cSent: false,
+toast: '', repTick: 0
+};
+}
+toastMsg(msg, extra) {
+this.setState({ ...(extra || {}), toast: msg });
+clearTimeout(this._t);
+this._t = setTimeout(() => this.setState({ toast: '' }), 2600);
+}
+renderVals() {
+const s = this.state;
+const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const IC = { dash: 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z', check: 'M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2', docs: 'M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h6', fb: 'M4 4h16v12H8l-4 4z', qr: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z', rep: 'M5 20V10M12 20V4M19 20v-7', train: 'M3 9l9-5 9 5-9 5zM7 12v4c0 1 2.5 2.5 5 2.5s5-1.5 5-2.5v-4', help: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01', bell: 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 0 0 4 0', set: 'M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4', user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0', sun: 'M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4', moon: 'M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z' };
+
+// theme
+let eff = s.themePref;
+if (eff === 'system') { try { eff = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } catch (e) { eff = 'light'; } }
+const setTheme = (p) => () => { this.setState({ themePref: p }); try { localStorage.setItem('ps-theme', p); } catch (e) {} };
+
+// view guard
+const OWNER_ONLY = ['dash', 'checklist', 'docs', 'feedback', 'qr', 'reports', 'training', 'alerts', 'settings', 'account'];
+const DINER_ONLY = ['d-home', 'd-mine', 'd-alerts', 'd-settings', 'd-account'];
+const isOwner = !!s.user && s.user.role === 'owner';
+const isDinerUser = !!s.user && s.user.role === 'diner';
+let view = s.view;
+if (OWNER_ONLY.includes(view) && !isOwner) view = s.user ? 'd-home' : 'signin';
+else if (DINER_ONLY.includes(view) && !isDinerUser) view = s.user ? 'dash' : 'signin';
+else if (view === 'help' && !s.user) view = 'signin';
+const inApp = isOwner && (OWNER_ONLY.includes(view) || view === 'help');
+const inDapp = isDinerUser && (DINER_ONLY.includes(view) || view === 'help' || view === 'diner');
+const goV = (v) => () => this.setState({ view: v, menu: '' });
+const chip = (label, on, pick) => ({ label, on: on ? 'true' : 'false', cls: on ? 'on' : '', pick });
+
+// profile
+const prof = s.prof;
+const profFssai = prof.fssai.trim() || '[ADD IN SETTINGS]';
+const profPhone = prof.phone.trim() || '[ADD IN SETTINGS]';
+const pf = (k) => (e) => this.setState({ prof: { ...s.prof, [k]: e.target.value } });
+
+// checklist
+const GROUPS = [
+['Cleaning and pests', ['Floors, drains and prep tables cleaned', 'Waste bins covered and emptied', 'Pest control done this month']],
+['Temperatures', ['Fridge at 5 degrees C or below', 'Freezer at -18 degrees C or below', 'Hot food held at 60 degrees C or above']],
+['Food handling', ['Raw and cooked food stored separately', 'Cooked food cooled and covered before storage', 'Food labelled with date and time opened', 'Expired or spoiled stock removed', 'Cooking oil checked and changed on schedule']],
+['Staff', ['Staff in caps, gloves and clean aprons', 'Hand-wash station stocked with soap', 'No staff working with illness symptoms today']],
+['Water and licence', ['Drinking water tank cleaned this week', 'FSSAI licence displayed and valid']]
+];
+let k = 0;
+const flat = [];
+const groups = GROUPS.map(g => {
+let gd = 0;
+const items = g[1].map(t => { const i = k++; const on = !!s.chk[i]; if (on) gd++; flat.push({ t, on }); return { t, on: on ? 'true' : 'false', cls: on ? 'on' : '', state: on ? 'Done' : 'Pending', toggle: () => this.setState({ chk: { ...s.chk, [i]: !s.chk[i] }, submitted: false }) }; });
+return { name: g[0], items, count: gd + ' of ' + g[1].length };
+});
+const total = k;
+const done = flat.filter(x => x.on).length;
+const pct = Math.round(done / total * 100);
+const chkMsg = done === 0 ? 'Tick what you have done today.' : (done === total ? 'All done. Your records are ready to show an inspector.' : (pct >= 75 ? 'Nearly there. Finish the last items.' : 'Keep going. Each item is saved with a time stamp.'));
+
+// alerts
+const newAlert = (type, text, go) => ({ id: 'n' + Math.random().toString(36).slice(2), type, text, time: 'Just now', read: false, go });
+const withAlert = (type, text, go) => [newAlert(type, text, go)].concat(s.alerts);
+const TYPE = { doc: ['Document', 'badge b-bad'], feedback: ['Feedback', 'badge b-warn'], checklist: ['Checklist', 'badge b-ok'], system: ['System', 'badge b-mute'] };
+const vis = s.alerts.filter(a => s.notif[a.type]);
+const unread = vis.filter(a => !a.read).length;
+const alertRow = (a) => ({ text: a.text, time: a.time, label: TYPE[a.type][0], badgeCls: TYPE[a.type][1], unread: !a.read, open: () => this.setState({ alerts: s.alerts.map(x => x.id === a.id ? { ...x, read: true } : x), view: a.go, menu: '' }) });
+const markAll = () => this.setState({ alerts: s.alerts.map(a => ({ ...a, read: true })) });
+const afl = s.aFilter;
+const aShown = vis.filter(a => afl === 'All' || (afl === 'Unread' ? !a.read : a.type === afl));
+
+// diner alerts, restaurants and feedback
+const newDAlert = (type, text, go) => ({ id: 'dn' + Math.random().toString(36).slice(2), type, text, time: 'Just now', read: false, go });
+const withDAlert = (type, text, go) => [newDAlert(type, text, go)].concat(s.dAlerts);
+const dTYPE = { reply: ['Reply', 'badge b-ok'], resolved: ['Resolved', 'badge b-ok'], system: ['System', 'badge b-mute'] };
+const dvis = s.dAlerts.filter(a => s.dNotif[a.type]);
+const dunread = dvis.filter(a => !a.read).length;
+const dAlertRow = (a) => ({ text: a.text, time: a.time, label: dTYPE[a.type][0], badgeCls: dTYPE[a.type][1], unread: !a.read, open: () => this.setState({ dAlerts: s.dAlerts.map(x => x.id === a.id ? { ...x, read: true } : x), view: a.go, menu: '' }) });
+const markAllD = () => this.setState({ dAlerts: s.dAlerts.map(a => ({ ...a, read: true })) });
+const bellList = isDinerUser ? dvis : vis;
+const bellUnread = isDinerUser ? dunread : unread;
+const bellRow = isDinerUser ? dAlertRow : alertRow;
+const DAREAS = { Pune: ['Koregaon Park', 'FC Road', 'Camp', 'Kothrud', 'Viman Nagar', 'Aundh', 'Baner', 'Shivajinagar', 'Deccan', 'Hadapsar', 'Kalyani Nagar', 'Pimpri'], Mumbai: ['Colaba', 'Bandra West', 'Andheri East', 'Dadar', 'Juhu', 'Powai', 'Lower Parel', 'Borivali', 'Chembur', 'Malad West', 'Versova', 'Fort'], Delhi: ['Connaught Place', 'Hauz Khas', 'Chandni Chowk', 'Saket', 'Karol Bagh', 'Lajpat Nagar', 'Dwarka', 'Rajouri Garden', 'Nehru Place', 'Greater Kailash', 'Paharganj', 'Janakpuri'], Bengaluru: ['Indiranagar', 'Koramangala', 'Jayanagar', 'MG Road', 'Whitefield', 'HSR Layout', 'Malleshwaram', 'JP Nagar', 'Electronic City', 'Basavanagudi', 'Marathahalli', 'Church Street'], Chennai: ['T. Nagar', 'Mylapore', 'Adyar', 'Anna Nagar', 'Nungambakkam', 'Velachery', 'Besant Nagar', 'Egmore', 'Porur', 'Guindy', 'Alwarpet', 'Tambaram'], Kolkata: ['Park Street', 'Salt Lake', 'Gariahat', 'Howrah', 'New Town', 'Ballygunge', 'Dum Dum', 'Behala', 'Esplanade', 'Jadavpur', 'Tollygunge', 'Shyambazar'], Hyderabad: ['Banjara Hills', 'Charminar', 'Jubilee Hills', 'Gachibowli', 'Secunderabad', 'Madhapur', 'Kukatpally', 'Begumpet', 'Abids', 'Kondapur', 'Tolichowki', 'Himayatnagar'], Ahmedabad: ['Law Garden', 'Navrangpura', 'Maninagar', 'Satellite', 'Bodakdev', 'Prahlad Nagar', 'Vastrapur', 'Ellis Bridge', 'Bopal', 'Paldi', 'Thaltej', 'Naranpura'], Jaipur: ['C-Scheme', 'Malviya Nagar', 'Johari Bazaar', 'Vaishali Nagar', 'Mansarovar', 'Bani Park', 'Tonk Road', 'Jhotwara', 'Raja Park', 'Sodala', 'Ajmer Road', 'Pink Square'] };
+const DBASE = [['Sample Kitchen', 'North Indian', '11 am to 11 pm', 'Rs 800'], ['Sample Tiffins', 'South Indian', '7 am to 10 pm', 'Rs 300'], ['Sample Biryani House', 'Biryani', '12 pm to 11 pm', 'Rs 600'], ['Sample Chaat Corner', 'Street food', '4 pm to 11 pm', 'Rs 200'], ['Sample Cafe', 'Cafe and bakery', '8 am to 11 pm', 'Rs 500'], ['Sample Dosa Point', 'South Indian', '7 am to 11 pm', 'Rs 250'], ['Sample Dhaba', 'Punjabi', '11 am to 12 am', 'Rs 700'], ['Sample Thali House', 'Gujarati and Rajasthani thali', '11 am to 10 pm', 'Rs 450'], ['Sample Grill', 'Kebabs and tandoor', '12 pm to 11 pm', 'Rs 900'], ['Sample Chinese Wok', 'Indo-Chinese', '12 pm to 11 pm', 'Rs 550'], ['Sample Sweets and Snacks', 'Sweets and snacks', '8 am to 10 pm', 'Rs 150'], ['Sample Seafood Kitchen', 'Seafood and coastal', '12 pm to 11 pm', 'Rs 850'], ['Sample Pizza and Pasta', 'Italian', '12 pm to 11 pm', 'Rs 650'], ['Sample Juice Bar', 'Juices and healthy bowls', '8 am to 10 pm', 'Rs 300'], ['Sample Veg Diner', 'Pure vegetarian', '10 am to 11 pm', 'Rs 400'], ['Sample Rolls and Wraps', 'Fast food', '11 am to 1 am', 'Rs 250'], ['Sample Family Restaurant', 'Multi-cuisine', '11 am to 11 pm', 'Rs 750']];
+const dqs = s.dq.trim().toLowerCase();
+const dRests = DAREAS[s.dCity].map((a, i) => {
+const b = DBASE[i]; const connected = s.dCity === 'Pune' && i === 0; const key = s.dCity + i; const inv = !!s.invited[key];
+return { name: b[0], area: a, meta: b[1] + ' · ' + b[2] + ' · ' + b[3] + ' for two', connected, notConnected: !connected, statusLine: connected ? "Owner's self-check today: " + pct + '%. Reported by the restaurant, not verified.' : 'Not on Hygieo yet.', scan: goV('diner'), inviteLabel: inv ? 'Invited' : 'Invite this restaurant', invDisabled: inv, invite: () => this.toastMsg('Noted. The live version would email the owner an invitation.', { invited: { ...s.invited, [key]: true } }) };
+}).filter(r => !dqs || (r.name + ' ' + r.area + ' ' + r.meta).toLowerCase().includes(dqs));
+const dMine = s.inbox.filter(m => m.mine).map(m => { const res = m.status === 'Resolved'; return { stars: m.stars, tag: m.tag, text: m.text, statusLabel: res ? 'Resolved by the restaurant' : (m.replied ? 'Restaurant replied' : 'Sent to the restaurant'), badgeCls: res || m.replied ? 'b-ok' : 'b-mute', s2Cls: res || m.replied ? 'b-ok' : 'b-mute', s3Cls: res ? 'b-ok' : 'b-mute' }; });
+const dIcSearch = 'M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15z';
+const DNAV = [['d-home', 'Explore restaurants', dIcSearch, 0], ['diner', 'Scan and give feedback', IC.qr, 0], ['d-mine', 'My feedback', IC.fb, 0], ['help', 'Helplines', IC.help, 0]];
+const DNAV2 = [['d-alerts', 'Alerts', IC.bell, dunread], ['d-settings', 'Settings', IC.set, 0], ['d-account', 'Account', IC.user, 0]];
+
+// documents and warnings
+const DOCS = [
+{ n: 'FSSAI licence', exp: '14 Nov 2026', lapsed: true },
+{ n: 'Pest control certificate', exp: '10 Nov 2026', lapsed: true },
+{ n: 'Staff medical fitness certificates', exp: '12 Nov 2026', lapsed: true },
+{ n: 'Water quality test report', exp: '03 Dec 2026', soon: true },
+{ n: 'Fire safety certificate', exp: '03 Mar 2027' },
+{ n: 'Shops and establishment licence', exp: '30 Jun 2027' }
+];
+const overdue = DOCS.filter((d, i) => d.lapsed && !s.fixed[i]).length;
+const clear = overdue === 0;
+const stage = s.stage;
+const gap = s.gap;
+const stepDefs = [
+['Warning 1', 'Day 0', 'Sent to the owner by SMS, email and app the day a document lapses.'],
+['Warning 2', 'Day ' + gap, 'Repeated, with a copy to the outlet manager if you chose that.'],
+['Warning 3 (final)', 'Day ' + (gap * 2), 'States that the department will be informed in ' + gap + ' days.'],
+['Report to the Food Safety Officer', 'Day ' + (gap * 3), 'Factual compliance report with the full warning history.']
+];
+const steps = stepDefs.map((d, i) => {
+const n = i + 1; const sent = !clear && n <= stage;
+let cls = ''; let tag = 'Upcoming';
+if (clear) { cls = 'clear'; tag = 'Not needed'; } else if (sent && n === 4) { cls = 'bad'; tag = 'Sent'; } else if (sent) { cls = 'sent'; tag = n === stage ? 'Sent now' : 'Sent'; }
+return { t: d[0], day: d[1], d: d[2], cls, tag };
+});
+const statusLine = clear ? 'All documents are valid. No warnings pending.' : (stage < 4 ? 'Day ' + ((stage - 1) * gap) + ' after the lapse. Warning ' + stage + ' of 3 sent. ' + overdue + ' document(s) still overdue.' : 'Day ' + (gap * 3) + '. Report sent to the Food Safety Officer. ' + overdue + ' document(s) still overdue.');
+const advDisabled = clear || stage >= 4;
+const docsValid = DOCS.length - overdue;
+const docs = DOCS.map((d, i) => { const lapsed = d.lapsed && !s.fixed[i]; const renewed = d.lapsed && s.fixed[i]; return { n: d.n, exp: d.exp, status: lapsed ? 'Overdue' : (renewed ? 'Renewed' : (d.soon ? 'Due soon' : 'Valid')), badgeCls: lapsed ? 'b-bad' : (d.soon ? 'b-warn' : 'b-ok'), canRenew: lapsed, renew: () => { const nf = { ...s.fixed, [i]: true }; const left = DOCS.filter((x, j) => x.lapsed && !nf[j]).length; this.setState({ fixed: nf, alerts: left === 0 ? withAlert('doc', 'All documents are renewed. No warnings pending.', 'docs') : s.alerts }); } }; });
+const openFb = s.inbox.filter(m => m.status === 'New').length;
+const resolvedN = s.inbox.filter(m => m.status === 'Resolved').length;
+const repFeed = s.inbox.length + ' received, ' + resolvedN + ' resolved';
+
+// feedback list
+const ff = s.fFilter;
+const fShown = s.inbox.filter(m => ff === 'All' || m.status === ff);
+const fItems = fShown.map(m => ({ stars: m.stars, tag: m.tag, text: m.text, isNew: m.status === 'New', isDone: m.status === 'Resolved', replied: m.replied, notReplied: !m.replied, resolve: () => this.setState({ inbox: s.inbox.map(x => x.id === m.id ? { ...x, status: 'Resolved' } : x), dAlerts: m.mine ? withDAlert('resolved', prof.name + ' marked your feedback as resolved: ' + m.text, 'd-mine') : s.dAlerts }), reply: () => this.toastMsg('Thank-you reply sent to the diner', { inbox: s.inbox.map(x => x.id === m.id ? { ...x, replied: true } : x), dAlerts: m.mine ? withDAlert('reply', prof.name + ' replied to your feedback. Thank you for telling them.', 'd-mine') : s.dAlerts }) }));
+
+// diner
+const FBI = ['Dirty tables or utensils', 'Unclean water', 'Food was stale or cold', 'Foreign object in food', 'Staff hygiene'];
+const star = (n) => ({ n: String(n), label: n + ' star' + (n > 1 ? 's' : ''), on: s.fbRating === n ? 'true' : 'false', cls: s.fbRating === n ? 'on' : '', pick: () => this.setState({ fbRating: n }) });
+
+// helplines
+const CITIES = { Pune: ['Maharashtra', '1800-222-365'], Mumbai: ['Maharashtra', '1800-222-365'], Delhi: ['Delhi', ''], Bengaluru: ['Karnataka', ''], Chennai: ['Tamil Nadu', ''], Kolkata: ['West Bengal', ''], Hyderabad: ['Telangana', ''], Ahmedabad: ['Gujarat', ''], Jaipur: ['Rajasthan', ''] };
+const ci = CITIES[s.nCity];
+const mk = (who, num, href, note) => ({ who, num, href, note, hasLink: !!href, noLink: !href });
+
+// training
+const MODS = [['Kitchen hygiene basics', '15 minutes'], ['Safe food storage', '12 minutes'], ['Handwashing and gloves', '8 minutes'], ['Pest control', '10 minutes'], ['Allergen awareness', '14 minutes'], ['Handling a complaint politely', '10 minutes']];
+const trainDone = MODS.filter((m, i) => s.trained[i]).length;
+
+// plans
+const PLANS = [
+{ n: 'Starter', who: 'One kitchen', price: 'Rs [YOUR PRICE] per month', pts: ['Daily checklist and records', 'Private diner feedback with QR', 'Document expiry tracker and warnings'] },
+{ n: 'Growth', who: 'Busy restaurants', price: 'Rs [YOUR PRICE] per month', pts: ['Everything in Starter', 'Staff training library', 'Inspection-ready report', 'SMS alerts for feedback'] },
+{ n: 'Chain', who: '6 or more outlets', price: '[YOUR PRICE], custom', pts: ['All outlets in one dashboard', 'Compare outlets and trends', 'Monthly compliance summary', 'Priority support'] }
+];
+const FAQ = [
+['Is Hygieo a government website?', 'No. It is a private service for restaurants. For official complaints and licences, the government channels remain the place to go.'],
+['Do you publish complaints about my restaurant?', 'No. Diner feedback through Hygieo goes only to you. We do not post it publicly and nobody can see it but your team.'],
+['What happens if a diner reports someone fell ill?', 'We tell the diner how to report it officially, and we alert you straight away so you can respond. We never ask a diner to hold back an official report.'],
+['What happens if I miss a licence renewal?', 'You get three warnings a week apart by SMS, email and app. If the document is still overdue after the third, a factual compliance report goes to the area Food Safety Officer. You agree to this when you sign up, and a correction note is sent once you renew.'],
+['What does the department see in that report?', 'Your restaurant details, the overdue documents, the warning dates and your checklist record. It never includes diner names, phone numbers or private feedback.'],
+['Will this replace an inspection or an audit?', 'No. It helps you stay prepared and keep clear records. An inspection is still done by the food safety authority.'],
+['Can I run several outlets from one account?', 'Yes. The chain plan shows every outlet in one dashboard so you can compare them and spot problems early.']
+];
+
+// greeting and names
+const hr = new Date().getHours();
+const first = s.user ? s.user.name.split(' ')[0] : '';
+const greeting = (hr < 12 ? 'Good morning' : (hr < 17 ? 'Good afternoon' : 'Good evening')) + ', ' + first;
+const initials = s.user ? s.user.name.split(' ').map(w => w.charAt(0)).join('').slice(0, 2).toUpperCase() : '';
+
+// navigation
+const NAV = [['dash', 'Dashboard', IC.dash, 0], ['checklist', 'Daily checklist', IC.check, 0], ['docs', 'Documents and warnings', IC.docs, overdue], ['feedback', 'Diner feedback', IC.fb, openFb], ['qr', 'Table QR codes', IC.qr, 0], ['reports', 'Reports', IC.rep, 0], ['training', 'Staff training', IC.train, 0], ['help', 'Helplines', IC.help, 0]];
+const NAV2 = [['alerts', 'Alerts', IC.bell, unread], ['settings', 'Settings', IC.set, 0], ['account', 'Account', IC.user, 0]];
+const navMap = (n) => ({ label: n[1], icon: n[2], cls: view === n[0] ? 'on' : '', cur: view === n[0] ? 'page' : 'false', go: goV(n[0]), cnt: String(n[3]), hasCnt: n[3] > 0 });
+
+const section = (id) => () => { this.setState({ view: 'home', menu: '' }); setTimeout(() => { try { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth' }); } catch (e) {} }, 80); };
+const publicLinks = [['How it works', 'how'], ['Features', 'features'], ['Pricing', 'pricing'], ['FAQ', 'faq'], ['Contact', 'contact']].map(l => ({ label: l[0], go: section(l[1]) })).concat([{ label: 'Diner demo', go: goV('diner') }]);
+
+const bars = [['Mon', 78], ['Tue', 84], ['Wed', 91], ['Thu', 100], ['Fri', 88], ['Sat', 95]].map(b => ({ d: b[0], v: b[1] + '%', style: 'width: 100%; max-width: 44px; border-radius: 8px 8px 0 0; background: var(--okbg); height: ' + Math.round(b[1] * 1.0) + 'px' })).concat([{ d: 'Today', v: pct + '%', style: 'width: 100%; max-width: 44px; border-radius: 8px 8px 0 0; background: var(--brand); height: ' + Math.max(4, pct) + 'px' }]);
+
+const attention = [];
+if (overdue > 0) attention.push({ t: overdue + ' document(s) overdue. Warning ' + stage + ' of 3 sent.', btn: 'Fix now', go: goV('docs') });
+if (openFb > 0) attention.push({ t: openFb + ' diner feedback message(s) waiting for you.', btn: 'Read', go: goV('feedback') });
+if (!s.submitted) attention.push({ t: "Today's checklist is not submitted yet (" + pct + '% done).', btn: 'Open', go: goV('checklist') });
+if (attention.length === 0) attention.push({ t: 'Nothing urgent. Good work.', btn: 'Reports', go: goV('reports') });
+
+const SEARCH_D = [['Explore restaurants', 'd-home', 'find restaurants city invite'], ['Scan and give feedback', 'diner', 'scan qr code feedback review complaint'], ['My feedback', 'd-mine', 'sent status resolved reply'], ['Helplines', 'help', 'police fda 112 108 numbers fssai phone report'], ['Alerts', 'd-alerts', 'notifications bell'], ['Settings', 'd-settings', 'theme dark light notifications profile'], ['Account', 'd-account', 'profile owner account']];
+const SEARCH_O = [['Dashboard', 'dash', 'home overview'], ['Daily checklist', 'checklist', 'tick hygiene kitchen'], ['Documents and warnings', 'docs', 'licence fssai renew expiry pest certificate'], ['Diner feedback', 'feedback', 'reviews complaints customers'], ['Table QR codes', 'qr', 'scan code tables'], ['Reports', 'reports', 'inspection report'], ['Staff training', 'training', 'lessons learn'], ['Helplines', 'help', 'police fda 112 108 numbers fssai phone'], ['Alerts', 'alerts', 'notifications bell'], ['Settings', 'settings', 'theme dark light profile warning notifications'], ['Account', 'account', 'plan team invite billing profile']];
+const SEARCH = isDinerUser ? SEARCH_D : SEARCH_O;
+const sq = s.searchQ.trim().toLowerCase();
+const searchResults = sq ? SEARCH.filter(x => (x[0] + ' ' + x[2]).toLowerCase().includes(sq)).map(x => ({ label: x[0], go: () => this.setState({ view: x[1], searchQ: '', menu: '' }) })) : [];
+const extra = {
+searchQ: s.searchQ, onSearch: (e) => this.setState({ searchQ: e.target.value, menu: '' }),
+hasSearch: sq.length > 0, searchResults, noResults: sq.length > 0 && searchResults.length === 0,
+toggleQuick: () => this.setState({ menu: s.menu === 'quick' ? '' : 'quick' }),
+quickOpen: s.menu === 'quick', quickOpenStr: s.menu === 'quick' ? 'true' : 'false',
+quickMenu: [{ label: "Tick today's checklist", go: goV('checklist') }, { label: 'Renew a document', go: goV('docs') }, { label: 'Reply to feedback', go: goV('feedback') }, { label: 'Open the diner view', go: goV('diner') }, { label: 'Invite a teammate', go: goV('account') }],
+goChecklistTop: goV('checklist'), goHelpTop: goV('help'),
+searchPh: isDinerUser ? 'Search pages and help' : 'Search pages, documents, helplines',
+pDHome: view === 'd-home', pDScan: view === 'diner', pDMine: view === 'd-mine', pDHelp: view === 'help', pDAlerts: view === 'd-alerts', pDSettings: view === 'd-settings', pDAccount: view === 'd-account',
+dNavItems: DNAV.map(navMap), dNavItems2: DNAV2.map(navMap),
+dCity: s.dCity, dq: s.dq, onDq: (e) => this.setState({ dq: e.target.value }),
+dCityChips: Object.keys(DAREAS).map(c => ({ name: c, on: c === s.dCity ? 'true' : 'false', cls: c === s.dCity ? 'on' : '', pick: () => this.setState({ dCity: c, dq: '' }) })),
+dRests, dRestEmpty: dRests.length === 0,
+dMine, dMineEmpty: dMine.length === 0,
+dList: dvis.map(dAlertRow), dEmpty: dvis.length === 0,
+dNotifRows: [['reply', 'Restaurant replies', 'When a restaurant replies to your feedback.'], ['resolved', 'Resolved updates', 'When a restaurant marks your feedback resolved.'], ['system', 'Tips and news', 'Product updates from Hygieo.']].map(r => ({ label: r[1], d: r[2], on: s.dNotif[r[0]] ? 'true' : 'false', flip: () => this.setState({ dNotif: { ...s.dNotif, [r[0]]: !s.dNotif[r[0]] } }) })),
+dChanRows: [['sms', 'SMS'], ['email', 'Email'], ['app', 'In the app']].map(r => ({ label: r[1], on: s.dNotif[r[0]] ? 'true' : 'false', flip: () => this.setState({ dNotif: { ...s.dNotif, [r[0]]: !s.dNotif[r[0]] } }) })),
+dName: s.user ? s.user.name : '', onDName: (e) => this.setState({ user: { ...s.user, name: e.target.value } }),
+onDCity: (e) => this.setState({ dCity: e.target.value }),
+dPhone: s.dPhone, onDPhone: (e) => this.setState({ dPhone: e.target.value }),
+dSent: String(dMine.length), dResolvedCount: String(s.inbox.filter(m => m.mine && m.status === 'Resolved').length),
+becomeOwner: () => this.setState({ user: null, view: 'signup', aRole: 'owner', aErr: '', menu: '' }),
+chkChipLabel: "Today's checklist is " + pct + ' percent done. Open checklist.',
+theme: eff,
+goLogo: goV(isDinerUser ? 'd-home' : (s.user ? 'dash' : 'home')),
+showPublicNav: !s.user, publicLinks,
+toggleTheme: setTheme(eff === 'dark' ? 'light' : 'dark'),
+themeLabel: eff === 'dark' ? 'Switch to light mode' : 'Switch to dark mode',
+themeIcon: eff === 'dark' ? IC.sun : IC.moon,
+signedIn: !!s.user, signedOut: !s.user,
+goSignin: goV('signin'), goSignup: goV('signup'), goDiner: goV('diner'),
+toggleAlerts: () => this.setState({ menu: s.menu === 'alerts' ? '' : 'alerts' }),
+alertsOpen: s.menu === 'alerts', alertsOpenStr: s.menu === 'alerts' ? 'true' : 'false',
+bellLabel: bellUnread + ' unread alert' + (bellUnread === 1 ? '' : 's'),
+hasUnread: bellUnread > 0, unreadCount: bellUnread > 99 ? '99+' : String(bellUnread),
+unreadLabel: bellUnread + ' unread',
+alertPreview: bellList.slice(0, 5).map(bellRow), noAlerts: bellList.length === 0,
+goMineView: goV('d-mine'), markAllRead: isDinerUser ? markAllD : markAll,goAlerts: goV(isDinerUser ? 'd-alerts' : 'alerts'),
+toggleAccount: () => this.setState({ menu: s.menu === 'account' ? '' : 'account' }),
+accountOpen: s.menu === 'account', accountOpenStr: s.menu === 'account' ? 'true' : 'false',
+initials, userName: s.user ? s.user.name : '', userEmail: s.user ? s.user.email : '',
+acctItems: isDinerUser ? [{ label: 'Account', go: goV('d-account') }, { label: 'Settings', go: goV('d-settings') }, { label: 'Alerts', go: goV('d-alerts') }] : [{ label: 'Account', go: goV('account') }, { label: 'Settings', go: goV('settings') }, { label: 'Alerts', go: goV('alerts') }],
+signOut: () => this.setState({ user: null, view: 'home', menu: '' }),
+
+isHome: view === 'home', isSignin: view === 'signin', isSignup: view === 'signup', isDiner: view === 'diner' && !isDinerUser, inApp, inDapp, ownerBar: isOwner, dinerBar: isDinerUser,
+showFooter: !inApp && !inDapp,
+chkPct: pct + '%', newFbCount: String(openFb), overdueCount: String(overdue),
+howChips: [chip('For owners', s.howTab === 'owner', () => this.setState({ howTab: 'owner' })), chip('For diners', s.howTab === 'diner', () => this.setState({ howTab: 'diner' }))],
+howSteps: s.howTab === 'owner' ? [
+{ n: '1', t: 'Set up your restaurant', d: 'Add your licences and certificates with their expiry dates, and print the table QR codes.' },
+{ n: '2', t: 'Tick the daily checklist', d: 'Your team ticks 16 simple points on a phone. Every tick is saved with the time as your record.' },
+{ n: '3', t: 'Fix issues and renew on time', d: 'Reply to private feedback and renew documents when warned. Stay ready for any inspection.' }
+] : [
+{ n: '1', t: 'Scan the table QR code', d: 'This confirms which restaurant you are in. No app to install.' },
+{ n: '2', t: 'Tell the owner what happened', d: 'Give a star rating, tick the issue and add a note if you like.' },
+{ n: '3', t: 'Get help if it is serious', d: 'If someone became ill, you are shown how to report it officially and who to call.' }
+],
+features: [
+{ t: 'Daily hygiene checklist', d: 'Staff tick items on a phone. Every tick is time stamped and kept as a record.', icon: IC.check },
+{ t: 'Private diner feedback', d: 'Diners scan the QR code on the table, confirm the restaurant and tell you about a problem in seconds.', icon: IC.qr },
+{ t: 'Expiry tracker and warnings', d: 'Track every licence and certificate. Owners get three warnings before the department is told.', icon: 'M12 7v5l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z' },
+{ t: 'Inspection-ready reports', d: 'Show your checklist history, documents and fixes on a clean one-page report.', icon: IC.docs },
+{ t: 'Staff training', d: 'Short lessons on handwashing, storage and pests. Track who has done them.', icon: IC.train },
+{ t: 'Alerts that matter', d: 'See unread alerts at a glance and choose which ones reach you by SMS, email and app.', icon: IC.bell }
+],
+ladder: stepDefs.map(d => ({ t: d[0], day: d[1], d: d[2] })),
+promises: [
+{ t: 'No pay-to-remove', d: 'Nobody can pay to hide or edit feedback. Paid plans only add tools.' },
+{ t: 'Verified diners', d: 'Feedback needs a scanned table code. Repeat or fake reports are limited.' },
+{ t: 'Official results only', d: 'Inspection outcomes are shown only when the authority has published them.' },
+{ t: 'Your data is protected', d: 'We ask for consent, store data securely and hide diner phone numbers.' }
+],
+plans: PLANS.map((p, i) => ({ ...p, pts: p.pts.map(t => ({ t })), btnCls: i === 1 ? 'btn-p' : 'btn-g' })),
+faq: FAQ.map((f, i) => ({ q: f[0], a: f[1], open: s.faq === i, exp: s.faq === i ? 'true' : 'false', sign: s.faq === i ? '−' : '+', toggle: () => this.setState({ faq: s.faq === i ? -1 : i }) })),
+cName: s.cName, onCName: (e) => this.setState({ cName: e.target.value }),
+cEmail: s.cEmail, onCEmail: (e) => this.setState({ cEmail: e.target.value }),
+cMsg: s.cMsg, onCMsg: (e) => this.setState({ cMsg: e.target.value }),
+cNotSent: !s.cSent, cSent: s.cSent, hasCErr: !!s.cErr, cErr: s.cErr,
+sendContact: () => { if (!s.cName.trim() || !EMAIL.test(s.cEmail.trim())) { this.setState({ cErr: 'Enter your name and a valid email address.' }); return; } this.setState({ cErr: '', cSent: true }); },
+contactAgain: () => this.setState({ cSent: false, cName: '', cEmail: '', cMsg: '' }),
+
+aEmail: s.aEmail, onAEmail: (e) => this.setState({ aEmail: e.target.value }),
+aPass: s.aPass, onAPass: (e) => this.setState({ aPass: e.target.value }),
+aName: s.aName, onAName: (e) => this.setState({ aName: e.target.value }),
+aRest: s.aRest, onARest: (e) => this.setState({ aRest: e.target.value }),
+aCity: s.aCity, onACity: (e) => this.setState({ aCity: e.target.value }),
+aAgree: s.aAgree, onAAgree: (e) => this.setState({ aAgree: e.target.checked }),
+hasAErr: !!s.aErr, aErr: s.aErr,
+signIn: () => {
+const em = s.aEmail.trim();
+if (!EMAIL.test(em)) { this.setState({ aErr: 'Enter a valid email address.' }); return; }
+if (s.aPass.length < 6) { this.setState({ aErr: 'Password must be at least 6 characters.' }); return; }
+const nm = em.split('@')[0]; const name = nm.charAt(0).toUpperCase() + nm.slice(1);
+this.setState({ user: { name, email: em, role: s.aRole }, view: s.aRole === 'owner' ? 'dash' : 'd-home', aPass: '', aErr: '' });
+},
+demoIn: () => this.setState(s.aRole === 'owner' ? { user: { name: 'Demo Owner', email: 'owner@samplekitchen.example', role: 'owner' }, view: 'dash', aErr: '' } : { user: { name: 'Demo Diner', email: 'diner@example.com', role: 'diner' }, view: 'd-home', aErr: '' }),
+roleChips: [['owner', 'I own a restaurant'], ['diner', "I'm a diner"]].map(r => chip(r[1], s.aRole === r[0], () => this.setState({ aRole: r[0], aErr: '' }))),
+aIsOwner: s.aRole === 'owner',
+signinSub: s.aRole === 'owner' ? 'Sign in to manage your restaurant.' : 'Sign in to send private feedback and track replies.',
+signupSub: s.aRole === 'owner' ? 'Set up your first outlet in a minute.' : 'Create a free account to send private feedback and track replies.',
+agreeText: s.aRole === 'owner' ? 'I agree to the terms and privacy policy. I understand that if my licences stay expired after three warnings, a factual compliance report is sent to the Food Safety Officer.' : 'I agree to the terms and privacy policy. I understand that restaurants see my rating, table and message, but never my name or phone number.',
+demoLabel: s.aRole === 'owner' ? 'Use the demo restaurant account' : 'Use the demo diner account',
+goSignupOwner: () => this.setState({ view: 'signup', aRole: 'owner', aErr: '', menu: '' }),
+goSignupDiner: () => this.setState({ view: 'signup', aRole: 'diner', aErr: '', menu: '' }),
+signUp: () => {
+const em = s.aEmail.trim();
+if (!s.aName.trim() || (s.aRole === 'owner' && !s.aRest.trim())) { this.setState({ aErr: s.aRole === 'owner' ? 'Enter your name and restaurant name.' : 'Enter your name.' }); return; }
+if (!EMAIL.test(em)) { this.setState({ aErr: 'Enter a valid email address.' }); return; }
+if (s.aPass.length < 6) { this.setState({ aErr: 'Password must be at least 6 characters.' }); return; }
+if (!s.aAgree) { this.setState({ aErr: 'Please tick the box to agree to the terms.' }); return; }
+if (s.aRole === 'owner') this.setState({ user: { name: s.aName.trim(), email: em, role: 'owner' }, prof: { ...s.prof, name: s.aRest.trim(), city: s.aCity, addr: s.aCity }, nCity: s.aCity, view: 'dash', aPass: '', aErr: '' });
+else this.setState({ user: { name: s.aName.trim(), email: em, role: 'diner' }, dCity: s.aCity, nCity: s.aCity, view: 'd-home', aPass: '', aErr: '' });
+},
+
+scanIdle: s.scan === 'idle', scanning: s.scan === 'scanning', scanFound: s.scan === 'found', showForm: s.scan === 'found' && !s.fbSent,
+startScan: () => { this.setState({ scan: 'scanning', scanErr: '' }); setTimeout(() => this.setState({ scan: 'found' }), 1600); },
+scanCode: s.scanCode, onScanCode: (e) => this.setState({ scanCode: e.target.value }),
+checkCode: () => { if (s.scanCode.trim().toUpperCase() === 'HY-PUNE-0142') this.setState({ scan: 'found', scanErr: '' }); else this.setState({ scanErr: 'Code not found. Check the code printed under the QR.' }); },
+scanHasErr: !!s.scanErr, scanErr: s.scanErr,
+rescan: () => this.setState({ scan: 'idle', scanCode: '', scanErr: '', fbSent: false, fbRating: 0, fbIssues: [], fbSerious: false, fbText: '' }),
+starBtns: [1, 2, 3, 4, 5].map(star),
+fbIssues: FBI.map(l => { const on = s.fbIssues.includes(l); return { label: l, on: on ? 'true' : 'false', cls: on ? 'on' : '', toggle: () => this.setState({ fbIssues: on ? s.fbIssues.filter(x => x !== l) : s.fbIssues.concat(l) }) }; }),
+fbSerious: s.fbSerious, onSerious: (e) => this.setState({ fbSerious: e.target.checked }),
+fbText: s.fbText, onFbText: (e) => this.setState({ fbText: e.target.value }),
+fbHasErr: !!s.fbErr, fbErr: s.fbErr, fbSent: s.fbSent,
+fbSubmit: () => {
+if (!s.fbRating) { this.setState({ fbErr: 'Choose a star rating first.' }); return; }
+const text = s.fbText.trim() || (s.fbIssues.length ? s.fbIssues.join(', ') : 'No details given.');
+const tag = 'Table 9 · just now' + (s.fbSerious ? ' · reported illness' : '');
+this.setState({ fbErr: '', fbSent: true, inbox: [{ id: 'd' + Date.now(), stars: s.fbRating, tag, text, status: 'New', replied: false, mine: isDinerUser }].concat(s.inbox), dAlerts: isDinerUser ? withDAlert('system', 'Your feedback was sent to ' + prof.name + '. You will be told when they reply or resolve it.', 'd-mine') : s.dAlerts, alerts: withAlert('feedback', 'New feedback at Table 9: ' + s.fbRating + ' star' + (s.fbRating > 1 ? 's' : '') + '. ' + text, 'feedback') });
+},
+fbAgain: () => this.setState({ fbSent: false, fbRating: 0, fbIssues: [], fbSerious: false, fbText: '' }),
+
+planName: s.plan,
+navItems: NAV.map(navMap), navItems2: NAV2.map(navMap),
+pDash: view === 'dash', pChecklist: view === 'checklist', pDocs: view === 'docs', pFeedback: view === 'feedback', pQr: view === 'qr', pReports: view === 'reports', pTraining: view === 'training', pHelp: view === 'help', pAlerts: view === 'alerts', pSettings: view === 'settings', pAccount: view === 'account',
+profName: prof.name, profCity: prof.city, profAddr: prof.addr, profFssai, profPhone,
+profFssaiRaw: prof.fssai, profPhoneRaw: prof.phone,
+onProfName: pf('name'), onProfCity: pf('city'), onProfAddr: pf('addr'), onProfFssai: pf('fssai'), onProfPhone: pf('phone'),
+
+greeting,
+kpis: [
+{ l: 'Checklist today', v: pct + '%', s: done + ' of ' + total + ' points', btn: 'Open checklist', go: goV('checklist') },
+{ l: 'Documents valid', v: docsValid + ' of ' + DOCS.length, s: overdue + ' overdue', btn: 'View documents', go: goV('docs') },
+{ l: 'Open feedback', v: String(openFb), s: s.inbox.length + ' received in total', btn: 'Read feedback', go: goV('feedback') },
+{ l: 'Unread alerts', v: String(unread), s: 'Tap the bell any time', btn: 'View alerts', go: goV('alerts') }
+],
+attention, bars,
+recentAlerts: vis.slice(0, 3).map(alertRow),
+quick: [{ label: 'Tick the checklist', go: goV('checklist') }, { label: 'Renew a document', go: goV('docs') }, { label: 'See table QR codes', go: goV('qr') }, { label: 'Open diner view', go: goV('diner') }],
+deadlines: [{ t: 'Water quality test report', d: 'due in 16 days' }, { t: 'Fire safety certificate', d: 'due in 3 months' }, { t: 'Shops and establishment licence', d: 'due in 7 months' }],
+
+groups, chkCount: done + ' of ' + total + ' done', chkBar: 'width: ' + pct + '%', chkMsg,
+submitted: s.submitted,
+submitRecord: () => {
+if (done === 0) { this.toastMsg('Tick at least one point first'); return; }
+this.toastMsg("Today's record submitted at " + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }), { submitted: true, alerts: withAlert('checklist', "Today's checklist submitted (" + pct + '% complete).', 'checklist') });
+},
+
+docs, steps, statusLine, advDisabled, gapDays: String(gap), gap2: String(gap * 2), gap3: String(gap * 3),
+advance: () => {
+if (clear || s.stage >= 4) return;
+const next = s.stage + 1;
+const msgs = { 2: 'Warning 2 sent: documents are still overdue.', 3: 'Final warning sent: the department will be informed in ' + gap + ' days.', 4: 'Compliance report sent to the Food Safety Officer.' };
+this.setState({ stage: next, escalated: next === 4 ? true : s.escalated, alerts: withAlert('doc', msgs[next], 'docs') });
+},
+resetDemo: () => this.setState({ stage: 1, fixed: {}, escalated: false }),
+showReport: s.escalated && !clear, showCorrection: s.escalated && clear,
+repDocs: DOCS.filter((d, i) => d.lapsed && !s.fixed[i]).map(d => ({ t: d.n + ' (expired ' + d.exp + ')' })),
+repFeed, repIllness: String(s.inbox.filter(m => m.tag.includes('reported illness')).length),
+
+fChips: ['All', 'New', 'Resolved'].map(c => chip(c, ff === c, () => this.setState({ fFilter: c }))),
+fItems, fEmpty: fItems.length === 0,
+
+tables: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10'].map(t => ({ t })),
+goDinerView: goV('diner'),
+
+reportDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }),
+docsValidLabel: docsValid + ' of ' + DOCS.length,
+rpItems: flat.map(x => ({ t: x.t, state: x.on ? 'Done' : 'Not done' })),
+refreshReport: () => this.toastMsg('Report refreshed from your latest records'),
+
+modules: MODS.map((m, i) => { const on = !!s.trained[i]; return { t: m[0], d: m[1], on: on ? 'true' : 'false', label: on ? 'Completed' : 'Mark complete', btnCls: on ? 'btn-p' : 'btn-g', toggle: () => this.setState({ trained: { ...s.trained, [i]: !s.trained[i] } }) }; }),
+trainCount: trainDone + ' of ' + MODS.length + ' lessons', trainBar: 'width: ' + Math.round(trainDone / MODS.length * 100) + '%',
+
+cityChips: Object.keys(CITIES).map(c => ({ name: c, on: c === s.nCity ? 'true' : 'false', cls: c === s.nCity ? 'on' : '', pick: () => this.setState({ nCity: c }) })),
+fdaRows: [
+mk('FSSAI toll-free (national)', '1800-11-2100', 'tel:1800112100', 'Report unsafe food anywhere in India.'),
+mk('Food Safety Connect on WhatsApp', '9868686868', 'https://wa.me/919868686868', 'Send photos and details. Verify the number before launch.'),
+ci[1] ? mk(ci[0] + ' food safety (FDA) toll-free', ci[1], 'tel:' + ci[1].replace(/-/g, ''), 'Verify before launch.') : mk(ci[0] + ' food safety (FDA) helpline', '[ADD FROM STATE WEBSITE]', '', 'Take it from the state food safety department site.'),
+mk('Designated Officer, ' + s.nCity + ' circle', '[ADD FROM STATE DIRECTORY]', '', 'The officer who receives escalation reports.')
+],
+policeRows: [
+mk('Emergency (police, fire, ambulance)', '112', 'tel:112', 'Works across India.'),
+mk('Police control room, ' + s.nCity, '[ADD FROM CITY POLICE WEBSITE]', '', 'Take it from the official city police site.'),
+mk('Nearest police station', '[ADD FROM POLICE DIRECTORY]', '', 'A live version would find this from your location.')
+],
+otherRows: [mk('Ambulance', '108', 'tel:108', 'Call at once if someone is seriously ill after a meal.'), mk('National Consumer Helpline', '1915', 'tel:1915', 'Overcharging, refunds and unfair practices.')],
+
+aChips: [['All', 'All'], ['Unread', 'Unread'], ['doc', 'Documents'], ['feedback', 'Feedback'], ['checklist', 'Checklist'], ['system', 'System']].map(c => chip(c[1], afl === c[0], () => this.setState({ aFilter: c[0] }))),
+aList: aShown.map(alertRow), aEmpty: aShown.length === 0,
+goSettingsView: goV('settings'),
+
+themeChips: [['light', 'Light'], ['dark', 'Dark'], ['system', 'Match my device']].map(c => chip(c[1], s.themePref === c[0], setTheme(c[0]))),
+notifRows: [['doc', 'Document alerts', 'Expiry reminders and warnings.'], ['feedback', 'Diner feedback', 'New private feedback from diners.'], ['checklist', 'Checklist reminders', 'When a daily checklist is missed or submitted.'], ['system', 'Product updates', 'Tips and news from Hygieo.']].map(r => ({ label: r[1], d: r[2], on: s.notif[r[0]] ? 'true' : 'false', flip: () => this.setState({ notif: { ...s.notif, [r[0]]: !s.notif[r[0]] } }) })),
+chanRows: [['sms', 'SMS'], ['email', 'Email'], ['app', 'In the app']].map(r => ({ label: r[1], on: s.notif[r[0]] ? 'true' : 'false', flip: () => this.setState({ notif: { ...s.notif, [r[0]]: !s.notif[r[0]] } }) })),
+gapChips: [5, 7, 10].map(n => chip(n + ' days', s.gap === n, () => this.setState({ gap: n, stage: 1, escalated: false }))),
+mgrOn: s.mgr ? 'true' : 'false', flipMgr: () => this.setState({ mgr: !s.mgr }),
+
+planCards: PLANS.map(p => ({ n: p.n, price: p.price, current: s.plan === p.n, btn: s.plan === p.n ? 'Current plan' : 'Switch to ' + p.n, btnCls: s.plan === p.n ? 'btn-g' : 'btn-p', style: s.plan === p.n ? 'border: 2px solid var(--brand)' : '', choose: () => this.toastMsg('Plan changed to ' + p.n + '. Billing needs the live version.', { plan: p.n }) })),
+team: s.team,
+invEmail: s.invEmail, onInvEmail: (e) => this.setState({ invEmail: e.target.value }),
+hasInvErr: !!s.invErr, invErr: s.invErr,
+invite: () => { const em = s.invEmail.trim(); if (!EMAIL.test(em)) { this.setState({ invErr: 'Enter a valid email address.' }); return; } this.toastMsg('Invite sent to ' + em, { invErr: '', invEmail: '', team: s.team.concat({ n: em, e: 'Invited, waiting to join', role: 'Staff' }) }); },
+
+hasToast: !!s.toast, toast: s.toast
+};
+return extra;
+}
+}
+</script>
+</body>
+</html>
