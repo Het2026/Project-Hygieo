@@ -3,6 +3,7 @@
 A restaurant food-hygiene compliance prototype for India, with two account types.
 
 - **Restaurant owners:** dashboard, daily 16-point checklist, licence expiry tracking with three warnings, private diner feedback inbox, table QR code, reports, training and helplines.
+- **New:** hygiene streak and shareable badge, photo proof on checklist items (simulated), one-page Inspection Mode with print, and an English / Hindi / Marathi switcher for menus and key headings.
 - **Diners:** explore restaurants by city, scan a table QR code to send private feedback, track replies, helplines and alerts.
 
 Light and dark (black and white) themes.

@@ -19,6 +19,7 @@ button{cursor:pointer}
 .ps a{color:var(--brand)}
 .ps button:focus-visible,.ps a:focus-visible,.ps input:focus-visible,.ps select:focus-visible,.ps textarea:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 .wrap{max-width:1240px;margin:0 auto;padding-left:24px;padding-right:24px}
+@media print{.topbar,aside,.noprint,.toast{display:none !important}}
 .topbar{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
 .logo{display:flex;align-items:center;gap:10px;background:transparent;border:0;padding:6px 0;font-weight:800;font-size:22px;color:var(--ink);letter-spacing:-0.02em;min-height:44px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;min-width:0}
@@ -110,7 +111,7 @@ button{cursor:pointer}
 </sc-if>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
 <sc-if value="{{dinerBar}}" hint-placeholder-val="{{false}}">
-<button class="btn btn-p" onClick="{{goDiner}}">Scan QR code</button>
+<button class="btn btn-p" onClick="{{goDiner}}">{{tScan}}</button>
 <button class="icon-btn" onClick="{{goHelpTop}}" aria-label="Helplines" title="Helplines"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></button>
 </sc-if>
 <sc-if value="{{ownerBar}}" hint-placeholder-val="{{false}}">
@@ -123,10 +124,11 @@ button{cursor:pointer}
 </div>
 <button class="icon-btn" onClick="{{goHelpTop}}" aria-label="Helplines" title="Helplines"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></button>
 </sc-if>
+<select class="inp" style="width: auto; min-height: 44px; padding: 0 10px; border-radius: 12px" value="{{lang}}" onChange="{{onLang}}" aria-label="Language"><option value="en">English</option><option value="hi">हिन्दी</option><option value="mr">मराठी</option></select>
 <button class="icon-btn" onClick="{{toggleTheme}}" aria-label="{{themeLabel}}" title="{{themeLabel}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{themeIcon}}"/></svg></button>
 <sc-if value="{{signedOut}}" hint-placeholder-val="{{true}}">
-<button class="btn btn-g" onClick="{{goSignin}}">Sign in</button>
-<button class="btn btn-p" onClick="{{goSignup}}">Get started</button>
+<button class="btn btn-g" onClick="{{goSignin}}">{{tSignin}}</button>
+<button class="btn btn-p" onClick="{{goSignup}}">{{tGetStarted}}</button>
 </sc-if>
 <sc-if value="{{signedIn}}" hint-placeholder-val="{{false}}">
 <div style="position: relative">
@@ -169,11 +171,11 @@ button{cursor:pointer}
 <section class="wrap" style="padding-top: 56px; padding-bottom: 56px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
 <div style="flex: 1 1 480px; min-width: 0">
 <span class="badge b-warn">For restaurants, cafes and cloud kitchens in India</span>
-<h1 style="font-size: 54px; line-height: 1.05; letter-spacing: -0.03em; margin: 20px 0 18px; font-weight: 800">Stay inspection-ready. Fix complaints before they go public.</h1>
-<p class="muted" style="font-size: 19px; line-height: 1.6; margin: 0 0 28px; max-width: 560px">A daily hygiene checklist, a private feedback line for your diners, and warnings before any licence runs out. One place for every outlet.</p>
+<h1 style="font-size: 54px; line-height: 1.05; letter-spacing: -0.03em; margin: 20px 0 18px; font-weight: 800">{{heroH}}</h1>
+<p class="muted" style="font-size: 19px; line-height: 1.6; margin: 0 0 28px; max-width: 560px">{{heroP}}</p>
 <div class="row" style="margin-bottom: 24px">
-<button class="btn btn-p" style="min-height: 52px; padding: 0 28px; font-size: 16px" onClick="{{goSignupOwner}}">I own a restaurant</button>
-<button class="btn btn-g" style="min-height: 52px; padding: 0 28px; font-size: 16px" onClick="{{goSignupDiner}}">I'm a diner</button>
+<button class="btn btn-p" style="min-height: 52px; padding: 0 28px; font-size: 16px" onClick="{{goSignupOwner}}">{{tOwner}}</button>
+<button class="btn btn-g" style="min-height: 52px; padding: 0 28px; font-size: 16px" onClick="{{goSignupDiner}}">{{tDiner}}</button>
 </div>
 <div style="display: grid; gap: 8px; font-size: 15px">
 <div>Diner feedback stays private. Nothing is posted publicly.</div>
@@ -420,6 +422,7 @@ button{cursor:pointer}
 <div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">{{k.l}}</div><div class="kpi" style="margin: 6px 0 2px">{{k.v}}</div><div class="muted" style="font-size: 13px; margin-bottom: 12px">{{k.s}}</div><button class="btn btn-g" onClick="{{k.go}}">{{k.btn}}</button></div>
 </sc-for>
 </div>
+<div class="card" style="display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between"><div style="flex: 1 1 260px"><div class="muted" style="font-size: 14px; font-weight: 600">Hygiene streak</div><div class="kpi" style="margin: 4px 0 2px">{{streakDays}} days</div><div class="muted" style="font-size: 14px">{{tierName}} badge. {{tierNext}}.</div></div><div style="display: flex; gap: 10px; flex-wrap: wrap"><button class="btn btn-g" onClick="{{goBadge}}">View my badge</button><button class="btn btn-g" onClick="{{goInspect}}">Inspection mode</button></div></div>
 <div class="g2">
 <div class="card"><h2 class="h3" style="margin-bottom: 14px">Needs your attention</h2>
 <div style="display: grid; gap: 10px"><sc-for list="{{attention}}" as="a" hint-placeholder-count="3">
@@ -444,14 +447,64 @@ button{cursor:pointer}
 </div>
 </sc-if>
 
+<!-- BADGE -->
+<sc-if value="{{pBadge}}" hint-placeholder-val="{{false}}">
+<div><h1 class="h1">Streak and badge</h1><p class="muted" style="margin: 6px 0 0; line-height: 1.6">Complete all 16 checklist points and submit the record to add a day to your streak. Show the badge to your diners.</p></div>
+<div class="g2">
+<div class="card" style="text-align: center; padding: 28px">
+<svg width="150" height="170" viewBox="0 0 120 136" role="img" aria-label="Hygieo badge" style="margin: 0 auto"><path d="M60 6l50 18v38c0 32-21 54-50 68C31 116 10 94 10 62V24z" style="fill: var(--brand)"/><path d="M60 30C60 30 40 52 40 68a20 20 0 0 0 40 0C80 52 60 30 60 30z" style="fill: var(--brand-ink)"/><path d="M50 68l8 8 14-15" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="stroke: var(--brand)"/></svg>
+<div style="font-size: 22px; font-weight: 800; margin-top: 10px">{{profName}}</div>
+<div class="row" style="justify-content: center; gap: 8px; margin: 8px 0 12px"><span class="badge b-ok">{{tierName}}</span><span class="badge b-mute">{{streakDays}}-day streak</span></div>
+<div class="muted" style="font-size: 13px; line-height: 1.5">Self-reported through daily checklists. Not an official rating.</div>
+</div>
+<div class="card">
+<h2 class="h3" style="margin-bottom: 4px">Progress</h2>
+<p class="muted" style="margin: 0 0 12px; font-size: 14px">{{tierNext}}.</p>
+<div class="bar" style="margin-bottom: 18px"><div style="{{tierBar}}"></div></div>
+<div style="font-weight: 700; margin-bottom: 8px">Last 14 days</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px"><sc-for list="{{streakDots}}" as="d" hint-placeholder-count="14"><span style="{{d.style}}"></span></sc-for></div>
+<div class="muted" style="font-size: 13px; line-height: 1.5; margin-bottom: 16px">Earlier days are sample data. Today counts once all points are ticked and the record is submitted.</div>
+<div class="row noprint" style="gap: 10px"><button class="btn btn-p" onClick="{{copyBadge}}">Copy badge link</button><button class="btn btn-g" onClick="{{printPage}}">Print window sticker</button><button class="btn btn-g" onClick="{{goChecklistTop}}">Open checklist</button></div>
+</div>
+</div>
+<div class="g4">
+<div class="card"><div style="font-weight: 800">Starter</div><div class="muted" style="font-size: 14px">0 to 6 days</div></div>
+<div class="card"><div style="font-weight: 800">Bronze</div><div class="muted" style="font-size: 14px">7 days in a row</div></div>
+<div class="card"><div style="font-weight: 800">Silver</div><div class="muted" style="font-size: 14px">14 days in a row</div></div>
+<div class="card"><div style="font-weight: 800">Gold</div><div class="muted" style="font-size: 14px">30 days in a row</div></div>
+</div>
+<p class="muted" style="font-size: 13px; margin: 0; line-height: 1.5">Prototype: the badge link is a sample. A live version would open a public page that shows your streak from your real records, with no diner data.</p>
+</sc-if>
+
+<!-- INSPECTION MODE -->
+<sc-if value="{{pInspect}}" hint-placeholder-val="{{false}}">
+<div class="row" style="justify-content: space-between"><div><h1 class="h1">Inspection mode</h1><p class="muted" style="margin: 6px 0 0">Everything an inspector asks for, on one page.</p></div><div class="row noprint" style="gap: 8px"><button class="btn btn-p" onClick="{{printPage}}">Print or save as PDF</button></div></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 10px">{{profName}}</h2>
+<div class="g3"><div><div class="muted" style="font-size: 13px">Address</div><div style="font-weight: 700">{{profAddr}}</div></div><div><div class="muted" style="font-size: 13px">FSSAI licence number</div><div style="font-weight: 700">{{inspFssai}}</div></div><div><div class="muted" style="font-size: 13px">Contact phone</div><div style="font-weight: 700">{{inspPhone}}</div></div></div>
+<div class="muted" style="font-size: 13px; margin-top: 10px">Prepared on {{inspDate}}. Owner's own records, not verified by any authority.</div></div>
+<div class="g4">
+<div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">Checklist today</div><div class="kpi" style="margin-top: 4px">{{chkPct}}</div></div>
+<div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">Photo proof</div><div class="kpi" style="margin-top: 4px">{{proofCount}}</div></div>
+<div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">Documents valid</div><div class="kpi" style="margin-top: 4px">{{inspDocsValid}}</div></div>
+<div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">Hygiene streak</div><div class="kpi" style="margin-top: 4px">{{streakDays}} days</div></div>
+</div>
+<div class="g2">
+<div class="card"><h2 class="h3" style="margin-bottom: 8px">Licences and certificates</h2>
+<sc-for list="{{inspDocs}}" as="d" hint-placeholder-count="6"><div class="divider" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 12px 0"><div><div style="font-weight: 700">{{d.n}}</div><div class="muted" style="font-size: 13px">Expires {{d.exp}}</div></div><span class="badge {{d.badgeCls}}" style="align-self: center">{{d.status}}</span></div></sc-for></div>
+<div class="card"><h2 class="h3" style="margin-bottom: 8px">Checklist by area</h2>
+<sc-for list="{{inspGroups}}" as="g" hint-placeholder-count="5"><div class="divider" style="display: flex; justify-content: space-between; gap: 8px; padding: 12px 0"><span style="font-weight: 600">{{g.name}}</span><span class="muted">{{g.count}}</span></div></sc-for>
+<div class="divider" style="padding-top: 14px; margin-top: 6px"><div class="muted" style="font-size: 13px">Warnings</div><div style="font-weight: 600; line-height: 1.5">{{inspStatus}}</div></div></div>
+</div>
+</sc-if>
+
 <!-- CHECKLIST -->
 <sc-if value="{{pChecklist}}" hint-placeholder-val="{{false}}">
 <div class="row" style="justify-content: space-between"><div><h1 class="h1">Daily hygiene checklist</h1><p class="muted" style="margin: 6px 0 0">Tick each point as it is done. Every tick is saved with the time.</p></div>
 <button class="btn btn-p" onClick="{{submitRecord}}">Submit today's record</button></div>
-<div class="card"><div style="display: flex; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 10px"><div><div class="muted" style="font-size: 14px; font-weight: 600">Today's progress</div><div class="kpi">{{chkPct}}</div></div><div style="text-align: right"><div style="font-weight: 700">{{chkCount}}</div><sc-if value="{{submitted}}" hint-placeholder-val="{{false}}"><span class="badge b-ok">Record submitted</span></sc-if></div></div><div class="bar"><div style="{{chkBar}}"></div></div><div style="font-size: 14px; font-weight: 600; margin-top: 8px; color: var(--okink)">{{chkMsg}}</div></div>
+<div class="card"><div style="display: flex; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 10px"><div><div class="muted" style="font-size: 14px; font-weight: 600">Today's progress</div><div class="kpi">{{chkPct}}</div></div><div style="text-align: right"><div style="font-weight: 700">{{chkCount}}</div><div class="muted" style="font-size: 13px">{{proofLine}}</div><sc-if value="{{submitted}}" hint-placeholder-val="{{false}}"><span class="badge b-ok">Record submitted</span></sc-if></div></div><div class="bar"><div style="{{chkBar}}"></div></div><div style="font-size: 14px; font-weight: 600; margin-top: 8px; color: var(--okink)">{{chkMsg}}</div></div>
 <sc-for list="{{groups}}" as="g" hint-placeholder-count="5">
 <div class="card"><div style="display: flex; justify-content: space-between; margin-bottom: 12px"><h2 class="h3">{{g.name}}</h2><span class="badge b-mute">{{g.count}}</span></div>
-<div style="display: grid; gap: 8px"><sc-for list="{{g.items}}" as="c" hint-placeholder-count="3"><button class="tick {{c.cls}}" onClick="{{c.toggle}}" aria-pressed="{{c.on}}"><span>{{c.t}}</span><span style="font-size: 12px; font-weight: 700; flex: none">{{c.state}}</span></button></sc-for></div></div>
+<div style="display: grid; gap: 8px"><sc-for list="{{g.items}}" as="c" hint-placeholder-count="3"><div><button class="tick {{c.cls}}" onClick="{{c.toggle}}" aria-pressed="{{c.on}}"><span>{{c.t}}</span><span style="font-size: 12px; font-weight: 700; flex: none">{{c.state}}</span></button><div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 6px 4px 0"><button class="btn btn-g" style="min-height: 40px; font-size: 13px; padding: 0 14px" onClick="{{c.addProof}}">{{c.proofBtn}}</button><sc-if value="{{c.hasProof}}" hint-placeholder-val="{{false}}"><span class="badge b-ok">Photo proof at {{c.proofTime}}</span></sc-if></div></div></sc-for></div></div>
 </sc-for>
 <p class="muted" style="font-size: 13px; margin: 0">This is your own self-check and not an official rating. Temperature limits are common guidance, so check them against FSSAI rules for your kind of business.</p>
 </sc-if>
@@ -623,7 +676,7 @@ button{cursor:pointer}
 
 <!-- D HOME -->
 <sc-if value="{{pDHome}}" hint-placeholder-val="{{true}}">
-<div><h1 class="h1">Hello, {{userName}}</h1><p class="muted" style="margin: 6px 0 0; line-height: 1.6">Find restaurants near you and share private feedback with the owner.</p></div>
+<div><h1 class="h1">{{dHello}}</h1><p class="muted" style="margin: 6px 0 0; line-height: 1.6">Find restaurants near you and share private feedback with the owner.</p></div>
 <div class="g3">
 <div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">Feedback sent</div><div class="kpi" style="margin: 6px 0 2px">{{dSent}}</div><button class="btn btn-g" onClick="{{goMineView}}">View my feedback</button></div>
 <div class="card"><div class="muted" style="font-size: 14px; font-weight: 600">Resolved by restaurants</div><div class="kpi" style="margin: 6px 0 2px">{{dResolvedCount}}</div><div class="muted" style="font-size: 13px">Updates arrive as alerts.</div></div>
@@ -782,7 +835,7 @@ super(props);
 let pref = 'system';
 try { const v = localStorage.getItem('ps-theme'); if (v === 'light' || v === 'dark' || v === 'system') pref = v; } catch (e) {}
 this.state = {
-view: 'home', user: null, next: 'dash', menu: '', searchQ: '', aRole: 'owner', dCity: 'Pune', dq: '', dPhone: '', invited: {},
+lang: 'en', proof: {}, view: 'home', user: null, next: 'dash', menu: '', searchQ: '', aRole: 'owner', dCity: 'Pune', dq: '', dPhone: '', invited: {},
 dAlerts: [
 { id: 'd1', type: 'resolved', text: 'Sample Kitchen marked your feedback about cold food at Table 2 as resolved.', time: '2 days ago', read: false, go: 'd-mine' },
 { id: 'd2', type: 'system', text: 'Welcome to Hygieo. Scan a table QR code to give private feedback.', time: '1 week ago', read: true, go: 'diner' }
@@ -832,7 +885,7 @@ if (eff === 'system') { try { eff = window.matchMedia('(prefers-color-scheme: da
 const setTheme = (p) => () => { this.setState({ themePref: p }); try { localStorage.setItem('ps-theme', p); } catch (e) {} };
 
 // view guard
-const OWNER_ONLY = ['dash', 'checklist', 'docs', 'feedback', 'qr', 'reports', 'training', 'alerts', 'settings', 'account'];
+const OWNER_ONLY = ['dash', 'checklist', 'docs', 'feedback', 'qr', 'reports', 'training', 'badge', 'inspect', 'alerts', 'settings', 'account'];
 const DINER_ONLY = ['d-home', 'd-mine', 'd-alerts', 'd-settings', 'd-account'];
 const isOwner = !!s.user && s.user.role === 'owner';
 const isDinerUser = !!s.user && s.user.role === 'diner';
@@ -844,6 +897,13 @@ const inApp = isOwner && (OWNER_ONLY.includes(view) || view === 'help');
 const inDapp = isDinerUser && (DINER_ONLY.includes(view) || view === 'help' || view === 'diner');
 const goV = (v) => () => this.setState({ view: v, menu: '' });
 const chip = (label, on, pick) => ({ label, on: on ? 'true' : 'false', cls: on ? 'on' : '', pick });
+// language (menus, top bar and key headings)
+const LANG = {
+hi: { 'Dashboard': 'डैशबोर्ड', 'Daily checklist': 'रोज़ की चेकलिस्ट', 'Documents and warnings': 'दस्तावेज़ और चेतावनियाँ', 'Diner feedback': 'ग्राहक फ़ीडबैक', 'Table QR codes': 'टेबल QR कोड', 'Reports': 'रिपोर्ट', 'Staff training': 'स्टाफ प्रशिक्षण', 'Streak and badge': 'स्ट्रीक और बैज', 'Inspection mode': 'निरीक्षण मोड', 'Helplines': 'हेल्पलाइन', 'Alerts': 'अलर्ट', 'Settings': 'सेटिंग्स', 'Account': 'खाता', 'Explore restaurants': 'रेस्तराँ खोजें', 'Scan and give feedback': 'स्कैन करें और फ़ीडबैक दें', 'My feedback': 'मेरा फ़ीडबैक', 'Sign in': 'साइन इन', 'Get started': 'शुरू करें', 'Scan QR code': 'QR कोड स्कैन करें', 'How it works': 'यह कैसे काम करता है', 'Features': 'सुविधाएँ', 'Pricing': 'कीमत', 'FAQ': 'सामान्य प्रश्न', 'Contact': 'संपर्क', 'Diner demo': 'डिनर डेमो', 'Good morning': 'सुप्रभात', 'Good afternoon': 'नमस्कार', 'Good evening': 'शुभ संध्या', 'Hello': 'नमस्ते', 'I own a restaurant': 'मैं रेस्तराँ का मालिक हूँ', "I'm a diner": 'मैं ग्राहक हूँ', 'HERO_H': 'निरीक्षण के लिए हमेशा तैयार रहें। शिकायतें सार्वजनिक होने से पहले सुलझाएँ।', 'HERO_P': 'रोज़ की हाइजीन चेकलिस्ट, ग्राहकों के लिए निजी फ़ीडबैक लाइन, और लाइसेंस खत्म होने से पहले चेतावनियाँ। हर आउटलेट के लिए एक जगह।' },
+mr: { 'Dashboard': 'डॅशबोर्ड', 'Daily checklist': 'रोजची चेकलिस्ट', 'Documents and warnings': 'कागदपत्रे आणि इशारे', 'Diner feedback': 'ग्राहक अभिप्राय', 'Table QR codes': 'टेबल QR कोड', 'Reports': 'अहवाल', 'Staff training': 'कर्मचारी प्रशिक्षण', 'Streak and badge': 'स्ट्रीक आणि बॅज', 'Inspection mode': 'तपासणी मोड', 'Helplines': 'हेल्पलाइन', 'Alerts': 'अलर्ट', 'Settings': 'सेटिंग्ज', 'Account': 'खाते', 'Explore restaurants': 'रेस्टॉरंट शोधा', 'Scan and give feedback': 'स्कॅन करा आणि अभिप्राय द्या', 'My feedback': 'माझा अभिप्राय', 'Sign in': 'साइन इन', 'Get started': 'सुरू करा', 'Scan QR code': 'QR कोड स्कॅन करा', 'How it works': 'हे कसे चालते', 'Features': 'वैशिष्ट्ये', 'Pricing': 'किंमत', 'FAQ': 'सामान्य प्रश्न', 'Contact': 'संपर्क', 'Diner demo': 'डिनर डेमो', 'Good morning': 'शुभ सकाळ', 'Good afternoon': 'शुभ दुपार', 'Good evening': 'शुभ संध्याकाळ', 'Hello': 'नमस्कार', 'I own a restaurant': 'माझे रेस्टॉरंट आहे', "I'm a diner": 'मी ग्राहक आहे', 'HERO_H': 'तपासणीसाठी नेहमी तयार रहा. तक्रारी सार्वजनिक होण्यापूर्वी सोडवा.', 'HERO_P': 'रोजची स्वच्छता चेकलिस्ट, ग्राहकांसाठी खाजगी अभिप्राय सुविधा आणि परवाना संपण्यापूर्वी इशारे. प्रत्येक आउटलेटसाठी एकच जागा.' }
+};
+const T = (en) => (LANG[s.lang] && LANG[s.lang][en]) || en;
+
 
 // profile
 const prof = s.prof;
@@ -860,16 +920,29 @@ const GROUPS = [
 ['Water and licence', ['Drinking water tank cleaned this week', 'FSSAI licence displayed and valid']]
 ];
 let k = 0;
+let proofN = 0;
 const flat = [];
 const groups = GROUPS.map(g => {
 let gd = 0;
-const items = g[1].map(t => { const i = k++; const on = !!s.chk[i]; if (on) gd++; flat.push({ t, on }); return { t, on: on ? 'true' : 'false', cls: on ? 'on' : '', state: on ? 'Done' : 'Pending', toggle: () => this.setState({ chk: { ...s.chk, [i]: !s.chk[i] }, submitted: false }) }; });
+const items = g[1].map(t => { const i = k++; const on = !!s.chk[i]; if (on) gd++; flat.push({ t, on }); const hasP = !!s.proof[i]; if (hasP) proofN++; return { t, on: on ? 'true' : 'false', cls: on ? 'on' : '', hasProof: hasP, proofTime: s.proof[i] || '', proofBtn: hasP ? 'Retake photo' : 'Add photo', addProof: () => { let tm = ''; try { tm = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch (e) { tm = 'now'; } this.toastMsg(hasP ? 'Photo replaced (prototype: no image is uploaded).' : 'Photo added at ' + tm + ' (prototype: no image is uploaded).', { proof: { ...s.proof, [i]: tm } }); }, state: on ? 'Done' : 'Pending', toggle: () => this.setState({ chk: { ...s.chk, [i]: !s.chk[i] }, submitted: false }) }; });
 return { name: g[0], items, count: gd + ' of ' + g[1].length };
 });
 const total = k;
 const done = flat.filter(x => x.on).length;
 const pct = Math.round(done / total * 100);
 const chkMsg = done === 0 ? 'Tick what you have done today.' : (done === total ? 'All done. Your records are ready to show an inspector.' : (pct >= 75 ? 'Nearly there. Finish the last items.' : 'Keep going. Each item is saved with a time stamp.'));
+
+
+// streak and badge
+const streakToday = s.submitted && done === total;
+const streakDays = 12 + (streakToday ? 1 : 0);
+const TIERS = [[30, 'Gold'], [14, 'Silver'], [7, 'Bronze'], [0, 'Starter']];
+const tierName = TIERS.find(t => streakDays >= t[0])[1];
+const nextT = [7, 14, 30].find(n => n > streakDays);
+const tierNext = nextT ? (nextT - streakDays) + ' more day' + (nextT - streakDays > 1 ? 's' : '') + ' to reach ' + TIERS.find(t => t[0] === nextT)[1] : 'Top tier reached. Keep the streak going.';
+const tierBar = 'height: 100%; border-radius: 99px; background: var(--brand); width: ' + (nextT ? Math.round(streakDays / nextT * 100) : 100) + '%';
+const streakDots = Array.from({ length: 14 }, (_, i) => { const dn = i === 13 ? streakToday : true; return { style: 'width: 20px; height: 20px; border-radius: 50%; flex: none; background: ' + (dn ? 'var(--brand)' : 'var(--line)') }; });
+const proofLine = 'Photos attached: ' + proofN + ' of ' + total;
 
 // alerts
 const newAlert = (type, text, go) => ({ id: 'n' + Math.random().toString(36).slice(2), type, text, time: 'Just now', read: false, go });
@@ -902,8 +975,8 @@ return { name: b[0], area: a, meta: b[1] + ' · ' + b[2] + ' · ' + b[3] + ' for
 }).filter(r => !dqs || (r.name + ' ' + r.area + ' ' + r.meta).toLowerCase().includes(dqs));
 const dMine = s.inbox.filter(m => m.mine).map(m => { const res = m.status === 'Resolved'; return { stars: m.stars, tag: m.tag, text: m.text, statusLabel: res ? 'Resolved by the restaurant' : (m.replied ? 'Restaurant replied' : 'Sent to the restaurant'), badgeCls: res || m.replied ? 'b-ok' : 'b-mute', s2Cls: res || m.replied ? 'b-ok' : 'b-mute', s3Cls: res ? 'b-ok' : 'b-mute' }; });
 const dIcSearch = 'M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15z';
-const DNAV = [['d-home', 'Explore restaurants', dIcSearch, 0], ['diner', 'Scan and give feedback', IC.qr, 0], ['d-mine', 'My feedback', IC.fb, 0], ['help', 'Helplines', IC.help, 0]];
-const DNAV2 = [['d-alerts', 'Alerts', IC.bell, dunread], ['d-settings', 'Settings', IC.set, 0], ['d-account', 'Account', IC.user, 0]];
+const DNAV = [['d-home', T('Explore restaurants'), dIcSearch, 0], ['diner', T('Scan and give feedback'), IC.qr, 0], ['d-mine', T('My feedback'), IC.fb, 0], ['help', T('Helplines'), IC.help, 0]];
+const DNAV2 = [['d-alerts', T('Alerts'), IC.bell, dunread], ['d-settings', T('Settings'), IC.set, 0], ['d-account', T('Account'), IC.user, 0]];
 
 // documents and warnings
 const DOCS = [
@@ -975,16 +1048,18 @@ const FAQ = [
 // greeting and names
 const hr = new Date().getHours();
 const first = s.user ? s.user.name.split(' ')[0] : '';
-const greeting = (hr < 12 ? 'Good morning' : (hr < 17 ? 'Good afternoon' : 'Good evening')) + ', ' + first;
+const greeting = T(hr < 12 ? 'Good morning' : (hr < 17 ? 'Good afternoon' : 'Good evening')) + ', ' + first;
 const initials = s.user ? s.user.name.split(' ').map(w => w.charAt(0)).join('').slice(0, 2).toUpperCase() : '';
 
 // navigation
-const NAV = [['dash', 'Dashboard', IC.dash, 0], ['checklist', 'Daily checklist', IC.check, 0], ['docs', 'Documents and warnings', IC.docs, overdue], ['feedback', 'Diner feedback', IC.fb, openFb], ['qr', 'Table QR codes', IC.qr, 0], ['reports', 'Reports', IC.rep, 0], ['training', 'Staff training', IC.train, 0], ['help', 'Helplines', IC.help, 0]];
-const NAV2 = [['alerts', 'Alerts', IC.bell, unread], ['settings', 'Settings', IC.set, 0], ['account', 'Account', IC.user, 0]];
+const IC_BADGE = 'M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6zM9 12l2 2 4-4';
+const IC_INSP = 'M9 3h6l1 2h3v16H5V5h3zM9 12l2 2 4-4M9 17h6';
+const NAV = [['dash', T('Dashboard'), IC.dash, 0], ['checklist', T('Daily checklist'), IC.check, 0], ['docs', T('Documents and warnings'), IC.docs, overdue], ['feedback', T('Diner feedback'), IC.fb, openFb], ['qr', T('Table QR codes'), IC.qr, 0], ['reports', T('Reports'), IC.rep, 0], ['training', T('Staff training'), IC.train, 0], ['badge', T('Streak and badge'), IC_BADGE, 0], ['inspect', T('Inspection mode'), IC_INSP, 0], ['help', T('Helplines'), IC.help, 0]];
+const NAV2 = [['alerts', T('Alerts'), IC.bell, unread], ['settings', T('Settings'), IC.set, 0], ['account', T('Account'), IC.user, 0]];
 const navMap = (n) => ({ label: n[1], icon: n[2], cls: view === n[0] ? 'on' : '', cur: view === n[0] ? 'page' : 'false', go: goV(n[0]), cnt: String(n[3]), hasCnt: n[3] > 0 });
 
 const section = (id) => () => { this.setState({ view: 'home', menu: '' }); setTimeout(() => { try { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth' }); } catch (e) {} }, 80); };
-const publicLinks = [['How it works', 'how'], ['Features', 'features'], ['Pricing', 'pricing'], ['FAQ', 'faq'], ['Contact', 'contact']].map(l => ({ label: l[0], go: section(l[1]) })).concat([{ label: 'Diner demo', go: goV('diner') }]);
+const publicLinks = [['How it works', 'how'], ['Features', 'features'], ['Pricing', 'pricing'], ['FAQ', 'faq'], ['Contact', 'contact']].map(l => ({ label: T(l[0]), go: section(l[1]) })).concat([{ label: T('Diner demo'), go: goV('diner') }]);
 
 const bars = [['Mon', 78], ['Tue', 84], ['Wed', 91], ['Thu', 100], ['Fri', 88], ['Sat', 95]].map(b => ({ d: b[0], v: b[1] + '%', style: 'width: 100%; max-width: 44px; border-radius: 8px 8px 0 0; background: var(--okbg); height: ' + Math.round(b[1] * 1.0) + 'px' })).concat([{ d: 'Today', v: pct + '%', style: 'width: 100%; max-width: 44px; border-radius: 8px 8px 0 0; background: var(--brand); height: ' + Math.max(4, pct) + 'px' }]);
 
@@ -995,7 +1070,7 @@ if (!s.submitted) attention.push({ t: "Today's checklist is not submitted yet ("
 if (attention.length === 0) attention.push({ t: 'Nothing urgent. Good work.', btn: 'Reports', go: goV('reports') });
 
 const SEARCH_D = [['Explore restaurants', 'd-home', 'find restaurants city invite'], ['Scan and give feedback', 'diner', 'scan qr code feedback review complaint'], ['My feedback', 'd-mine', 'sent status resolved reply'], ['Helplines', 'help', 'police fda 112 108 numbers fssai phone report'], ['Alerts', 'd-alerts', 'notifications bell'], ['Settings', 'd-settings', 'theme dark light notifications profile'], ['Account', 'd-account', 'profile owner account']];
-const SEARCH_O = [['Dashboard', 'dash', 'home overview'], ['Daily checklist', 'checklist', 'tick hygiene kitchen'], ['Documents and warnings', 'docs', 'licence fssai renew expiry pest certificate'], ['Diner feedback', 'feedback', 'reviews complaints customers'], ['Table QR codes', 'qr', 'scan code tables'], ['Reports', 'reports', 'inspection report'], ['Staff training', 'training', 'lessons learn'], ['Helplines', 'help', 'police fda 112 108 numbers fssai phone'], ['Alerts', 'alerts', 'notifications bell'], ['Settings', 'settings', 'theme dark light profile warning notifications'], ['Account', 'account', 'plan team invite billing profile']];
+const SEARCH_O = [['Streak and badge', 'badge', 'streak badge share verified sticker'], ['Inspection mode', 'inspect', 'inspector print licence show summary'], ['Dashboard', 'dash', 'home overview'], ['Daily checklist', 'checklist', 'tick hygiene kitchen'], ['Documents and warnings', 'docs', 'licence fssai renew expiry pest certificate'], ['Diner feedback', 'feedback', 'reviews complaints customers'], ['Table QR codes', 'qr', 'scan code tables'], ['Reports', 'reports', 'inspection report'], ['Staff training', 'training', 'lessons learn'], ['Helplines', 'help', 'police fda 112 108 numbers fssai phone'], ['Alerts', 'alerts', 'notifications bell'], ['Settings', 'settings', 'theme dark light profile warning notifications'], ['Account', 'account', 'plan team invite billing profile']];
 const SEARCH = isDinerUser ? SEARCH_D : SEARCH_O;
 const sq = s.searchQ.trim().toLowerCase();
 const searchResults = sq ? SEARCH.filter(x => (x[0] + ' ' + x[2]).toLowerCase().includes(sq)).map(x => ({ label: x[0], go: () => this.setState({ view: x[1], searchQ: '', menu: '' }) })) : [];
@@ -1006,6 +1081,20 @@ toggleQuick: () => this.setState({ menu: s.menu === 'quick' ? '' : 'quick' }),
 quickOpen: s.menu === 'quick', quickOpenStr: s.menu === 'quick' ? 'true' : 'false',
 quickMenu: [{ label: "Tick today's checklist", go: goV('checklist') }, { label: 'Renew a document', go: goV('docs') }, { label: 'Reply to feedback', go: goV('feedback') }, { label: 'Open the diner view', go: goV('diner') }, { label: 'Invite a teammate', go: goV('account') }],
 goChecklistTop: goV('checklist'), goHelpTop: goV('help'),
+pBadge: view === 'badge', pInspect: view === 'inspect',
+lang: s.lang, onLang: (e) => this.setState({ lang: e.target.value }),
+tSignin: T('Sign in'), tGetStarted: T('Get started'), tScan: T('Scan QR code'), tOwner: T('I own a restaurant'), tDiner: T("I'm a diner"),
+heroH: T('HERO_H') === 'HERO_H' ? 'Stay inspection-ready. Fix complaints before they go public.' : T('HERO_H'),
+heroP: T('HERO_P') === 'HERO_P' ? 'A daily hygiene checklist, a private feedback line for your diners, and warnings before any licence runs out. One place for every outlet.' : T('HERO_P'),
+dHello: T('Hello') + ', ' + (s.user ? s.user.name : ''),
+proofLine, proofCount: String(proofN),
+streakDays: String(streakDays), tierName, tierNext, tierBar, streakDots, hasStreakToday: streakToday,
+goBadge: goV('badge'), goInspect: goV('inspect'),
+copyBadge: () => { try { navigator.clipboard.writeText('https://hygieo.example/verify/HY-PUNE-0142'); } catch (e) {} this.toastMsg('Sample badge link copied. A live link would show your verified streak.'); },
+printPage: () => { try { window.print(); } catch (e) { this.toastMsg('Printing is not available in this view.'); } },
+inspDocs: docs, inspStatus: statusLine, inspGroups: groups.map(g => ({ name: g.name, count: g.count })),
+inspFssai: profFssai, inspPhone: profPhone, inspDocsValid: docsValid + ' of ' + DOCS.length,
+inspDate: (() => { try { return new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return ''; } })(),
 searchPh: isDinerUser ? 'Search pages and help' : 'Search pages, documents, helplines',
 pDHome: view === 'd-home', pDScan: view === 'diner', pDMine: view === 'd-mine', pDHelp: view === 'help', pDAlerts: view === 'd-alerts', pDSettings: view === 'd-settings', pDAccount: view === 'd-account',
 dNavItems: DNAV.map(navMap), dNavItems2: DNAV2.map(navMap),
