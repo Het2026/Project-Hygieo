@@ -4,6 +4,7 @@ A restaurant food-hygiene compliance prototype for India, with two account types
 
 - **Restaurant owners:** dashboard, daily 16-point checklist, licence expiry tracking with three warnings, private diner feedback inbox, table QR code, reports, training and helplines.
 - **New:** hygiene streak and shareable badge, photo proof on checklist items (simulated), one-page Inspection Mode with print, and an English / Hindi / Marathi switcher for menus and key headings.
+- **Assistant (text and voice):** an "Ask Hygieo" chat for both owners and diners. Owners: priorities, voice checklist and temperature logging, reply drafts, inspector prep, staff quiz, rule explainer, summary. Diners: voice or text feedback, emergency guidance, restaurant finder, eating-out tips. It is a rule-based demo (no AI model or backend yet); voice needs Chrome.
 - **Diners:** explore restaurants by city, scan a table QR code to send private feedback, track replies, helplines and alerts.
 
 Light and dark (black and white) themes.

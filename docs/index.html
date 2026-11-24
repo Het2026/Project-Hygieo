@@ -823,6 +823,43 @@ button{cursor:pointer}
 </footer>
 </sc-if>
 
+<!-- ASSISTANT -->
+<sc-if value="{{aAvail}}" hint-placeholder-val="{{false}}">
+<div class="noprint">
+<button class="btn btn-p" style="position: fixed; right: 20px; bottom: 20px; z-index: 50; min-height: 56px; border-radius: 28px; padding: 0 22px; gap: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.25)" onClick="{{aToggle}}" aria-label="Ask Hygieo assistant">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M9 10h6"/></svg><span>Ask Hygieo</span></button>
+<sc-if value="{{aOpen}}" hint-placeholder-val="{{false}}">
+<section class="card" role="dialog" aria-label="Hygieo assistant" style="position: fixed; right: 16px; bottom: 88px; z-index: 50; width: min(410px, calc(100vw - 32px)); height: min(600px, calc(100vh - 110px)); padding: 0; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,0.3)">
+<div style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--line)">
+<span class="avatar" style="width: 36px; height: 36px; font-size: 15px; flex: none">AI</span>
+<div style="flex: 1; min-width: 0"><div style="font-weight: 800">Hygieo assistant</div><div class="muted" style="font-size: 12px">{{aSub}} · Demo</div></div>
+<button class="icon-btn" style="width: 40px; height: 40px" onClick="{{aToggleSpeak}}" aria-label="{{aSpeakLabel}}" aria-pressed="{{aSpeakOn}}" title="{{aSpeakLabel}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+<button class="icon-btn" style="width: 40px; height: 40px" onClick="{{aClose}}" aria-label="Close assistant"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div>
+<div id="ps-msgs" aria-live="polite" style="flex: 1; overflow-y: auto; padding: 14px 16px; display: grid; gap: 10px; align-content: start">
+<sc-for list="{{aMsgsView}}" as="m" hint-placeholder-count="2">
+<div style="display: grid; gap: 6px">
+<sc-if value="{{m.isMe}}" hint-placeholder-val="{{false}}"><div style="justify-self: end; max-width: 85%; background: var(--brand); color: var(--brand-ink); padding: 10px 14px; border-radius: 16px 16px 4px 16px; line-height: 1.45; white-space: pre-line; overflow-wrap: anywhere">{{m.text}}</div></sc-if>
+<sc-if value="{{m.isBot}}" hint-placeholder-val="{{true}}"><div style="justify-self: start; max-width: 92%; background: var(--soft); color: var(--ink); padding: 10px 14px; border-radius: 16px 16px 16px 4px; line-height: 1.5; white-space: pre-line; overflow-wrap: anywhere">{{m.text}}</div></sc-if>
+<sc-if value="{{m.hasActions}}" hint-placeholder-val="{{false}}"><div class="row" style="gap: 8px"><sc-for list="{{m.actions}}" as="a" hint-placeholder-count="1"><button class="btn btn-g" style="min-height: 40px; font-size: 14px; padding: 0 14px" onClick="{{a.run}}">{{a.label}}</button></sc-for></div></sc-if>
+</div>
+</sc-for>
+</div>
+<div style="border-top: 1px solid var(--line); padding: 10px 12px 12px; display: grid; gap: 8px">
+<div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px"><sc-for list="{{aChips}}" as="c" hint-placeholder-count="4"><button class="chip" style="flex: none; font-size: 13px" onClick="{{c.go}}">{{c.label}}</button></sc-for></div>
+<sc-if value="{{aListen}}" hint-placeholder-val="{{false}}"><div role="status" class="badge b-warn" style="white-space: normal; border-radius: 10px">{{aMicHint}}</div></sc-if>
+<div style="display: flex; gap: 8px; align-items: center">
+<button class="icon-btn" style="width: 48px; height: 48px; flex: none; border-radius: 50%" onClick="{{aMic}}" aria-label="{{aMicLabel}}" aria-pressed="{{aListen}}" title="{{aMicLabel}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM6 11a6 6 0 0 0 12 0M12 17v4"/></svg></button>
+<input id="ps-ain" class="inp" style="flex: 1; min-width: 0" value="{{aInput}}" onInput="{{onAIn}}" onKeyDown="{{onAKey}}" placeholder="Type or tap the mic" aria-label="Message the assistant">
+<button class="btn btn-p" style="min-height: 48px; flex: none" onClick="{{aSend}}">Send</button>
+</div>
+<div class="muted" style="font-size: 11px; line-height: 1.4">Demo assistant: it understands set commands, not open questions. It is an AI, not a doctor, lawyer or official inspector. Voice needs Chrome and mic permission.</div>
+</div>
+</section>
+</sc-if>
+</div>
+</sc-if>
+
 <!-- TOAST -->
 <sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}"><div role="status" style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 14px 22px; border-radius: 12px; font-weight: 600; z-index: 60; max-width: 90vw; box-shadow: 0 10px 30px rgba(0,0,0,.3)">{{toast}}</div></sc-if>
 
@@ -835,7 +872,7 @@ super(props);
 let pref = 'system';
 try { const v = localStorage.getItem('ps-theme'); if (v === 'light' || v === 'dark' || v === 'system') pref = v; } catch (e) {}
 this.state = {
-lang: 'en', proof: {}, view: 'home', user: null, next: 'dash', menu: '', searchQ: '', aRole: 'owner', dCity: 'Pune', dq: '', dPhone: '', invited: {},
+lang: 'en', proof: {}, aOpen: false, aMsgs: [], aInput: '', aListen: false, aSpeak: true, aQuiz: null, view: 'home', user: null, next: 'dash', menu: '', searchQ: '', aRole: 'owner', dCity: 'Pune', dq: '', dPhone: '', invited: {},
 dAlerts: [
 { id: 'd1', type: 'resolved', text: 'Sample Kitchen marked your feedback about cold food at Table 2 as resolved.', time: '2 days ago', read: false, go: 'd-mine' },
 { id: 'd2', type: 'system', text: 'Welcome to Hygieo. Scan a table QR code to give private feedback.', time: '1 week ago', read: true, go: 'diner' }
@@ -868,6 +905,9 @@ invEmail: '', invErr: '',
 cName: '', cEmail: '', cMsg: '', cErr: '', cSent: false,
 toast: '', repTick: 0
 };
+}
+componentDidUpdate() {
+try { const el = document.getElementById('ps-msgs'); if (el) el.scrollTop = el.scrollHeight; } catch (e) {}
 }
 toastMsg(msg, extra) {
 this.setState({ ...(extra || {}), toast: msg });
@@ -1074,6 +1114,240 @@ const SEARCH_O = [['Streak and badge', 'badge', 'streak badge share verified sti
 const SEARCH = isDinerUser ? SEARCH_D : SEARCH_O;
 const sq = s.searchQ.trim().toLowerCase();
 const searchResults = sq ? SEARCH.filter(x => (x[0] + ' ' + x[2]).toLowerCase().includes(sq)).map(x => ({ label: x[0], go: () => this.setState({ view: x[1], searchQ: '', menu: '' }) })) : [];
+// ---------- assistant (text and voice) ----------
+const aRole = isOwner ? 'owner' : (isDinerUser ? 'diner' : '');
+const aLangCode = s.lang === 'hi' ? 'hi-IN' : (s.lang === 'mr' ? 'mr-IN' : 'en-IN');
+const AT = {
+greet: { en: 'Hi, I am the Hygieo assistant. You can type or tap the mic and speak. What would you like to do?', hi: 'नमस्ते, मैं Hygieo सहायक हूँ। आप टाइप कर सकते हैं या माइक दबाकर बोल सकते हैं। मैं क्या मदद करूँ?', mr: 'नमस्कार, मी Hygieo सहाय्यक आहे. तुम्ही टाइप करू शकता किंवा माइक दाबून बोलू शकता. मी काय मदत करू?' },
+nope: { en: 'I did not understand that. Try one of the suggestions below, or say "help".', hi: 'मैं यह समझ नहीं पाया। नीचे दिए सुझावों में से कोई आज़माएँ, या "help" कहें।', mr: 'मला हे समजले नाही. खालील सूचनांपैकी एक वापरून पहा किंवा "help" म्हणा.' },
+emerg: { en: 'If someone is seriously unwell, call 108 for an ambulance now. If anyone is in danger, call the police on 112. To report the food officially, call the FSSAI line 1800-11-2100. Keep any leftover food and the bill if it is safe to do so. I am an AI and not a doctor.', hi: 'अगर कोई गंभीर रूप से बीमार है तो अभी 108 पर एम्बुलेंस बुलाएँ। खतरा हो तो पुलिस 112। खाने की आधिकारिक शिकायत के लिए FSSAI 1800-11-2100। बचा हुआ खाना और बिल सुरक्षित हो तो रखें। मैं AI हूँ, डॉक्टर नहीं।', mr: 'कोणी गंभीर आजारी असेल तर आत्ता 108 वर रुग्णवाहिका बोलवा. धोका असल्यास पोलीस 112. अन्नाची अधिकृत तक्रार करण्यासाठी FSSAI 1800-11-2100. उरलेले अन्न आणि बिल सुरक्षित असल्यास ठेवा. मी AI आहे, डॉक्टर नाही.' }
+};
+const tt = (o) => o[s.lang] || o.en;
+const GUIDE = ' General guidance only. Confirm with FSSAI or your Food Safety Officer.';
+const stripEmoji = (t) => t.replace(/[\u{1F300}-\u{1FAFF}☀-➿]/gu, '').replace(/\n+/g, '. ');
+const speak = (t) => { try { if (!s.aSpeak || !window.speechSynthesis) return; window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(stripEmoji(t)); u.lang = aLangCode; window.speechSynthesis.speak(u); } catch (e) {} };
+
+const O_KW = [['floor,floors,drain,drains,prep table', 0], ['bin,bins,waste,garbage,trash', 1], ['pest', 2], ['raw,separate,separated', 6], ['cooled,cooling,covered', 7], ['label,labelled,labeled', 8], ['expired,spoiled,stock', 9], ['oil', 10], ['cap,caps,glove,gloves,apron,aprons,uniform', 11], ['hand wash,handwash,soap', 12], ['illness,symptom,symptoms', 13], ['water tank,tank', 14], ['licence displayed,license displayed,displayed', 15]];
+const O_NAV = [['inspection', 'inspect'], ['inspect', 'inspect'], ['badge', 'badge'], ['streak', 'badge'], ['checklist', 'checklist'], ['document', 'docs'], ['licence', 'docs'], ['license', 'docs'], ['warning', 'docs'], ['feedback', 'feedback'], ['qr', 'qr'], ['report', 'reports'], ['training', 'training'], ['helpline', 'help'], ['help line', 'help'], ['alert', 'alerts'], ['notification', 'alerts'], ['setting', 'settings'], ['account', 'account'], ['profile', 'account'], ['dashboard', 'dash'], ['home', 'dash']];
+const D_NAV = [['my feedback', 'd-mine'], ['scan', 'diner'], ['helpline', 'help'], ['help line', 'help'], ['emergency', 'help'], ['alert', 'd-alerts'], ['notification', 'd-alerts'], ['setting', 'd-settings'], ['account', 'd-account'], ['profile', 'd-account'], ['explore', 'd-home'], ['restaurant', 'd-home'], ['home', 'd-home']];
+const NAV_VERBS = ['open', 'go to', 'show me', 'take me', 'navigate', 'खोल', 'उघड', 'दिखा', 'दाखवा'];
+const NAV_LABEL = { inspect: 'Inspection mode', badge: 'Streak and badge', checklist: 'the daily checklist', docs: 'Documents and warnings', feedback: 'Diner feedback', qr: 'Table QR codes', reports: 'Reports', training: 'Staff training', help: 'Helplines', alerts: 'Alerts', settings: 'Settings', account: 'Account', dash: 'the Dashboard', 'd-home': 'Explore restaurants', diner: 'Scan and give feedback', 'd-mine': 'My feedback', 'd-alerts': 'Alerts', 'd-settings': 'Settings', 'd-account': 'Account' };
+
+const RULES = [
+[['licence type', 'license type', 'which licence', 'which license', 'fssai licence', 'fssai license', 'registration', 'turnover'], 'FSSAI registration or licence depends mainly on yearly turnover and the kind of business. Commonly, small businesses take a basic registration, mid-size ones a State licence, and the largest a Central licence. The exact limits can change.'],
+[['temperature', 'degrees', 'how cold', 'how hot', 'hot holding'], 'Common guidance: fridge at 5 degrees C or below, freezer at -18 degrees C or below, and hot food held at 60 degrees C or above.'],
+[['hand wash', 'handwash', 'wash hands', 'wash my hands', 'soap'], 'Wash hands with soap for about 20 seconds before handling food, after the toilet, after touching waste, and after touching your face or phone.'],
+[['pest', 'cockroach', 'rat', 'mice', 'flies'], 'Use a licensed pest control service on a schedule, keep the certificate, seal gaps, keep bins covered, and store food off the floor.'],
+[['allergen', 'allergy', 'nut', 'gluten'], 'Label common allergens such as milk, nuts, gluten, eggs and soy. Clean surfaces and utensils between dishes, and invite diners to ask about ingredients.'],
+[['oil', 'frying'], 'Do not reuse frying oil again and again. FSSAI guidance sets a limit on degraded oil (total polar compounds), commonly cited as 25 percent. Change it on a schedule and keep a log.'],
+[['fostac', 'training certificate', 'supervisor'], 'FoSTaC is the FSSAI food safety training and certification. Licensed food businesses generally need trained supervisors. Check how many your premises need.'],
+[['storage', 'store', 'raw chicken', 'raw meat'], 'Store raw food below and away from cooked or ready-to-eat food, keep everything covered, and label the date opened. First in, first out.']
+];
+const QUIZ = [
+{ q: 'At what temperature or below should a fridge be kept?', o: ['5 degrees C', '12 degrees C', '20 degrees C'], a: 0, why: 'Cold food stays safer at 5 degrees C or below.' },
+{ q: 'About how long should you wash your hands with soap?', o: ['5 seconds', 'About 20 seconds', 'Just rinse with water'], a: 1, why: 'Around 20 seconds of scrubbing with soap removes most germs.' },
+{ q: 'Where should raw chicken be stored?', o: ['Above cooked food', 'Next to the salad', 'Below and away from cooked food'], a: 2, why: 'Drips from raw meat must never fall onto ready-to-eat food.' },
+{ q: 'A cook has vomiting and loose motions. What should they do?', o: ['Work but wear gloves', 'Stay away from food work until well', 'Work only at the counter'], a: 1, why: 'Sick staff should not handle food until they are well, as germs spread easily.' }
+];
+const SAFE = [
+[['leftover', 'reheat', 'left over'], 'Cool leftovers within about two hours, keep them covered in the fridge, eat them within a day or two, and reheat until steaming hot all the way through.'],
+[['rice'], 'Cooked rice should not sit at room temperature for long. Cool it quickly, refrigerate it, and reheat it only once until very hot.'],
+[['chicken', 'egg', 'meat', 'fish'], 'Meat, fish and eggs should be cooked all the way through with no pink or runny parts. Avoid anything that smells off.'],
+[['street', 'chaat', 'stall', 'pani puri'], 'At street stalls, choose busy ones with fresh, hot food, covered ingredients, clean hands and sealed or boiled water.'],
+[['water', 'ice'], 'Prefer sealed bottled or properly boiled or filtered water, and be careful with ice when you are unsure where it came from.']
+];
+const SAFE_GENERAL = 'Quick checks when you eat out: look for a displayed FSSAI licence, clean tables and hands, food served hot or cold as it should be, and covered ingredients.';
+const FBI_KW = [[0, ['dirty table', 'dirty tables', 'unclean table', 'unclean tables', 'table was dirty', 'tables were dirty', 'dirty plate', 'dirty plates', 'dirty spoon', 'dirty glass', 'utensil', 'utensils']], [1, ['water', 'jug']], [2, ['stale', 'cold', 'old food', 'spoil', 'smell', 'stink', 'undercooked', 'raw']], [3, ['hair', 'insect', 'cockroach', 'fly', 'flies', 'bug', 'stone', 'plastic', 'foreign', 'worm']], [4, ['staff', 'waiter', 'cook', 'gloves', 'apron']]];
+const SICK_KW = ['sick', 'unwell', 'vomit', 'food poison', 'poison', 'diarrh', 'loose motion', 'stomach pain', 'fever after', 'hospital', 'ambulance', 'emergency', 'faint', 'बीमार', 'उल्टी', 'आजारी', 'उलटी'];
+const CUISINE_KW = [['dosa,idli,tiffin,tiffins,south indian', 'South Indian'], ['biryani', 'Biryani'], ['punjabi,dhaba', 'Punjabi'], ['veg,vegetarian', 'Pure vegetarian'], ['chinese,noodles', 'Indo-Chinese'], ['seafood,fish,coastal', 'Seafood'], ['pizza,pasta,italian', 'Italian'], ['cafe,coffee,bakery', 'Cafe'], ['sweets,snacks', 'Sweets'], ['juice,healthy', 'Juices'], ['street food,chaat', 'Street food'], ['thali,gujarati,rajasthani', 'thali'], ['kebab,kebabs,grill,tandoor', 'Kebabs'], ['rolls,wrap,wraps,fast food', 'Fast food'], ['north indian', 'North Indian']];
+
+const ask = (raw) => {
+const text = (raw || '').trim();
+if (!text) return;
+const q = text.toLowerCase();
+const has = (...w) => w.some(x => q.includes(x));
+const hasWord = (...w) => w.some(x => new RegExp('\\b' + x + '\\b').test(q));
+const anyKw = (str) => str.split(',').some(p => hasWord(p.trim()));
+const me = { id: 'm' + Date.now() + Math.random().toString(36).slice(2), who: 'me', text };
+let reply = ''; let acts = []; let patch = {};
+
+if (s.aQuiz) {
+const cur = QUIZ[s.aQuiz.i];
+let pick = -1;
+const m = q.match(/^\s*(?:option\s*)?\(?([abc])\)?\b/);
+if (m) pick = 'abc'.indexOf(m[1]);
+else cur.o.forEach((o, j) => { if (q.includes(o.toLowerCase().slice(0, 8))) pick = j; });
+if (has('stop', 'quit', 'exit', 'cancel')) { patch.aQuiz = null; reply = 'Quiz stopped. Ask for another any time.'; }
+else if (pick < 0) { reply = 'Please answer with A, B or C.\n' + cur.q + '\nA) ' + cur.o[0] + '\nB) ' + cur.o[1] + '\nC) ' + cur.o[2]; }
+else {
+const ok = pick === cur.a; const score = s.aQuiz.score + (ok ? 1 : 0);
+reply = (ok ? 'Correct. ' : 'Not quite. The answer is ' + 'ABC'[cur.a] + ') ' + cur.o[cur.a] + '. ') + cur.why;
+if (s.aQuiz.i + 1 < QUIZ.length) { const nx = QUIZ[s.aQuiz.i + 1]; patch.aQuiz = { i: s.aQuiz.i + 1, score }; reply += '\n\nNext: ' + nx.q + '\nA) ' + nx.o[0] + '\nB) ' + nx.o[1] + '\nC) ' + nx.o[2]; }
+else { patch.aQuiz = null; reply += '\n\nQuiz finished. You scored ' + score + ' out of ' + QUIZ.length + '.' + (score === QUIZ.length ? ' Excellent work.' : ' Open Staff training to review the lessons.'); acts = [{ label: 'Open Staff training', t: 'nav', v: 'training' }]; }
+}
+}
+else if (has('dark mode', 'dark theme', 'light mode', 'light theme')) {
+const dk = has('dark'); patch.themePref = dk ? 'dark' : 'light'; try { localStorage.setItem('ps-theme', patch.themePref); } catch (e) {} reply = 'Done. ' + (dk ? 'Dark' : 'Light') + ' mode is on.';
+}
+else if (has('hindi', 'हिंदी', 'हिन्दी') && has('language', 'switch', 'speak', 'भाषा', 'में')) { patch.lang = 'hi'; reply = 'ठीक है। भाषा हिन्दी कर दी है।'; }
+else if (has('marathi', 'मराठी') && has('language', 'switch', 'speak', 'भाषा', 'मध्ये')) { patch.lang = 'mr'; reply = 'ठीक आहे. भाषा मराठी केली आहे.'; }
+else if (has('english') && has('language', 'switch', 'speak')) { patch.lang = 'en'; reply = 'Done. The language is English.'; }
+else if (aRole === 'owner') {
+// ----- owner -----
+const chkNew = { ...s.chk }; const lines = []; let alertsNew = s.alerts; let changed = false;
+const tre = /(fridge|freezer|hot food|hot holding)\D{0,20}?(minus\s*)?(-?\d+(?:\.\d+)?)/g; let tm;
+while ((tm = tre.exec(q)) !== null) {
+const kind = tm[1]; let val = parseFloat(tm[3]); if (tm[2]) val = -Math.abs(val);
+const idx = kind === 'fridge' ? 3 : (kind === 'freezer' ? 4 : 5);
+const ok = idx === 3 ? val <= 5 : (idx === 4 ? val <= -18 : val >= 60);
+const nm = idx === 3 ? 'Fridge' : (idx === 4 ? 'Freezer' : 'Hot holding');
+if (ok) { chkNew[idx] = true; changed = true; lines.push(nm + ' at ' + val + ' degrees C is within the usual limit. Ticked.'); }
+else { const lim = idx === 3 ? 'above the 5 degree limit' : (idx === 4 ? 'warmer than the -18 degree limit' : 'below the 60 degree limit'); lines.push('Warning: ' + nm + ' at ' + val + ' degrees C is ' + lim + '. I have not ticked it. ' + (idx === 5 ? 'Reheat the food until it is steaming hot, then recheck.' : 'Check the door seal and thermostat, move risky food, and recheck in 30 minutes.')); alertsNew = [newAlert('checklist', nm + ' reading of ' + val + ' degrees C is out of range. Recheck and act.', 'checklist')].concat(alertsNew); changed = true; }
+}
+if (lines.length) {
+patch.chk = chkNew; patch.submitted = false; patch.alerts = alertsNew; reply = lines.join('\n') + '\nGuidance limits only. Check FSSAI rules for your business.'; acts = [{ label: 'Open the checklist', t: 'nav', v: 'checklist' }];
+}
+else if (has('tick all', 'everything is done', 'all done', 'mark all', 'सब हो गया')) {
+reply = 'I can tick all ' + total + ' points as done. Only do this if every point is truly complete, as these records are meant for inspectors.'; acts = [{ label: 'Yes, tick all points', t: 'tickall' }, { label: 'Open the checklist', t: 'nav', v: 'checklist' }];
+}
+else if (has('tick', 'done', 'cleaned', 'completed', 'finished', 'checked', 'changed', 'labelled', 'labeled', 'mark') && O_KW.some(k => anyKw(k[0]))) {
+const hit = [];
+O_KW.forEach(k => { if (anyKw(k[0])) hit.push(k[1]); });
+hit.forEach(i => { chkNew[i] = true; });
+patch.chk = chkNew; patch.submitted = false;
+reply = 'Ticked and time stamped: ' + hit.map(i => flat[i].t).join('; ') + '.'; acts = [{ label: 'Open the checklist', t: 'nav', v: 'checklist' }];
+}
+else if (has('reply', 'respond', 'draft')) {
+const pend = s.inbox.filter(m => m.status === 'New' && !m.replied).sort((a, b) => a.stars - b.stars)[0];
+if (!pend) { reply = 'No feedback is waiting for a reply right now.'; }
+else {
+const low = pend.stars <= 2; const hiS = pend.stars >= 4;
+let d;
+if (s.lang === 'hi') d = hiS ? 'आपके अच्छे शब्दों के लिए धन्यवाद! हम इसे अपनी टीम तक पहुँचाएँगे। फिर मिलेंगे।' : 'प्रिय अतिथि, हमें बताने के लिए धन्यवाद। जो असुविधा हुई उसके लिए हमें खेद है। हमने इसे अपनी रसोई टीम के साथ साझा किया है और आज ही कार्रवाई कर रहे हैं।';
+else if (s.lang === 'mr') d = hiS ? 'तुमच्या चांगल्या शब्दांबद्दल धन्यवाद! आम्ही हे आमच्या टीमपर्यंत पोहोचवू. पुन्हा भेटू.' : 'प्रिय पाहुणे, आम्हाला कळवल्याबद्दल धन्यवाद. झालेल्या गैरसोयीबद्दल आम्हाला खेद आहे. आम्ही हे आमच्या स्वयंपाकघर टीमसोबत शेअर केले आहे आणि आजच कारवाई करत आहोत.';
+else d = hiS ? 'Thank you for the kind words! We will pass them on to our team. We hope to see you again soon.' : (low ? 'Dear guest, thank you for telling us. We are sorry about this: "' + pend.text + '" We have shared it with our kitchen team and are acting on it today. We hope to serve you better next time.' : 'Dear guest, thank you for your feedback. We have noted: "' + pend.text + '" and will work on it. We hope to see you again.');
+reply = 'Draft reply to the ' + pend.stars + ' star feedback from ' + pend.tag + ':\n\n' + d + '\n\nThe diner will not see your name or number, only this reply.';
+acts = [{ label: 'Send this reply', t: 'reply', id: pend.id }, { label: 'Open Diner feedback', t: 'nav', v: 'feedback' }];
+}
+}
+else if (has('inspector', 'inspection', 'audit', 'officer visit') && has('coming', 'tomorrow', 'visit', 'prepare', 'prep', 'ready', 'today', 'आ रहा', 'येत')) {
+const od = docs.filter(d => d.status === 'Overdue').map(d => d.n); const un = flat.filter(x => !x.on).length;
+const L = ['Here is your prep list for the visit:'];
+if (od.length) L.push('1. Renew first: ' + od.join(', ') + '.'); else L.push('1. All your licences are valid. Keep the originals and copies ready.');
+L.push('2. ' + (un ? un + ' checklist point(s) are still open. Finish and submit today\'s record.' : 'Today\'s checklist is complete. Submit the record.'));
+L.push('3. ' + (proofN < 5 ? 'Add photo proof for key items such as the fridge, bins and hand-wash station (' + proofN + ' attached).' : proofN + ' photo proofs are attached. Good.'));
+L.push('4. Display the FSSAI licence at the entrance and check soap, caps, gloves and aprons.');
+L.push('5. Open Inspection mode and keep it ready to show or print.');
+reply = L.join('\n'); acts = [{ label: 'Open Inspection mode', t: 'nav', v: 'inspect' }, { label: 'Open Documents', t: 'nav', v: 'docs' }];
+}
+else if (has('quiz', 'test me', 'teach', 'train my staff', 'training quiz', 'क्विज़', 'क्विझ')) {
+patch.aQuiz = { i: 0, score: 0 }; reply = 'Staff quiz, 4 questions. Answer with A, B or C. Say "stop" to quit.\n\n' + QUIZ[0].q + '\nA) ' + QUIZ[0].o[0] + '\nB) ' + QUIZ[0].o[1] + '\nC) ' + QUIZ[0].o[2];
+}
+else if (NAV_VERBS.some(v => has(v)) && O_NAV.some(n => has(n[0]))) {
+const t = O_NAV.find(n => has(n[0]))[1]; reply = 'Opening ' + NAV_LABEL[t] + '.'; patch.view = t; patch.menu = '';
+}
+else if (has('fix first', 'priority', 'what should i', 'urgent', 'to do', 'todo', 'what next', 'पहले क्या', 'आधी काय')) {
+const od = docs.filter(d => d.status === 'Overdue').map(d => d.n); const soon = docs.filter(d => d.status === 'Due soon').map(d => d.n);
+const newFb = s.inbox.filter(m => m.status === 'New'); const ill = newFb.filter(m => /illness/.test(m.tag));
+const un = flat.filter(x => !x.on);
+const L = []; let n = 1;
+if (ill.length) L.push((n++) + '. A diner reported illness. Reply and review the kitchen straight away.');
+if (od.length) L.push((n++) + '. Renew overdue documents: ' + od.join(', ') + '. ' + statusLine);
+if (newFb.length) L.push((n++) + '. Reply to ' + newFb.length + ' new feedback message(s).');
+if (un.length) L.push((n++) + '. Finish ' + un.length + ' checklist point(s), starting with: ' + un.slice(0, 3).map(x => x.t).join('; ') + '.');
+if (soon.length) L.push((n++) + '. Plan to renew soon: ' + soon.join(', ') + '.');
+reply = L.length ? 'Your priorities right now:\n' + L.join('\n') : 'All clear. Your documents are valid, the checklist is done and no feedback is waiting.';
+if (od.length) acts.push({ label: 'Open Documents', t: 'nav', v: 'docs' });
+if (newFb.length) acts.push({ label: 'Open Diner feedback', t: 'nav', v: 'feedback' });
+if (un.length) acts.push({ label: 'Open the checklist', t: 'nav', v: 'checklist' });
+}
+else if (has('summary', 'recap', 'how am i doing', 'this week', 'weekly', 'सारांश', 'सारांश')) {
+reply = 'Summary for ' + prof.name + ':\n- Checklist today: ' + pct + '% (' + done + ' of ' + total + ').\n- Hygiene streak: ' + streakDays + ' days (' + tierName + ' badge).\n- Documents valid: ' + docsValid + ' of ' + DOCS.length + '.\n- Feedback: ' + s.inbox.length + ' received, ' + resolvedN + ' resolved, ' + openFb + ' new.\n- Photo proofs today: ' + proofN + '.\nThis uses sample data in the demo.';
+acts = [{ label: 'Open Reports', t: 'nav', v: 'reports' }];
+}
+else if (RULES.some(r => r[0].some(k => hasWord(k)))) {
+reply = RULES.find(r => r[0].some(k => hasWord(k)))[1] + GUIDE;
+}
+else if (has('help', 'what can you do', 'मदद', 'मदत')) {
+reply = 'I can: tell you what to fix first, tick checklist items and log temperatures ("fridge 4 degrees, freezer minus 19"), draft replies to diners, prepare you for an inspector, quiz your staff, explain basic food safety rules, give a summary, open any page, and switch dark mode or language.';
+}
+else if (hasWord('hi', 'hello', 'hey', 'namaste') || has('नमस्ते', 'नमस्कार')) { reply = tt(AT.greet); }
+else { reply = tt(AT.nope); }
+}
+else if (aRole === 'diner') {
+// ----- diner -----
+const sick = SICK_KW.some(k => has(k));
+const cityHit = Object.keys(DAREAS).find(c => has(c.toLowerCase()));
+const fbWords = has('feedback', 'complain', 'my meal', 'i ate', 'i had', 'star', 'rate ', 'rating') || ((has('was ', 'were ', 'found', 'got ') && FBI_KW.some(f => f[1].some(k => hasWord(k)))));
+if (NAV_VERBS.some(v => has(v)) && D_NAV.some(n => has(n[0])) && !has('find', 'near')) {
+const t = D_NAV.find(n => has(n[0]))[1]; reply = 'Opening ' + NAV_LABEL[t] + '.'; patch.view = t; patch.menu = '';
+}
+else if (sick && !fbWords) { reply = tt(AT.emerg); acts = [{ label: 'Open Helplines', t: 'nav', v: 'help' }]; }
+else if (fbWords) {
+let rating = 0; const rm = q.match(/(\d)\s*(?:out of 5|\/5|stars?)/) || q.match(/rat(?:e|ed|ing)(?: it| this| them)?(?: as)?\s*(\d)/);
+if (rm) rating = Math.min(5, Math.max(1, parseInt(rm[1], 10)));
+else { const W = { one: 1, two: 2, three: 3, four: 4, five: 5 }; const wm = q.match(/\b(one|two|three|four|five)\s*stars?/); if (wm) rating = W[wm[1]]; }
+const issues = []; FBI_KW.forEach(f => { if (f[1].some(k => hasWord(k))) issues.push(FBI[f[0]]); });
+if (!rating && issues.length) rating = 2;
+patch.fbRating = rating; patch.fbIssues = issues; patch.fbText = text; patch.fbSerious = sick; patch.fbSent = false;
+reply = 'I filled in your feedback form.\n- Stars: ' + (rating || 'not set, tap a star') + '\n- Issues: ' + (issues.length ? issues.join(', ') : 'none picked') + '\n- Your words are in the note box.\nNext: scan the QR at the restaurant (demo code HY-PUNE-0142), check the form and send. The owner never sees your name or phone.';
+if (sick) reply += '\n\n' + tt(AT.emerg);
+acts = [{ label: 'Open the feedback form', t: 'nav', v: 'diner' }];
+if (sick) acts.push({ label: 'Open Helplines', t: 'nav', v: 'help' });
+}
+else if (has('find', 'near', 'restaurant', 'place', 'suggest', 'looking for', 'where can') || cityHit || (CUISINE_KW.some(c => anyKw(c[0])) && has('eat', 'good', 'best', 'want'))) {
+const city = cityHit || s.dCity; const areas = DAREAS[city];
+const area = areas.find(a => has(a.toLowerCase()));
+const cu = CUISINE_KW.find(c => anyKw(c[0]));
+const all = areas.map((a, i) => ({ a, b: DBASE[i], c: city === 'Pune' && i === 0 }));
+const cuOk = (r) => !cu || r.b[1].toLowerCase().includes(cu[1].toLowerCase()) || r.b[0].toLowerCase().includes(cu[1].toLowerCase());
+let list = all.filter(r => (!area || r.a === area) && cuOk(r)); let widened = false;
+if (!list.length && area && cu) { list = all.filter(cuOk); widened = true; }
+if (!list.length) { reply = 'I could not find a match in ' + city + (area ? ' (' + area + ')' : '') + '. Try another area or cuisine.'; }
+else { reply = (widened ? 'Nothing for ' + cu[1] + ' in ' + area + ', but in other areas of ' + city + ' I found ' : 'Found ') + list.length + (widened ? '' : ' in ' + city + (area ? ', ' + area : '') + (cu ? ' for ' + cu[1] : '')) + ':\n' + list.slice(0, 5).map(r => '- ' + r.b[0] + ', ' + r.a + ' (' + r.b[1] + ', ' + r.b[3] + ' for two)' + (r.c ? ' [on Hygieo]' : '')).join('\n') + '\nOnly restaurants marked "on Hygieo" can receive your feedback. All names are samples in this demo.'; acts = [{ label: 'Show in Explore', t: 'explore', city, dq: widened ? cu[1] : (area || (cu ? cu[1] : '')) }]; }
+}
+else if (SAFE.some(r => r[0].some(k => hasWord(k))) || has('safe', 'is it ok', 'tips', 'hygiene tips', 'eat out')) {
+const hit = SAFE.find(r => r[0].some(k => hasWord(k)));
+reply = (hit ? hit[1] : SAFE_GENERAL) + ' I am an AI and not a doctor. If you feel unwell, see a doctor.';
+}
+else if (has('help', 'what can you do', 'मदद', 'मदत')) {
+reply = 'I can: help you give feedback by voice or text ("2 stars, the water jug was dirty"), guide you if you or someone became unwell, find restaurants by city, area or cuisine, share simple eating-out safety tips, open any page, and switch dark mode or language.';
+}
+else if (hasWord('hi', 'hello', 'hey', 'namaste') || has('नमस्ते', 'नमस्कार')) { reply = tt(AT.greet); }
+else { reply = tt(AT.nope); }
+}
+let narrow = false; try { narrow = window.innerWidth < 900; } catch (e) {}
+if (patch.view && narrow) patch.aOpen = false;
+const bot = { id: 'b' + Date.now() + Math.random().toString(36).slice(2), who: 'bot', text: reply, actions: acts };
+this.setState({ ...patch, aMsgs: s.aMsgs.concat([me, bot]), aInput: '' });
+speak(reply);
+};
+this._ask = ask;
+
+const runAct = (a) => () => {
+let narrow = false; try { narrow = window.innerWidth < 900; } catch (e) {}
+if (a.t === 'nav') this.setState({ view: a.v, menu: '', aOpen: narrow ? false : s.aOpen });
+else if (a.t === 'tickall') { const all = {}; for (let i = 0; i < total; i++) all[i] = true; this.toastMsg('All points ticked and time stamped.', { chk: all, submitted: false }); }
+else if (a.t === 'reply') { const m = s.inbox.find(x => x.id === a.id); this.toastMsg('Reply sent to the diner', { inbox: s.inbox.map(x => x.id === a.id ? { ...x, replied: true } : x), dAlerts: m && m.mine ? withDAlert('reply', prof.name + ' replied to your feedback. Thank you for telling them.', 'd-mine') : s.dAlerts }); }
+else if (a.t === 'explore') this.setState({ view: 'd-home', dCity: a.city, dq: a.dq || '', menu: '', aOpen: narrow ? false : s.aOpen });
+};
+const toggleMic = () => {
+try {
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SR) { this.toastMsg('Voice input is not supported in this browser. Try Chrome, or type instead.'); return; }
+if (s.aListen && this._rec) { this._rec.stop(); return; }
+try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+const r = new SR(); r.lang = aLangCode; r.interimResults = false; r.maxAlternatives = 1;
+r.onresult = (ev) => { const tx = ev.results[0][0].transcript; this.setState({ aListen: false }); if (this._ask) this._ask(tx); };
+r.onerror = (ev) => { this.setState({ aListen: false }); this.toastMsg(ev && ev.error === 'not-allowed' ? 'Microphone is blocked. Allow it in your browser, or type instead.' : 'Could not hear you. Try again or type.'); };
+r.onend = () => this.setState({ aListen: false });
+this._rec = r; r.start(); this.setState({ aListen: true });
+} catch (e) { this.toastMsg('Voice input is not available here. You can type instead.'); }
+};
+const A_CHIPS = aRole === 'owner' ? ['What should I fix first?', 'Fridge 4 degrees, freezer minus 19', 'Draft a reply to feedback', 'Inspector is coming tomorrow', 'Quiz my staff', 'Weekly summary', 'What are the FSSAI licence types?'] : ['I was sick after eating', 'Rate it 2 stars, the water jug was dirty', 'Find dosa places in Pune', 'Is leftover rice safe?', 'Open helplines'];
+const aGreeting = { id: 'g0', who: 'bot', text: tt(AT.greet) + (aRole === 'owner' ? '' : ''), actions: [] };
+const aList = (s.aMsgs.length ? s.aMsgs : [aGreeting]).map(m => ({ id: m.id, text: m.text, isMe: m.who === 'me', isBot: m.who !== 'me', hasActions: !!(m.actions && m.actions.length), actions: (m.actions || []).map(a => ({ label: a.label, run: runAct(a) })) }));
+
 const extra = {
 searchQ: s.searchQ, onSearch: (e) => this.setState({ searchQ: e.target.value, menu: '' }),
 hasSearch: sq.length > 0, searchResults, noResults: sq.length > 0 && searchResults.length === 0,
@@ -1130,7 +1404,7 @@ toggleAccount: () => this.setState({ menu: s.menu === 'account' ? '' : 'account'
 accountOpen: s.menu === 'account', accountOpenStr: s.menu === 'account' ? 'true' : 'false',
 initials, userName: s.user ? s.user.name : '', userEmail: s.user ? s.user.email : '',
 acctItems: isDinerUser ? [{ label: 'Account', go: goV('d-account') }, { label: 'Settings', go: goV('d-settings') }, { label: 'Alerts', go: goV('d-alerts') }] : [{ label: 'Account', go: goV('account') }, { label: 'Settings', go: goV('settings') }, { label: 'Alerts', go: goV('alerts') }],
-signOut: () => this.setState({ user: null, view: 'home', menu: '' }),
+signOut: () => { try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} this.setState({ user: null, view: 'home', menu: '', aOpen: false, aMsgs: [], aQuiz: null, aInput: '' }); },
 
 isHome: view === 'home', isSignin: view === 'signin', isSignup: view === 'signup', isDiner: view === 'diner' && !isDinerUser, inApp, inDapp, ownerBar: isOwner, dinerBar: isDinerUser,
 showFooter: !inApp && !inDapp,
@@ -1305,6 +1579,14 @@ invite: () => { const em = s.invEmail.trim(); if (!EMAIL.test(em)) { this.setSta
 
 hasToast: !!s.toast, toast: s.toast
 };
+Object.assign(extra, {
+aAvail: !!aRole, aOpen: s.aOpen && !!aRole, aToggle: () => { try { if (s.aOpen && window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} this.setState({ aOpen: !s.aOpen }); }, aClose: () => { try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} this.setState({ aOpen: false }); },
+aMsgsView: aList, aInput: s.aInput, onAIn: (e) => this.setState({ aInput: e.target.value }), onAKey: (e) => { if (e.key === 'Enter') { e.preventDefault(); ask(s.aInput); } }, aSend: () => ask(s.aInput),
+aMic: toggleMic, aListen: s.aListen, aMicLabel: s.aListen ? 'Stop listening' : 'Speak', aMicHint: s.aListen ? 'Listening... speak now' : '',
+aSpeakOn: s.aSpeak, aSpeakLabel: s.aSpeak ? 'Mute voice replies' : 'Turn on voice replies', aToggleSpeak: () => { try { if (s.aSpeak && window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} this.setState({ aSpeak: !s.aSpeak }); },
+aChips: A_CHIPS.map(c => ({ label: c, go: () => ask(c) })), aSub: aRole === 'owner' ? 'For restaurant owners' : 'For diners',
+aClear: () => { try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} this.setState({ aMsgs: [], aQuiz: null }); }
+});
 return extra;
 }
 }
